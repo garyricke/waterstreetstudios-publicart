@@ -34,6 +34,12 @@
     .font-mono { font-family: 'JetBrains Mono', monospace; }
 
     /* Password gate */
+    /* Hide all page content until unlocked — closing the overlay via DevTools won't expose content */
+    body:not(.unlocked) > *:not(#passwordGate) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
     #passwordGate {
       position: fixed;
       inset: 0;
@@ -44,7 +50,7 @@
       justify-content: center;
       padding: 24px;
     }
-    #passwordGate.hidden { display: none; }
+    body.unlocked #passwordGate { display: none; }
     .pg-box {
       width: 100%;
       max-width: 400px;
@@ -614,7 +620,7 @@
       <p class="pg-label">Preview Access</p>
       <div class="pg-input-wrap">
         <input type="password" id="pgInput" class="pg-input" placeholder="Enter password" autocomplete="current-password">
-        <button class="pg-btn" onclick="checkPassword()">Enter</button>
+        <button class="pg-btn">Enter</button>
       </div>
       <p class="pg-error" id="pgError">Incorrect password. Try again.</p>
     </div>
@@ -622,35 +628,79 @@
 
   <script>
     (function() {
-      if (sessionStorage.getItem('bpai_auth') === '1') {
-        document.getElementById('passwordGate').classList.add('hidden');
-      }
-    })();
+      // Obfuscated session key — not 'bpai_auth'
+      const SESSION_KEY = '_wss\u200Bpv_k1';
+      const HASH = 'd3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70';
+      const MAX_ATTEMPTS = 5;
+      const LOCKOUT_KEY = '_wss\u200Bpv_lk';
 
-    function checkPassword() {
-      const input = document.getElementById('pgInput');
-      if (input.value.toLowerCase().trim() === 'art') {
-        sessionStorage.setItem('bpai_auth', '1');
-        document.getElementById('passwordGate').classList.add('hidden');
+      function unlock() {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.body.classList.add('unlocked');
         document.body.style.overflow = '';
-      } else {
-        input.classList.add('error');
-        document.getElementById('pgError').style.display = 'block';
-        input.value = '';
-        input.focus();
       }
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const input = document.getElementById('pgInput');
-      if (input) {
-        input.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter') checkPassword();
-          input.classList.remove('error');
-          document.getElementById('pgError').style.display = 'none';
-        });
+      // Restore session if already authenticated
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        document.body.classList.add('unlocked');
       }
-    });
+
+      async function hashInput(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function checkPassword() {
+        const input    = document.getElementById('pgInput');
+        const errEl    = document.getElementById('pgError');
+        const btn      = document.querySelector('.pg-btn');
+
+        // Check lockout
+        const lockData = JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0}');
+        if (lockData.attempts >= MAX_ATTEMPTS) {
+          errEl.textContent = 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          input.disabled = true;
+          btn.disabled = true;
+          return;
+        }
+
+        const hash = await hashInput(input.value.toLowerCase().trim());
+
+        if (hash === HASH) {
+          sessionStorage.removeItem(LOCKOUT_KEY);
+          unlock();
+        } else {
+          lockData.attempts = (lockData.attempts || 0) + 1;
+          sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(lockData));
+          const remaining = MAX_ATTEMPTS - lockData.attempts;
+          input.classList.add('error');
+          errEl.textContent = remaining > 0
+            ? `Incorrect password. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+            : 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          if (remaining <= 0) { input.disabled = true; btn.disabled = true; }
+          input.value = '';
+          input.focus();
+        }
+      }
+
+      // Expose only the async wrapper — no plain-text password anywhere
+      window._pg_check = checkPassword;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('pgInput');
+        const btn   = document.querySelector('.pg-btn');
+        if (btn) btn.onclick = checkPassword;
+        if (input) {
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkPassword();
+            input.classList.remove('error');
+            document.getElementById('pgError').style.display = 'none';
+          });
+        }
+      });
+    })();
   </script>
 
   <!-- Scroll Progress -->
