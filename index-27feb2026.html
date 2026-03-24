@@ -392,6 +392,38 @@
     }
     .video-lightbox .vl-close:hover { opacity: 1; }
 
+    /* Image fullscreen lightbox */
+    .img-lightbox {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.95);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .img-lightbox.active { opacity: 1; pointer-events: auto; }
+    .img-lightbox img {
+      max-width: 95vw; max-height: 92vh;
+      object-fit: contain;
+    }
+    .img-lightbox .il-close {
+      position: absolute; top: 20px; right: 24px;
+      width: 40px; height: 40px; border: none; background: none;
+      color: #fff; font-size: 28px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.6; transition: opacity 0.2s;
+    }
+    .img-lightbox .il-close:hover { opacity: 1; }
+    /* Fullscreen button inside modal carousel */
+    .mc-fullscreen-btn {
+      position: absolute; bottom: 10px; right: 10px; z-index: 3;
+      width: 32px; height: 32px;
+      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; cursor: pointer; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; opacity: 0.75;
+    }
+    .mc-fullscreen-btn:hover { background: rgba(0,0,0,0.85); opacity: 1; }
+
     /* Audio overview player */
     .audio-band {
       position: relative;
@@ -1660,6 +1692,12 @@
   <div class="video-lightbox" id="videoLightbox">
     <button class="vl-close" onclick="closeVideoLightbox()">&times;</button>
     <video id="lightboxVideo" controls playsinline></video>
+  </div>
+
+  <!-- Image Fullscreen Lightbox -->
+  <div class="img-lightbox" id="imgLightbox">
+    <button class="il-close" id="imgLightboxClose">&times;</button>
+    <img id="imgLightboxImg" src="" alt="Full size view">
   </div>
 
   <div class="modal-overlay" id="modalOverlay"></div>
@@ -3601,7 +3639,7 @@
 
     function buildCarousel(images) {
       const slides = images.map((url, i) =>
-        `<div class="mc-slide${i === 0 ? ' active' : ''}" style="background-image:url('${url}')"></div>`
+        `<div class="mc-slide${i === 0 ? ' active' : ''}" data-url="${url}" style="background-image:url('${url}')"></div>`
       ).join('');
       const pips = images.map((_, i) =>
         `<div class="mc-pip${i === 0 ? ' active' : ''}" data-mc-index="${i}"></div>`
@@ -3610,6 +3648,7 @@
         ${slides}
         <button class="mc-btn prev" data-mc-dir="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
         <button class="mc-btn next" data-mc-dir="1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        <button class="mc-fullscreen-btn" title="View full size"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
         <div class="mc-pips">${pips}</div>
       </div>`;
     }
@@ -3648,6 +3687,17 @@
           interval = setInterval(() => goMC((cur + 1) % slides.length), 4000);
         });
       });
+
+      const fsBtn = el.querySelector('.mc-fullscreen-btn');
+      if (fsBtn) {
+        fsBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearInterval(interval);
+          openImgLightbox(slides[cur].dataset.url, () => {
+            interval = setInterval(() => goMC((cur + 1) % slides.length), 4000);
+          });
+        });
+      }
 
       activeModalCarousel = { clear: () => clearInterval(interval) };
     }
@@ -3777,6 +3827,27 @@
       if (e.target === this) closeVideoLightbox();
     });
 
+    function openImgLightbox(src, onClose) {
+      const lb = document.getElementById('imgLightbox');
+      const img = document.getElementById('imgLightboxImg');
+      img.src = src;
+      lb.classList.add('active');
+      lb._onClose = onClose || null;
+    }
+    function closeImgLightbox() {
+      const lb = document.getElementById('imgLightbox');
+      const img = document.getElementById('imgLightboxImg');
+      const cb = lb._onClose;
+      lb.classList.remove('active');
+      img.src = '';
+      lb._onClose = null;
+      if (cb) cb();
+    }
+    document.getElementById('imgLightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeImgLightbox();
+    });
+    document.getElementById('imgLightboxClose').addEventListener('click', closeImgLightbox);
+
     function openModal(id) {
       const data = modals[id];
       if (!data) return;
@@ -3808,7 +3879,9 @@
     overlay.addEventListener('click', closeModal);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (document.getElementById('videoLightbox').classList.contains('active')) {
+        if (document.getElementById('imgLightbox').classList.contains('active')) {
+          closeImgLightbox();
+        } else if (document.getElementById('videoLightbox').classList.contains('active')) {
           closeVideoLightbox();
         } else {
           closeModal();
