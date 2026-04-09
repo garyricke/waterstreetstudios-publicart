@@ -464,7 +464,19 @@
         </div>
         <div class="item">
           <div class="item-icon text-emerald-500">✓</div>
-          <div class="item-text"><strong>Minimum font size: 16px</strong> — Set as CSS global rule on body. All subtext now meets or exceeds this baseline.</div>
+          <div class="item-text"><strong>Minimum font size: 16px — full audit completed</strong> — CSS global body rule set initially. Full element-level audit conducted April 9 after Bill and Lori raised readability concerns. All body content text confirmed at 16px (1rem):
+            <ul style="margin-top:8px;padding-left:16px;line-height:1.8;font-size:0.875rem;color:#475569;">
+              <li>Goals/pillars grid paragraphs: <code>text-sm</code> (14px) → <code>text-base</code> (16px)</li>
+              <li>Video card captions, WSS section descriptions, sponsor tier descriptions</li>
+              <li>America 250 project description, process timeline labels and sub-text</li>
+              <li>Footer body copy, nav link columns, address bar</li>
+              <li>All form modal thank-you confirmation text and "Questions? Email us" lines</li>
+              <li>Form section descriptions (<code>.sf-section-desc</code>): 0.8rem → 1rem</li>
+              <li>Form checkbox labels (<code>.sf-checkbox-text</code>, <code>.sf-checkbox-sub</code>): 0.82rem / 0.75rem → 1rem</li>
+              <li>All inline <code>font-size:0.75rem</code>, <code>0.78rem</code>, <code>0.8rem</code>, <code>13px</code> body paragraphs → <code>1rem</code></li>
+            </ul>
+            <div class="item-sub">Intentionally preserved at small size: <code>sf-optional</code> "(optional)" tag (10px), <code>sf-char-hint</code> character counter (0.75rem), mono uppercase eyebrow labels (10–12px), and all CTA button text (11px mono caps)</div>
+          </div>
         </div>
 
         <div class="person-label">Ellyn Theis</div>
@@ -752,9 +764,9 @@
         <div class="item">
           <div class="item-icon text-indigo-500">💬</div>
           <div class="item-text">
-            <strong>2 — Formal accessibility audit (Lori) — Skynet audit completed April 9</strong>
-            <div>Lori noted WCAG 2.1 AA compliance is coming for non-profits. Skynet Technologies automated checker was run April 9, 2026 — all actionable AA failures fixed (button labels, contrast, form helper text). Remaining question: modal keyboard focus trapping and a re-scan with WAVE are recommended before public launch. Who should own the final review and sign-off?</div>
-            <span class="item-tag badge-discuss">Audit done — keyboard/focus testing and sign-off still needed before public launch</span>
+            <strong>2 — Formal accessibility audit (Lori) — Skynet audit completed April 9, Round 2 fixes applied</strong>
+            <div>Lori noted WCAG 2.1 AA compliance is coming for non-profits. Skynet Technologies automated checker was run April 9, 2026 — score improved from 61.38% (Round 1) to 73.08% (rescan). Round 2 targeted the remaining fixable failures: audio band contrast, form modal headers, checkmark icons on green, inline color tokens. Body text readability also fully audited at Lori and Bill's request — all content text confirmed at 16px minimum. Remaining checker failures documented as unfixable (checker limitations and by-design items). Outstanding: modal keyboard focus trapping and a WAVE re-scan are recommended before public launch.</div>
+            <span class="item-tag badge-discuss">Audit rounds 1 &amp; 2 done — keyboard/focus testing and WAVE re-scan still needed before public launch</span>
           </div>
         </div>
 
