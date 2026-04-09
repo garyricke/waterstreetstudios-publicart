@@ -1,0 +1,2756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batavia Public Art Initiative</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wss: {
+              blue: '#009BC7',
+              'blue-dark': '#007A9E',
+              'blue-light': '#33B5D6',
+              green: '#95C322',
+              'green-dark': '#7AA31C',
+              'green-light': '#A8D44A',
+              gold: '#FDC400',
+              'gold-dark': '#D4A600',
+              'gold-light': '#FDCF33',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Limestone grain texture overlay */
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* Hero carousel */
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 1.2s ease, transform 6s ease;
+    }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .carousel-pip {
+      width: 24px; height: 3px;
+      background: rgba(255,255,255,0.3);
+      transition: background 0.4s ease, width 0.4s ease;
+      cursor: pointer;
+    }
+    .carousel-pip.active {
+      background: #fff;
+      width: 36px;
+    }
+
+    /* Modal carousels */
+    .modal-carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: #1e1e1e;
+    }
+    .modal-carousel .mc-slide {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .modal-carousel .mc-slide.active { opacity: 1; }
+    .modal-carousel .mc-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 2; width: 36px; height: 36px;
+      background: rgba(0,0,0,0.5); border: none; color: #fff;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-carousel .mc-btn:hover { background: rgba(0,0,0,0.8); }
+    .modal-carousel .mc-btn.prev { left: 8px; }
+    .modal-carousel .mc-btn.next { right: 8px; }
+    .modal-carousel .mc-pips {
+      position: absolute; bottom: 8px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 6px; z-index: 2;
+    }
+    .modal-carousel .mc-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.4); cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-carousel .mc-pip.active { background: #fff; }
+
+    /* Scroll-triggered animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .stagger > .reveal:nth-child(2) { transition-delay: 0.15s; }
+    .stagger > .reveal:nth-child(3) { transition-delay: 0.3s; }
+    .stagger > .reveal:nth-child(4) { transition-delay: 0.45s; }
+
+    /* River line animation */
+    .river-line {
+      width: 0;
+      height: 2px;
+      background: #009BC7;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .river-line.visible { width: 120px; }
+
+    /* Project cards */
+    .project-card {
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Counter animation */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    /* Scroll progress bar */
+    #progress {
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    /* Diagonal section break */
+    .diagonal {
+      clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%);
+    }
+
+    @media (max-width: 768px) {
+      .diagonal { clip-path: polygon(0 0, 100% 1.5%, 100% 100%, 0 98.5%); }
+    }
+
+    /* Modal system */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(2, 6, 23, 0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-panel {
+      position: fixed; top: 0; right: 0; z-index: 101;
+      width: 100%; max-width: 640px; height: 100vh;
+      background: #fafaf9; color: #020617;
+      overflow-y: auto; overscroll-behavior: contain;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .modal-overlay.active + .modal-panel,
+    .modal-panel.active { transform: translateX(0); }
+    .modal-panel .modal-close {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 24px;
+      background: rgba(250,250,249,0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e7e5e4;
+    }
+    .modal-panel .modal-body { padding: 0 24px 64px; }
+    .modal-panel .modal-body > .modal-carousel { margin: 0 -24px; width: calc(100% + 48px); margin-bottom: 24px; }
+    .modal-panel h2 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; }
+    .modal-panel h3 { font-size: 1rem; font-weight: 700; margin-top: 1.5rem; }
+    .modal-panel p, .modal-panel li { font-size: 0.9rem; line-height: 1.7; color: #475569; }
+    .modal-panel ul { list-style: none; padding: 0; }
+    .modal-panel ul li { padding-left: 1.25rem; position: relative; margin-top: 0.35rem; }
+    .modal-panel ul li::before { content: ''; position: absolute; left: 0; top: 0.55rem; width: 6px; height: 6px; border-radius: 50%; background: #009BC7; }
+    .modal-panel .modal-divider { height: 1px; background: #e7e5e4; margin: 1.5rem 0; }
+    .modal-panel .modal-tag {
+      display: inline-block; font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+      background: #f5f5f4; padding: 4px 10px; margin: 2px;
+    }
+    .modal-panel .modal-stat { text-align: center; padding: 1rem; background: #f5f5f4; }
+    .modal-panel .modal-stat .val { font-size: 1.75rem; font-weight: 900; color: #009BC7; }
+    .modal-panel .modal-stat .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #94a3b8; margin-top: 4px; }
+    /* Quote carousel */
+    .quote-carousel {
+      position: relative;
+      min-height: 320px;
+    }
+    .qc-track { position: relative; }
+    .qc-slide {
+      position: absolute; top: 0; left: 0; width: 100%;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+    }
+    .qc-slide.active {
+      position: relative;
+      opacity: 1; transform: translateY(0);
+      pointer-events: auto;
+    }
+    .qc-mark {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 8rem; line-height: 0.6;
+      color: #009BC7; opacity: 0.2;
+      user-select: none; margin-bottom: -16px;
+    }
+    .qc-quote {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.65rem; line-height: 1.5;
+      font-style: italic; color: #1e293b;
+      max-width: 48rem; margin: 0 auto;
+      letter-spacing: -0.01em;
+    }
+    @media (min-width: 768px) {
+      .qc-quote { font-size: 2.25rem; line-height: 1.45; }
+      .qc-mark { font-size: 10rem; }
+      .quote-carousel { min-height: 380px; }
+    }
+    .qc-attr { margin-top: 32px; }
+    .qc-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: #0f172a; letter-spacing: -0.01em;
+    }
+    .qc-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: #94a3b8;
+      margin-top: 4px;
+    }
+    .qc-controls {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-top: 40px;
+    }
+    .qc-arrow {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid #d6d3d1; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #64748b;
+      transition: all 0.2s;
+    }
+    .qc-arrow:hover { border-color: #009BC7; color: #009BC7; }
+    .qc-pips { display: flex; gap: 8px; }
+    .qc-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #d6d3d1; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .qc-pip.active { background: #009BC7; transform: scale(1.3); }
+
+    /* Committee member "more" link */
+    .member-more {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; color: rgba(255,255,255,0.35);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin-top: 6px; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .member-more:hover { color: #009BC7; }
+
+    /* Donor names */
+    .donor-name {
+      font-size: 0.95rem; font-weight: 500;
+      color: #475569; padding: 4px 0;
+    }
+    .donor-sep {
+      color: #cbd5e1; padding: 0 6px;
+      font-size: 0.8rem; line-height: 1;
+    }
+
+    [data-modal] { cursor: pointer; }
+    [data-modal]:hover { box-shadow: 0 0 0 2px #009BC7; }
+
+    /* Video lightbox */
+    .video-lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.92);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .video-lightbox.active { opacity: 1; pointer-events: auto; }
+    .video-lightbox video {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 4px;
+      box-shadow: 0 0 80px rgba(0,155,199,0.15);
+    }
+    .video-lightbox .vl-close {
+      position: absolute; top: 20px; right: 24px;
+      width: 40px; height: 40px; border: none; background: none;
+      color: #fff; font-size: 28px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.6; transition: opacity 0.2s;
+    }
+    .video-lightbox .vl-close:hover { opacity: 1; }
+
+    /* Audio overview player */
+    .audio-band {
+      position: relative;
+      background: #020617;
+      overflow: hidden;
+    }
+    .audio-band .ab-bg {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .audio-band .ab-bg video {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.25) saturate(0.6);
+    }
+    .audio-band .ab-inner {
+      position: relative; z-index: 2;
+      max-width: 80rem; margin: 0 auto;
+      padding: 48px 24px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    @media (max-width: 640px) {
+      .audio-band .ab-inner { flex-direction: column; text-align: center; gap: 24px; padding: 36px 20px; }
+    }
+
+    /* Waveform visualiser */
+    .ab-waveform {
+      display: flex; align-items: center; gap: 2.5px;
+      height: 32px;
+    }
+    .ab-waveform .bar {
+      width: 3px; border-radius: 2px;
+      background: rgba(0,155,199,0.5);
+      transition: background 0.3s;
+    }
+    .audio-band.playing .ab-waveform .bar {
+      background: #009BC7;
+      animation: waveBar 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes waveBar {
+      0% { transform: scaleY(0.4); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* Play/pause toggle */
+    .ab-toggle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #009BC7; border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 0 0 0 rgba(0,155,199,0);
+    }
+    .ab-toggle:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 8px rgba(0,155,199,0.15);
+    }
+    .ab-toggle svg { margin-left: 2px; }
+    .ab-toggle .pause-icon { display: none; margin-left: 0; }
+    .audio-band.playing .ab-toggle .play-icon { display: none; }
+    .audio-band.playing .ab-toggle .pause-icon { display: block; }
+
+    /* Text */
+    .ab-text { color: #fff; flex: 1; min-width: 0; }
+    .ab-text .ab-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em;
+      color: #009BC7;
+    }
+    .ab-text .ab-title {
+      font-size: 1.35rem; font-weight: 900; letter-spacing: -0.025em;
+      margin-top: 4px; line-height: 1.2;
+    }
+    .ab-text .ab-sub {
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    /* Progress bar */
+    .ab-progress {
+      flex: 1; min-width: 120px; max-width: 320px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    @media (max-width: 640px) { .ab-progress { width: 100%; max-width: 100%; } }
+    .ab-track {
+      width: 100%; height: 4px; background: rgba(255,255,255,0.1);
+      border-radius: 2px; cursor: pointer; position: relative;
+      overflow: hidden;
+    }
+    .ab-track .ab-fill {
+      height: 100%; width: 0%; background: #009BC7;
+      border-radius: 2px; transition: width 0.1s linear;
+    }
+    .ab-time {
+      display: flex; justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    /* Fullscreen button */
+    .ab-expand {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+      background: none; border-radius: 4px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.4); transition: all 0.2s; flex-shrink: 0;
+    }
+    .ab-expand:hover { border-color: #009BC7; color: #009BC7; }
+
+    /* Video card */
+    .video-card {
+      position: relative; overflow: hidden; cursor: pointer;
+      aspect-ratio: 16/9; background: #0a0a0a;
+    }
+    .video-card video {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .video-card:hover video { transform: scale(1.03); }
+    .video-card .play-btn {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(0,155,199,0.85); border: 2px solid rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      z-index: 2;
+    }
+    .video-card:hover .play-btn { transform: translate(-50%,-50%) scale(1.1); background: rgba(0,155,199,1); }
+    .video-card .play-btn svg { margin-left: 3px; }
+    .click-hint {
+      display: inline-block; font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em;
+      margin-top: 12px; padding: 6px 18px;
+      background: #FDC400; color: #020617;
+      font-weight: 600; border-radius: 9999px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .click-hint:hover { background: #FDCF33; transform: translateY(-1px); }
+    .click-hint::before { content: none; }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-950 overflow-x-hidden">
+
+  <!-- Scroll Progress -->
+  <div id="progress" class="fixed top-0 left-0 w-full h-[3px] bg-wss-blue z-50"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-40 transition-all duration-500 backdrop-blur-md" id="nav">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="flex items-center">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770457764/bpai-logo-redrawn-7feb2026-b_ok8nfn.png" alt="BPAI Logo" class="h-12 w-auto">
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#projects" class="font-mono text-xs uppercase tracking-widest hover:text-wss-blue transition-colors">Projects</a>
+        <a href="#artists" class="font-mono text-xs uppercase tracking-widest hover:text-wss-blue transition-colors">Artists</a>
+        <a href="#volunteer" class="font-mono text-xs uppercase tracking-widest hover:text-wss-blue transition-colors">Volunteer</a>
+        <a href="#invest" class="bg-slate-950 text-white px-5 py-2.5 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors">Support Us</a>
+      </div>
+      <!-- Mobile menu button -->
+      <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5">
+        <span class="w-6 h-[2px] bg-slate-950 transition-all"></span>
+        <span class="w-6 h-[2px] bg-slate-950 transition-all"></span>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-stone-50 border-t border-stone-200 px-6 py-6 flex flex-col gap-4">
+      <a href="#projects" class="font-mono text-xs uppercase tracking-widest">Projects</a>
+      <a href="#artists" class="font-mono text-xs uppercase tracking-widest">Artists</a>
+      <a href="#volunteer" class="font-mono text-xs uppercase tracking-widest">Volunteer</a>
+      <a href="#invest" class="font-mono text-xs uppercase tracking-widest">Support Us</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="relative min-h-screen flex items-end pb-20 md:pb-32 grain">
+    <!-- Hero Carousel -->
+    <div class="absolute top-0 right-0 w-1/2 h-full hidden lg:block overflow-hidden">
+      <div class="hero-carousel absolute inset-0">
+        <div class="hero-slide active" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-5_kktqv1.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-hc-storm-school_dgklhh.jpg')"></div>
+      </div>
+      <!-- Progress pips -->
+      <div class="absolute bottom-8 right-8 z-10 flex gap-2" id="carouselPips"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 w-full relative z-10">
+      <div class="pt-32 md:pt-40">
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue mb-6">Batavia, Illinois &mdash; Est. 2023</p>
+        <h1 class="text-5xl sm:text-7xl lg:text-[6.5rem] font-black tracking-tighter leading-[0.9] max-w-5xl">
+          The City of<br>
+          <span class="text-wss-blue">Good Energy</span>
+        </h1>
+        <div class="mt-10 md:mt-14 grid md:grid-cols-2 gap-10 max-w-4xl">
+          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700">
+            Batavia Public Art Initiative is transforming our city &mdash; wall by wall, mural by mural &mdash; into a living gallery along the Fox River.
+          </p>
+          <div class="flex flex-col gap-4 md:items-start md:pt-1">
+            <a href="#artists" class="bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors text-center">
+              Open Call for Artists
+            </a>
+            <a href="#about" class="text-xs font-mono uppercase tracking-widest text-slate-500 hover:text-wss-blue transition-colors flex items-center gap-2">
+              Learn about the initiative
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Stats row -->
+      <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 backdrop-blur-sm">
+        <div>
+          <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="4">0</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Public Murals</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="35">0</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Local Artists</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="5">0</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Pop-Up Galleries</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="46">0</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Potential Sites</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AUDIO OVERVIEW ===================== -->
+  <div class="audio-band" id="audioBand">
+    <div class="ab-bg">
+      <video src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456865/Painting_the_City_of_Good_Energy_qfxdjy.mp4" muted playsinline preload="metadata"></video>
+    </div>
+    <div class="ab-inner">
+      <button class="ab-toggle" id="abToggle" aria-label="Play audio overview">
+        <svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+        <svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="5" y="3" width="4" height="18" rx="1"/><rect x="15" y="3" width="4" height="18" rx="1"/></svg>
+      </button>
+      <div class="ab-waveform" id="abWaveform"></div>
+      <div class="ab-text">
+        <p class="ab-label">Audio Overview</p>
+        <p class="ab-title">Painting the City of Good Energy</p>
+        <p class="ab-sub">The story behind Batavia's public art movement</p>
+      </div>
+      <div class="ab-progress">
+        <div class="ab-track" id="abTrack">
+          <div class="ab-fill" id="abFill"></div>
+        </div>
+        <div class="ab-time">
+          <span id="abCurrent">0:00</span>
+          <span id="abDuration">--:--</span>
+        </div>
+      </div>
+      <button class="ab-expand" id="abExpand" aria-label="Watch fullscreen" title="Watch fullscreen">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      </button>
+    </div>
+    <audio id="abAudio" preload="metadata" src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456865/Painting_the_City_of_Good_Energy_qfxdjy.mp4"></audio>
+  </div>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about" class="relative py-32 md:py-40 grain">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div class="lg:col-span-5">
+          <div class="river-line reveal mb-8"></div>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">About the Initiative</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+            Art beyond the gallery walls
+          </h2>
+        </div>
+        <div class="lg:col-span-7 lg:pt-4">
+          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 reveal">
+            The Batavia Public Art Initiative is a sub-committee of <strong class="font-medium text-slate-950">Water Street Studios</strong>, dedicated to immersing art within the community. We believe art should live where people live &mdash; on the riverwalk, along downtown corridors, and in the spaces where neighbors gather.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-8 mt-12 stagger">
+            <div class="reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Community Connection</h3>
+              <p class="text-sm leading-relaxed text-slate-600">Establish a sense of community in Batavia and the greater Fox Valley through outdoor art installations that celebrate diverse local voices.</p>
+            </div>
+            <div class="reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Public Awareness</h3>
+              <p class="text-sm leading-relaxed text-slate-600">Increase public awareness, appreciation, and contribution of public art &mdash; making creativity accessible and visible to everyone.</p>
+            </div>
+            <div class="reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Place & Nature</h3>
+              <p class="text-sm leading-relaxed text-slate-600">Connect people to the beauty, diversity, and importance of the Fox River through art that celebrates our natural surroundings.</p>
+            </div>
+            <div class="reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Civic Identity</h3>
+              <p class="text-sm leading-relaxed text-slate-600">Build community pride, honor Batavia's past, and inspire a shared sense of belonging and responsibility for the future.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section id="projects" class="relative bg-slate-950 text-white py-32 md:py-40 diagonal grain">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-light reveal">Completed & Upcoming</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Walls that tell<br>our story
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Art of the Fox -->
+        <div data-modal="artofthefox" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-4_efghxw.jpg') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2024</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Art of the Fox</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            Eight framed murals on City Hall's east-facing windows overlooking the Fox River and Riverwalk. A partnership with The Conservation Foundation celebrating the beauty and diversity of the Fox River through the eyes of local artists.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">8</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Window Murals</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">10</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Local Artists</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <!-- Good Energy Gateway Mural -->
+        <div data-modal="goodenergy" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451699/bpai-good-energy-mural-7_e3xyni.jpg') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2025</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Good Energy Gateway</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            A 24' &times; 20' mural welcoming visitors to "The City of Good Energy." Fun, playful, bright, and colorful &mdash; featuring people biking, walking, and gathering along the river. A mural painted by the community, for the community.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">24&times;20</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Feet of Mural</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">35+</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Artist Applications</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <!-- Wave Petunia Mural -->
+        <div data-modal="wavepetunia" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-4_vd99pa.webp') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; 2023</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Wave Petunia Mural</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            A larger-than-life celebration of color and nature &mdash; an energetic collage of pink Wave Petunias with interactive, photo-worthy features. Going #BeyondTheBloom in the heart of downtown Batavia.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">1</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Lead Artist</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">2023</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Unveiled</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
+        </div>
+      </div>
+
+      <!-- Upcoming: America 250 -->
+      <div data-modal="america250" class="mt-12 border border-wss-blue/20 p-8 md:p-12 reveal overflow-hidden" style="background:linear-gradient(to right, rgba(0,56,71,0.88) 0%, rgba(0,85,112,0.75) 50%, rgba(0,85,112,0.5) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-2 h-2 rounded-full bg-wss-green animate-pulse"></span>
+              <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Coming 2026 &mdash; Now Seeking Artists</span>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">America 250 Mural</h3>
+            <p class="text-white/60 leading-relaxed mt-4 max-w-2xl">
+              A permanent mural on Batavia City Hall's west-facing limestone bays &mdash; six arched civic "story frames" celebrating how residents live the ideals of democracy. Funded by a $15,000 Illinois Arts Council grant for America's 250th Anniversary.
+            </p>
+            <p class="click-hint">MORE</p>
+          </div>
+          <div class="lg:col-span-4 lg:text-right">
+            <a href="#artists" onclick="event.stopPropagation()" class="inline-block bg-wss-blue text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-light transition-colors">
+              Apply Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pop-Up Galleries -->
+      <div class="mt-12 reveal">
+        <p class="font-mono text-xs uppercase tracking-widest text-white/40 mb-6">Community Exhibitions</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div data-modal="smallwonders" class="border border-white/10 p-5 transition-colors hover:border-wss-blue/40">
+            <p class="font-bold">Small Wonders</p>
+            <p class="text-white/40 text-sm mt-1">Original works under $1,000</p>
+            <p class="click-hint">MORE</p>
+          </div>
+          <div data-modal="gratitude" class="border border-white/10 p-5 transition-colors hover:border-wss-blue/40">
+            <p class="font-bold">Gratitude</p>
+            <p class="text-white/40 text-sm mt-1">Exploring thankfulness through art</p>
+            <p class="click-hint">MORE</p>
+          </div>
+          <div data-modal="rebirth" class="border border-white/10 p-5 transition-colors hover:border-wss-blue/40">
+            <p class="font-bold">Rebirth</p>
+            <p class="text-white/40 text-sm mt-1">Themes of renewal and transformation</p>
+            <p class="click-hint">MORE</p>
+          </div>
+          <div data-modal="beyondbloom" class="border border-white/10 p-5 transition-colors hover:border-wss-blue/40">
+            <p class="font-bold">Beyond The Bloom</p>
+            <p class="text-white/40 text-sm mt-1">Floral and botanical works</p>
+            <p class="click-hint">MORE</p>
+          </div>
+        </div>
+        <p class="text-white/30 text-sm mt-4">Pop-up galleries hosted at <strong class="text-white/50">Bar Evolution</strong> &mdash; 27 N River St, Batavia</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VIDEOS ===================== -->
+  <section id="videos" class="relative py-32 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div class="river-line reveal mx-auto mb-8"></div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">See It Come to Life</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Watch the<br>murals unfold
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Good Energy Video -->
+        <div class="reveal">
+          <div class="video-card" onclick="openVideoLightbox('https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456152/bpai_good_energy_video_1_V1_kj101c.mp4')">
+            <video src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456152/bpai_good_energy_video_1_V1_kj101c.mp4" muted playsinline preload="metadata"></video>
+            <div class="play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black tracking-tight">Good Energy Gateway</h3>
+            <p class="text-slate-500 text-sm mt-1 leading-relaxed">The making of Batavia's 24' &times; 20' community mural &mdash; painted by the community, for the community.</p>
+          </div>
+        </div>
+
+        <!-- Wave Petunia Video -->
+        <div class="reveal">
+          <div class="video-card" onclick="openVideoLightbox('https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456151/bpai_wave_petunia_mural_V1_qz3d40.mp4')">
+            <video src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456151/bpai_wave_petunia_mural_V1_qz3d40.mp4" muted playsinline preload="metadata"></video>
+            <div class="play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black tracking-tight">Wave Petunia Mural</h3>
+            <p class="text-slate-500 text-sm mt-1 leading-relaxed">A larger-than-life celebration of color and nature in the heart of downtown Batavia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ARTISTS ===================== -->
+  <section id="artists" class="relative py-32 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div class="lg:col-span-7">
+          <div class="river-line reveal mb-8"></div>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">For Artists</p>
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+            Your next canvas is 24 feet wide
+          </h2>
+          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 mt-8 reveal">
+            We believe in open, competitive selection processes with no cost barriers to apply. Whether you're an emerging voice or an established muralist, Batavia wants to see your vision on our walls.
+          </p>
+
+          <!-- Opportunity Cards -->
+          <div class="mt-12 space-y-6 stagger">
+            <div data-modal="opencall" class="p-6 md:p-8 reveal text-white overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.88) 30%, rgba(2,6,23,0.4) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-2 h-2 rounded-full bg-wss-green animate-pulse"></span>
+                <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Open Call</span>
+              </div>
+              <h3 class="text-xl font-bold">America 250 &mdash; City Hall Mural</h3>
+              <p class="text-white/60 text-sm leading-relaxed mt-2">
+                Permanent outdoor mural across six arched limestone bays on Batavia City Hall. Illinois-based artists with experience in large-scale public artworks. Translate historical and civic themes into compelling contemporary visual narratives.
+              </p>
+              <div class="flex flex-wrap gap-3 mt-4">
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">$9,650 Artist Fee</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Summer 2026</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Illinois Artists</span>
+              </div>
+              <p class="click-hint">MORE</p>
+            </div>
+
+            <div data-modal="ongoing" class="bg-stone-100 p-6 md:p-8 reveal">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-2 h-2 rounded-full bg-stone-400"></span>
+                <span class="font-mono text-xs uppercase tracking-widest text-stone-500">Ongoing</span>
+              </div>
+              <h3 class="text-xl font-bold">Pop-Up Gallery Exhibitions</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-2">
+                Rotating themed exhibitions at Bar Evolution in downtown Batavia. Open submissions with accessible price points. A chance to show your work in a community gathering space where art meets everyday life.
+              </p>
+              <div class="flex flex-wrap gap-3 mt-4">
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-stone-200 px-3 py-1.5">2-Month Rotations</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-stone-200 px-3 py-1.5">All Media Welcome</span>
+              </div>
+              <p class="click-hint">MORE</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selection Process -->
+        <div class="lg:col-span-5 lg:pt-20">
+          <div class="sticky top-32">
+            <div class="bg-slate-950 text-white p-8 md:p-10 reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-light mb-6">How Selection Works</h3>
+              <div class="space-y-6">
+                <div data-modal="step01" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">01</span>
+                  <div>
+                    <p class="font-bold text-sm">Open Call Published</p>
+                    <p class="text-white/50 text-sm mt-1">Request for Qualifications distributed with no cost to apply</p>
+                  </div>
+                </div>
+                <div data-modal="step02" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">02</span>
+                  <div>
+                    <p class="font-bold text-sm">Jury Review</p>
+                    <p class="text-white/50 text-sm mt-1">Selection committee of city reps, BPAI members, and arts professionals</p>
+                  </div>
+                </div>
+                <div data-modal="step03" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">03</span>
+                  <div>
+                    <p class="font-bold text-sm">Community Engagement</p>
+                    <p class="text-white/50 text-sm mt-1">Preliminary sketches shared for public feedback</p>
+                  </div>
+                </div>
+                <div data-modal="step04" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">04</span>
+                  <div>
+                    <p class="font-bold text-sm">Installation</p>
+                    <p class="text-white/50 text-sm mt-1">Artist-led painting with volunteer community support</p>
+                  </div>
+                </div>
+              </div>
+              <a href="mailto:publicart@waterstreetstudios.org" class="block mt-8 bg-wss-blue text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-light transition-colors text-center">
+                Get in Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VOLUNTEER ===================== -->
+  <section id="volunteer" class="relative bg-stone-100 py-32 md:py-40 grain">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <div class="river-line reveal mb-8"></div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Get Involved</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Paint a piece of your city
+        </h2>
+        <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 mt-8 reveal">
+          Every mural we create is painted by the community, for the community. No experience required &mdash; just good energy and a willingness to pick up a brush.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 mt-16 stagger">
+        <div data-modal="paintdays" class="bg-white p-8 reveal transition-shadow hover:shadow-lg">
+          <div class="w-12 h-12 bg-slate-950 flex items-center justify-center mb-6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3 class="text-xl font-bold">Paint Days</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            Join AM or PM shifts during mural installations. Help fill in designs, clean brushes, and be part of something lasting. Ages 14+ welcome. Weekend slots available for students.
+          </p>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <div data-modal="committee" class="bg-white p-8 reveal transition-shadow hover:shadow-lg">
+          <div class="w-12 h-12 bg-slate-950 flex items-center justify-center mb-6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="text-xl font-bold">Committee Roles</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            Serve on the BPAI committee. Roles include fundraising, site logistics, marketing, press writing, outreach coordination, and event planning. Two-year terms.
+          </p>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <div data-modal="popupsupport" class="bg-white p-8 reveal transition-shadow hover:shadow-lg">
+          <div class="w-12 h-12 bg-slate-950 flex items-center justify-center mb-6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          </div>
+          <h3 class="text-xl font-bold">Pop-Up Support</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            Help curate, install, and run pop-up gallery exhibitions at local venues. Assist with artist coordination, reception events, and bringing art into everyday spaces.
+          </p>
+          <p class="click-hint">MORE</p>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-col sm:flex-row gap-4 reveal">
+        <a href="mailto:publicart@waterstreetstudios.org" class="bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors text-center">
+          Volunteer With Us
+        </a>
+        <span class="text-sm text-slate-500 self-center font-mono">publicart@waterstreetstudios.org</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INVEST ===================== -->
+  <section id="invest" class="relative py-32 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div class="lg:col-span-6">
+          <div class="river-line reveal mb-8"></div>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Invest in Public Art</p>
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+            Every wall is an opportunity
+          </h2>
+          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 mt-8 reveal">
+            With 46 potential mural sites identified across downtown Batavia, we're just getting started. Your support fuels artist compensation, materials, and the infrastructure that turns blank walls into community landmarks.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row gap-4 reveal">
+            <a href="mailto:publicart@waterstreetstudios.org" class="bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors text-center">
+              Become a Sponsor
+            </a>
+            <a href="mailto:publicart@waterstreetstudios.org" class="border-2 border-slate-950 text-slate-950 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-slate-950 hover:text-white transition-colors text-center">
+              Make a Donation
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 stagger">
+          <div class="space-y-4">
+            <div data-modal="premier" class="bg-stone-100 p-6 flex items-start gap-6 reveal transition-shadow hover:shadow-lg">
+              <div class="shrink-0">
+                <p class="text-3xl font-black tracking-tight text-wss-gold">$5K+</p>
+              </div>
+              <div>
+                <p class="font-bold">Premier Sponsor</p>
+                <p class="text-slate-600 text-sm mt-1">Prominent logo on mural plaque, press recognition, unveiling event feature, and community brand association with Batavia's public art story.</p>
+                <p class="click-hint">MORE</p>
+              </div>
+            </div>
+            <div data-modal="major" class="bg-stone-100 p-6 flex items-start gap-6 reveal transition-shadow hover:shadow-lg">
+              <div class="shrink-0">
+                <p class="text-3xl font-black tracking-tight text-wss-gold">$2.5K</p>
+              </div>
+              <div>
+                <p class="font-bold">Major Sponsor</p>
+                <p class="text-slate-600 text-sm mt-1">Logo recognition on mural plaques, acknowledgment in press releases and social media, and public recognition at unveiling events.</p>
+                <p class="click-hint">MORE</p>
+              </div>
+            </div>
+            <div data-modal="community" class="bg-stone-100 p-6 flex items-start gap-6 reveal transition-shadow hover:shadow-lg">
+              <div class="shrink-0">
+                <p class="text-3xl font-black tracking-tight text-wss-gold">$500</p>
+              </div>
+              <div>
+                <p class="font-bold">Community Sponsor</p>
+                <p class="text-slate-600 text-sm mt-1">Name recognition on project materials and social media shoutouts. Supporting the artists and infrastructure that make public art possible.</p>
+                <p class="click-hint">MORE</p>
+              </div>
+            </div>
+            <div data-modal="individual" class="bg-stone-100 p-6 flex items-start gap-6 reveal transition-shadow hover:shadow-lg">
+              <div class="shrink-0">
+                <p class="text-3xl font-black tracking-tight text-wss-gold">Any</p>
+              </div>
+              <div>
+                <p class="font-bold">Individual Supporter</p>
+                <p class="text-slate-600 text-sm mt-1">Every dollar counts. Donations of $30+ receive a limited edition print. In-kind donations also welcome.</p>
+                <p class="click-hint">MORE</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-wss-blue/10 border border-wss-blue/20 p-6 reveal">
+            <p class="text-sm text-slate-700">
+              <strong class="text-wss-blue-dark">Tax deductible.</strong> Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit. All contributions support artist compensation, materials, and community programming.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DONORS ===================== -->
+  <section id="donors" class="relative bg-stone-100 py-32 md:py-40 grain">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div class="river-line reveal mx-auto mb-8"></div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Made Possible By</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Our Donors &<br>Sponsors
+        </h2>
+      </div>
+
+      <!-- Key Sponsors -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-20">
+        <div data-modal="donor_marconi" class="p-2 flex items-center justify-center reveal transition-all duration-300 hover:-translate-y-1">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473988/sponsor-marconi-family_cd8rpp.png" alt="The Marconi Family" class="max-h-28 md:max-h-36 w-auto object-contain">
+        </div>
+        <div data-modal="donor_byus" class="p-2 flex items-center justify-center reveal transition-all duration-300 hover:-translate-y-1">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473985/sponsor-byus-steel_xex6qw.png" alt="Byus Steel" class="max-h-28 md:max-h-36 w-auto object-contain">
+        </div>
+        <div data-modal="donor_batavia" class="p-2 flex items-center justify-center reveal transition-all duration-300 hover:-translate-y-1">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473986/sponsor-city-of-batavia_x7q930.png" alt="The City of Batavia" class="max-h-28 md:max-h-36 w-auto object-contain">
+        </div>
+        <div data-modal="donor_sturdy" class="p-2 flex items-center justify-center reveal transition-all duration-300 hover:-translate-y-1">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473987/sponsor-sturdy-shelter_ofvcld.png" alt="Sturdy Shelter Brewing" class="max-h-28 md:max-h-36 w-auto object-contain">
+        </div>
+      </div>
+
+      <!-- Major Donors -->
+      <div class="relative reveal">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-stone-300"></div></div>
+        <div class="relative flex justify-center"><span class="bg-stone-100 px-6 font-mono text-xs uppercase tracking-[0.2em] text-wss-gold-dark">Major Donors</span></div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-x-16 gap-y-6 mt-10 mb-16">
+        <p class="text-xl md:text-2xl font-black tracking-tight text-slate-800 reveal">The Baumgartner Family</p>
+        <p class="text-xl md:text-2xl font-black tracking-tight text-slate-800 reveal">Dave Morris & Jessica Jecmen</p>
+      </div>
+
+      <!-- Community Donors -->
+      <div class="relative reveal">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-stone-300"></div></div>
+        <div class="relative flex justify-center"><span class="bg-stone-100 px-6 font-mono text-xs uppercase tracking-[0.2em] text-slate-400">Community Supporters</span></div>
+      </div>
+      <div class="mt-10 flex flex-wrap justify-center gap-x-2 gap-y-1 max-w-4xl mx-auto reveal">
+        <span class="donor-name">Rebecca Allen</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Marissa Amoni</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Bulldog Plumbing</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">John Cahill</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Holly Deitchman</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Sara Dreiser</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">The Girmscheids</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Missy Hem</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Bill McGrath</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Dustin Pieper</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Beth & Steve Walker</span><span class="donor-sep">&middot;</span>
+        <span class="donor-name">Rosalie White</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMMITTEE ===================== -->
+  <section id="committee" class="relative bg-slate-950 text-white py-32 md:py-40 grain">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div class="river-line reveal mx-auto mb-8"></div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-light reveal">The People Behind the Murals</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Our Committee
+        </h2>
+      </div>
+
+      <!-- Co-Chairs -->
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-wss-gold text-center mb-10 reveal">Co-Chairs</p>
+      <div class="flex flex-wrap justify-center gap-12 lg:gap-20 mb-20">
+        <div data-modal="member_bonnie" class="text-center reveal">
+          <div class="w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden mx-auto ring-2 ring-wss-gold/30 ring-offset-4 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459251/profile-bonnie-baumgartner-topaz-enhance-4x-faceai_kvugkp.jpg" alt="Bonnie Baumgartner" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-lg font-black tracking-tight mt-5">Bonnie Baumgartner</h3>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-gold mt-1">Co-Chair</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_sabrina" class="text-center reveal">
+          <div class="w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden mx-auto ring-2 ring-wss-gold/30 ring-offset-4 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770460081/profile-sabrina-martin_ja60ob.jpg" alt="Sabrina Martin" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-lg font-black tracking-tight mt-5">Sabrina Martin</h3>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-gold mt-1">Co-Chair</p>
+          <p class="member-more">more</p>
+        </div>
+      </div>
+
+      <!-- Members -->
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-white/40 text-center mb-10 reveal">Members</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-8 lg:gap-6">
+        <div data-modal="member_rebecca" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459271/profile-rebecca-allen-gemini_wsmriz.png" alt="Rebecca Allen" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Rebecca Allen</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Outreach & Galleries</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_abby" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459236/profile-Abby-Beck-Smaller_yorwvd.jpg" alt="Abby Beck" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Abby Beck</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Budget & Civic Liaison</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_lori" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459264/profile-lori-botterman_svfo1x.jpg" alt="Lori Botterman" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Lori Botterman</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Fundraising & Press</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_bill" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459244/profile-Bill_headshot_1_copy_auqgaa.jpg" alt="Bill McGrath" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Bill McGrath</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Strategy & Logistics</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_josh" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495382/profile-Joshua-Schultz-gemini-crop_neecud.png" alt="Josh Schultz" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Josh Schultz</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Project Manager</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_ellyn" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770567526/ellyn-expand-blur-back_auwxd8.png" alt="Ellyn Theis" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Ellyn Theis</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Marketing & Brand</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_anita" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495375/profile-anita-wolff-gemini_tbynbg.png" alt="Anita Wolff" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Anita Wolff</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Budget & Merch</p>
+          <p class="member-more">more</p>
+        </div>
+        <div data-modal="member_gary" class="text-center reveal">
+          <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden mx-auto ring-1 ring-white/10 ring-offset-2 ring-offset-slate-950 transition-transform duration-300 hover:scale-105">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770494167/profile-gary-ricke-bw-black-bkgrd-29aug2025-crop_e15t91.jpg" alt="Gary Ricke" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-sm font-bold tracking-tight mt-4">Gary Ricke</h3>
+          <p class="font-mono text-[9px] uppercase tracking-widest text-white/40 mt-1">Content Architect</p>
+          <p class="member-more">more</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRESS & QUOTES ===================== -->
+  <section class="relative bg-stone-100 py-32 md:py-40 overflow-hidden grain" id="pressSection">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue mb-12 reveal">Voices & Press</p>
+
+      <!-- Quote Carousel -->
+      <div class="quote-carousel reveal" id="quoteCarousel">
+        <div class="qc-track" id="qcTrack">
+
+          <div class="qc-slide active">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">This mural represents everything we love about Batavia &mdash; its energy, its creativity, and its strong sense of community. Public art has the power to bring people together.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">Bonnie Baumgartner</p>
+              <p class="qc-role">Co-Chair, Batavia Public Art Initiative</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">This wall has been part of my family's story for decades, and I can't think of a better way to honor my father and our community than by turning it into a symbol of Batavia's spirit.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">Michael Marconi</p>
+              <p class="qc-role">Building Owner, 18 E Wilson St</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">Vibrant 'City of Good Energy' mural coming to Batavia</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">The Voice</p>
+              <p class="qc-role">September 2025</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">A creative and colorful gateway into Batavia's thriving downtown &mdash; celebrating the community's spirit of inclusion, energy, and civic pride.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">Batavia Patch</p>
+              <p class="qc-role">Emily Rosca &middot; May 2025</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">Batavia seeking artists to design community mural project &mdash; vibrant, colorful and celebrating the city's spirit of inclusion, energy and civic pride.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">Shaw Local &middot; Kane County Chronicle</p>
+              <p class="qc-role">David Petesh &middot; May 2025</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">I love the energy &mdash; I could see something referencing wind, river, bike paths &mdash; all Batavia things. Art that captures who we are.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">Rebecca Allen</p>
+              <p class="qc-role">Committee Member, BPAI</p>
+            </div>
+          </div>
+
+          <div class="qc-slide">
+            <div class="qc-mark">&ldquo;</div>
+            <blockquote class="qc-quote">A friendly, active, and creative community &mdash; home to multigenerational families, vibrant nature, and a thriving culture of artists and makers.</blockquote>
+            <div class="qc-attr">
+              <p class="qc-name">The Voice</p>
+              <p class="qc-role">On Batavia's Identity</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Controls -->
+        <div class="qc-controls">
+          <button class="qc-arrow" id="qcPrev" aria-label="Previous quote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <div class="qc-pips" id="qcPips"></div>
+          <button class="qc-arrow" id="qcNext" aria-label="Next quote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-slate-950 text-white py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-12">
+        <div class="md:col-span-5">
+          <div class="mb-8">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770457764/bpai-logo-redrawn-7feb2026-b_ok8nfn.png" alt="Batavia Public Art Initiative" class="h-24 w-auto brightness-0 invert opacity-90">
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed max-w-sm">
+            A program of Water Street Studios &mdash; a vibrant organization dedicated to the creation and appreciation of the arts by supporting artists, patrons, students, and the surrounding community.
+          </p>
+        </div>
+
+        <div class="md:col-span-3 md:col-start-7">
+          <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-4">Contact</p>
+          <div class="space-y-2 text-sm text-white/60">
+            <p>publicart@waterstreetstudios.org</p>
+            <p>630-761-9777</p>
+            <p class="pt-2">Water Street Studios<br>160 S Water St<br>Batavia, IL 60510</p>
+          </div>
+        </div>
+
+        <div class="md:col-span-2">
+          <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-4">Navigate</p>
+          <div class="space-y-2 text-sm">
+            <a href="#about" class="block text-white/60 hover:text-wss-blue-light transition-colors">About</a>
+            <a href="#projects" class="block text-white/60 hover:text-wss-blue-light transition-colors">Projects</a>
+            <a href="#artists" class="block text-white/60 hover:text-wss-blue-light transition-colors">Artists</a>
+            <a href="#volunteer" class="block text-white/60 hover:text-wss-blue-light transition-colors">Volunteer</a>
+            <a href="#invest" class="block text-white/60 hover:text-wss-blue-light transition-colors">Support</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <p class="font-mono text-xs text-white/30">&copy; 2026 Batavia Public Art Initiative. All rights reserved.</p>
+        <p class="font-mono text-xs text-white/20">Batavia Artists Association NFP Inc &mdash; dba Water Street Studios</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAL CONTAINER ===================== -->
+  <!-- Video Lightbox -->
+  <div class="video-lightbox" id="videoLightbox">
+    <button class="vl-close" onclick="closeVideoLightbox()">&times;</button>
+    <video id="lightboxVideo" controls playsinline></video>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal-panel" id="modalPanel">
+    <div class="modal-close">
+      <span class="font-mono text-xs uppercase tracking-widest text-slate-400" id="modalLabel"></span>
+      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-stone-200 rounded transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    // ─── MODAL CONTENT DATA ───
+    const modals = {
+
+  // ── PROJECTS ──
+  artofthefox: {
+    label: 'Completed Project',
+    carousel: [
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-4_efghxw.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-2_uytijx.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-5_bqxscq.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-3_osirya.jpg',
+    ],
+    html: `
+      <h2>Art of the Fox</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">100 N Island Ave &mdash; Jeffrey D. Schielke Government Center</p>
+      <div class="modal-divider"></div>
+      <p>A landmark partnership between <strong>Water Street Studios' Public Art Initiative</strong> and <strong>The Conservation Foundation</strong>, Art of the Fox transformed eight boarded east-facing windows on Batavia City Hall into framed murals overlooking the Fox River and Riverwalk.</p>
+      <p>Each 7' &times; 5'4" window space became a canvas for a local artist to celebrate the beauty, diversity, and ecological importance of the Fox River.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px 0;">
+        <div class="modal-stat"><div class="val">8</div><div class="lbl">Murals</div></div>
+        <div class="modal-stat"><div class="val">10</div><div class="lbl">Artists</div></div>
+        <div class="modal-stat"><div class="val">30</div><div class="lbl">Install Days</div></div>
+        <div class="modal-stat"><div class="val">Oct '24</div><div class="lbl">Unveiled</div></div>
+      </div>
+
+      <h3>Project Objectives</h3>
+      <ul>
+        <li>Connect the community to the beauty, diversity, and importance of the Fox River through art</li>
+        <li>Public and accessible to all &mdash; visible from the Riverwalk 24/7</li>
+        <li>Celebrate diverse local artistic voices</li>
+        <li>Connect people to place and nature</li>
+        <li>Contribute to community beautification efforts</li>
+        <li>Create an inspirational and educational focal point to attract visitors</li>
+        <li>Foster social interactions and create memorable experiences</li>
+      </ul>
+
+      <h3>Featured Artists</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Cherylyn Gnadt</span>
+        <span class="modal-tag">CJ Hungerman</span>
+        <span class="modal-tag">Clara Brubaker</span>
+        <span class="modal-tag">Jonathan Belair</span>
+        <span class="modal-tag">Lisa Holzl</span>
+        <span class="modal-tag">Myra Miller</span>
+        <span class="modal-tag">Sarah Engel</span>
+        <span class="modal-tag">Kailey Rorer</span>
+        <span class="modal-tag">Marty Gniech</span>
+        <span class="modal-tag">Catherine Tilly</span>
+      </div>
+
+      <h3>Timeline</h3>
+      <ul>
+        <li><strong>Installation:</strong> September 1&ndash;30, 2024</li>
+        <li><strong>Public Unveiling:</strong> October 5, 2024</li>
+      </ul>
+
+      <h3>Partnership</h3>
+      <p>Created in collaboration with The Conservation Foundation, connecting environmental stewardship with public art along the Fox River corridor. The project is expandable &mdash; additional windows can be activated as future fundraising allows.</p>
+    `
+  },
+
+  goodenergy: {
+    label: 'Completed Project',
+    carousel: [
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451705/bpai-good-energy-mural-35_xiuv0m.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451706/bpai-good-energy-mural-23_jcyqfd.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451704/bpai-good-energy-mural-31_byiutw.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451705/bpai-good-energy-mural-3_bmcdfa.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451704/bpai-good-energy-mural-14_nb2n2x.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-17_br6qgi.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451701/bpai-good-energy-mural-20_sczwtc.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg',
+    ],
+    html: `
+      <h2>Good Energy Gateway Mural</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">18 E Wilson St &mdash; Downtown Batavia</p>
+      <div class="modal-divider"></div>
+      <p>The Good Energy Gateway is a <strong>24' &times; 20'</strong> mural serving as a welcoming statement to entice visitors and give identity to Batavia as "The City of Good Energy" &mdash; a friendly, vibrant community on the Fox River.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0;">
+        <div class="modal-stat"><div class="val">24&times;20</div><div class="lbl">Feet</div></div>
+        <div class="modal-stat"><div class="val">35+</div><div class="lbl">Applications</div></div>
+        <div class="modal-stat"><div class="val">5</div><div class="lbl">Finalists</div></div>
+      </div>
+
+      <h3>Design Vision</h3>
+      <p>The mural must include large-scale "Good Energy" lettering and "Batavia, IL" near the bottom. The design celebrates:</p>
+      <ul>
+        <li>People of all ages &mdash; biking, walking, running on the path</li>
+        <li>The flow of the Fox River and surrounding nature</li>
+        <li>Dogs &mdash; reflecting Batavia's pet-friendly community</li>
+        <li>Sunburst imagery radiating energy and optimism</li>
+        <li>Colorful, non-realistic skin tones representing diversity through color</li>
+      </ul>
+
+      <h3>Mood &amp; Style</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Fun &amp; Playful</span>
+        <span class="modal-tag">Bright &amp; Colorful</span>
+        <span class="modal-tag">Friendly &amp; Informal</span>
+        <span class="modal-tag">Drop Shadow Lettering</span>
+      </div>
+
+      <h3>Community Fundraising</h3>
+      <p><strong>Sturdy Shelter Brewing</strong> created a special fundraiser beer &mdash; <em>"Good Energy Grapefruit Radler"</em> &mdash; with proceeds supporting the mural. Additional sponsors included the Marconi Family ($5,000), City of Batavia ($2,500), and Barco Products ($2,500).</p>
+
+      <h3>Community Involvement</h3>
+      <p>The mural was painted by community volunteers alongside the selected artist. Sign-up through Sign Up Genius with AM and PM shifts throughout the installation window of September 6&ndash;13, 2025. The public unveiling took place in October 2025.</p>
+    `
+  },
+
+  wavepetunia: {
+    label: 'Completed Project',
+    carousel: [
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496776/bpai-wave-petunia-mural-5_kktqv1.png',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-4_vd99pa.webp',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-3_zu7dpu.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-1_ztcslm.jpg',
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-2_jd194b.jpg',
+    ],
+    html: `
+      <h2>Wave Petunia Mural</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">State Street &amp; North River Street &mdash; Downtown Batavia</p>
+      <div class="modal-divider"></div>
+      <p>In an effort to inspire flower enthusiasts everywhere, the larger-than-life <strong>Wave Petunia mural</strong> is dedicated to the idea that Wave Petunias go far <strong>#BeyondTheBloom</strong>. Wave Petunias are more than a single plant in a pot &mdash; they spark smiles, happy moments, and human connections. This mural does the same.</p>
+      <p>This intentionally energetic collage of pink paint comes with a variety of interactive, photo-worthy features. The #BeyondTheBloom mural depicts how we are all surrounded by vibrant, overflowing blooms every day, and they certainly should be celebrated.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0;">
+        <div class="modal-stat"><div class="val">2023</div><div class="lbl">Unveiled</div></div>
+        <div class="modal-stat"><div class="val">1</div><div class="lbl">Lead Artist</div></div>
+        <div class="modal-stat"><div class="val">#BEYONDTHEBLOOM</div><div class="lbl">Hashtag</div></div>
+      </div>
+
+      <h3>About the Artist</h3>
+      <p><strong>Angie Maioriello</strong> is a self-taught freelance illustrator and muralist based in the northwest suburbs of Chicago. Her work is heavily inspired by patterns and forms found in nature. In her free time she can be found creating with her son, traveling, and exploring the outdoors with the ones she loves.</p>
+
+      <h3>Location</h3>
+      <p>Nestled in the heart of Batavia, Illinois on the corner of <strong>State Street &amp; North River Street</strong>. A vibrant landmark spreading the joy of color in downtown Batavia.</p>
+
+      <h3>Partnership</h3>
+      <p>A special collaboration between <strong>Wave Petunias</strong> (Ball Horticultural Company), <strong>Water Street Studios</strong>, and <strong>The City of Batavia</strong>. The mural brings together the gardening world and the public art community in a celebration of nature's beauty.</p>
+
+      <h3>Interactive Features</h3>
+      <ul>
+        <li>Photo-worthy selfie spots built into the mural design</li>
+        <li>Social media integration &mdash; snap a photo and share with #BeyondTheBloom to be spotlighted</li>
+        <li>Celebrates the connection between nature, art, and community</li>
+      </ul>
+    `
+  },
+
+  america250: {
+    label: 'Upcoming 2026',
+    carousel: [
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png',
+    ],
+    html: `
+      <h2>America 250 Mural</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Batavia City Hall &mdash; West-Facing Limestone Bays</p>
+      <div class="modal-divider"></div>
+      <p>A permanent outdoor mural funded by a <strong>$15,000 Illinois Arts Council</strong> America's 250th Anniversary Public Art Grant. Six horizontal arched limestone bays will become civic "story frames" celebrating how Batavia residents live the ideals of the Declaration of Independence.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0;">
+        <div class="modal-stat"><div class="val">6</div><div class="lbl">Story Frames</div></div>
+        <div class="modal-stat"><div class="val">$15K</div><div class="lbl">Grant Funded</div></div>
+        <div class="modal-stat"><div class="val">2026</div><div class="lbl">Unveiling</div></div>
+      </div>
+
+      <h3>Design Concept</h3>
+      <p>The mural links local Batavia stories to the nation's founding principles, positioning America's 250th as a living, community-centered reflection on democracy. People are placed at the center with imagery reflecting:</p>
+      <ul>
+        <li>Learning and education</li>
+        <li>Environmental stewardship</li>
+        <li>Creativity and artistic expression</li>
+        <li>Civic engagement and shared governance</li>
+        <li>Everyday connection &mdash; life, liberty, and the pursuit of happiness as experienced in Batavia today</li>
+      </ul>
+
+      <h3>Location</h3>
+      <p>West-facing southern window wall along North Island Avenue, directly overlooking the Fox River corridor and the expanding Flag Day Monument grounds. The six recessed arched bays create naturally human-scale storytelling moments, with strong afternoon light ideal for layered imagery.</p>
+
+      <h3>2026 Timeline</h3>
+      <ul>
+        <li><strong>Feb&ndash;Mar:</strong> Artist selection finalized, contracts executed</li>
+        <li><strong>Mar&ndash;Apr:</strong> Community engagement with preliminary sketches</li>
+        <li><strong>May:</strong> Final design presentation and City Council approval</li>
+        <li><strong>Jun&ndash;Jul:</strong> Surface preparation and painting</li>
+        <li><strong>August:</strong> Painting completed</li>
+        <li><strong>Late Summer:</strong> Public unveiling with municipal leaders, Batavia Historic Society, and Batavia Community Band</li>
+      </ul>
+
+      <h3>Budget Breakdown</h3>
+      <ul>
+        <li><strong>$9,650</strong> &mdash; Artist compensation (design, materials, execution)</li>
+        <li><strong>$1,200</strong> &mdash; Site preparation (power washing, priming)</li>
+        <li><strong>$2,000</strong> &mdash; WSS operational staff</li>
+        <li><strong>$2,150</strong> &mdash; Supplies, equipment, and event costs</li>
+      </ul>
+    `
+  },
+
+  // ── EXHIBITIONS ──
+  smallwonders: {
+    label: 'Pop-Up Exhibition',
+    html: `
+      <h2>Small Wonders</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <div class="modal-divider"></div>
+      <p>A juried pop-up gallery celebrating original artwork at accessible price points. All works priced under $1,000, with a suggested price ceiling to encourage broad participation and community purchasing.</p>
+
+      <h3>Key Details</h3>
+      <ul>
+        <li><strong>Duration:</strong> January 7 &ndash; March 3 (2-month rotation)</li>
+        <li><strong>Price range:</strong> All original works under $1,000</li>
+        <li><strong>Best sellers:</strong> Art priced below $450 had the greatest likelihood of sale</li>
+        <li>Prints also available for sale alongside originals</li>
+      </ul>
+
+      <h3>Featured Artists</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Maria Ananieva</span>
+        <span class="modal-tag">Caitlin Palagi</span>
+        <span class="modal-tag">Lauren McLeod</span>
+        <span class="modal-tag">Maggie Capettini</span>
+        <span class="modal-tag">Sandra Wilcoxon</span>
+        <span class="modal-tag">Howard Smith</span>
+        <span class="modal-tag">Kirsten Himmelbauer</span>
+        <span class="modal-tag">Rosalie White</span>
+      </div>
+
+      <h3>How It Works</h3>
+      <p>Artists drop off work on a Sunday evening (6&ndash;7 PM) and pick up two months later. Open call for submissions &mdash; all media welcome. A community-centered model bringing art into everyday gathering spaces.</p>
+    `
+  },
+
+  gratitude: {
+    label: 'Pop-Up Exhibition',
+    html: `
+      <h2>Gratitude</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <div class="modal-divider"></div>
+      <p>A themed exhibition exploring thankfulness, appreciation, and the things that ground us. Local artists were invited to interpret "gratitude" through any medium &mdash; painting, photography, mixed media, and more.</p>
+
+      <h3>Featured Artists</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Lisa Holzl</span>
+        <span class="modal-tag">Beth G-H</span>
+        <span class="modal-tag">Shannon Silver</span>
+        <span class="modal-tag">Lauren McLeod</span>
+      </div>
+
+      <h3>Exhibition Format</h3>
+      <ul>
+        <li>2-month rotation at Bar Evolution</li>
+        <li>Open call with signed gallery waivers</li>
+        <li>All works for sale &mdash; connecting artists directly with the community</li>
+        <li>Art displayed alongside the bar's regular programming, making art part of everyday social life</li>
+      </ul>
+    `
+  },
+
+  rebirth: {
+    label: 'Pop-Up Exhibition',
+    html: `
+      <h2>Rebirth</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <div class="modal-divider"></div>
+      <p>A juried exhibition themed around renewal, transformation, and new beginnings. Artists explored concepts of rebirth through painting, photography, collage, mixed media, and sculptural work.</p>
+
+      <h3>Featured Artists</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Kathi Kuchler</span>
+        <span class="modal-tag">Caitlin Palagi</span>
+        <span class="modal-tag">Lauren McLeod</span>
+        <span class="modal-tag">Rosalie White</span>
+        <span class="modal-tag">Melissa Celaya</span>
+        <span class="modal-tag">Dave Sobotka</span>
+        <span class="modal-tag">John Smentowski</span>
+        <span class="modal-tag">Beth G-H</span>
+        <span class="modal-tag">M Boyle</span>
+        <span class="modal-tag">Lisa Youngdahl</span>
+        <span class="modal-tag">Lisa Holzl</span>
+        <span class="modal-tag">Rudy Galindo</span>
+        <span class="modal-tag">Maggie Capettini</span>
+        <span class="modal-tag">L James</span>
+      </div>
+
+      <h3>Highlights</h3>
+      <ul>
+        <li>Juried selection process ensuring high quality</li>
+        <li>Diverse media &mdash; acrylics, photography, paper collage, mixed media</li>
+        <li>Pieces ranged from intimate personal narratives to bold abstract statements</li>
+        <li>Strong community turnout at opening reception</li>
+      </ul>
+    `
+  },
+
+  beyondbloom: {
+    label: 'Pop-Up Exhibition',
+    html: `
+      <h2>Beyond The Bloom</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <div class="modal-divider"></div>
+      <p>A curated exhibition celebrating floral and botanical artwork. Artists were invited to look beyond the obvious beauty of flowers and explore deeper themes of growth, fragility, permanence, and the natural world.</p>
+
+      <h3>Featured Artists</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Carly Palmer</span>
+        <span class="modal-tag">Emy Krauspe</span>
+        <span class="modal-tag">Jill Adzia</span>
+        <span class="modal-tag">Lisa Dienst Thomas</span>
+        <span class="modal-tag">Lisa Youngdahl</span>
+        <span class="modal-tag">Maria Ananieva</span>
+        <span class="modal-tag">Meaghan Green</span>
+        <span class="modal-tag">Sharon Feller</span>
+      </div>
+
+      <h3>Artwork Highlights</h3>
+      <ul>
+        <li>Paper collages, oil paintings, watercolors, and photography</li>
+        <li>Subjects from prairie wildflowers to exotic botanicals</li>
+        <li>Pieces titled "Autumn Rhythm," "Prairie Song," "Door County Iris," and more</li>
+        <li>All works available for purchase during the exhibition run</li>
+      </ul>
+    `
+  },
+
+  // ── ARTIST OPPORTUNITIES ──
+  opencall: {
+    label: 'Open Call for Artists',
+    carousel: [
+      'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png',
+    ],
+    html: `
+      <h2>America 250 &mdash; City Hall Mural</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Open &amp; Competitive &mdash; No Cost to Apply</p>
+      <div class="modal-divider"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0;">
+        <div class="modal-stat"><div class="val">$9,650</div><div class="lbl">Artist Fee</div></div>
+        <div class="modal-stat"><div class="val">Summer</div><div class="lbl">2026</div></div>
+        <div class="modal-stat"><div class="val">IL</div><div class="lbl">Based Artists</div></div>
+      </div>
+
+      <h3>About the Opportunity</h3>
+      <p>A permanent outdoor mural on six arched limestone bays on the west face of Batavia City Hall. The mural celebrates America's 250th Anniversary by linking local stories to the nation's founding principles.</p>
+
+      <h3>What We're Looking For</h3>
+      <ul>
+        <li>Illinois-based artists with professional experience in large-scale public artworks</li>
+        <li>Ability to translate historical and civic themes into compelling contemporary visual narratives</li>
+        <li>Experience working with community input and engagement processes</li>
+        <li>Portfolio demonstrating completed mural or large-format public art projects</li>
+      </ul>
+
+      <h3>Artist Compensation</h3>
+      <p>The selected artist receives <strong>$9,650</strong> covering design development, material sourcing, and execution. All site preparation, supplies, and equipment are provided separately by BPAI.</p>
+
+      <h3>Selection Timeline</h3>
+      <ul>
+        <li><strong>Feb&ndash;Mar 2026:</strong> Artist selection finalized</li>
+        <li><strong>Mar&ndash;Apr:</strong> Community engagement period</li>
+        <li><strong>May:</strong> City Council design approval</li>
+        <li><strong>Jun&ndash;Aug:</strong> Painting and installation</li>
+      </ul>
+
+      <h3>How to Apply</h3>
+      <p>Contact the BPAI committee for the current Request for Qualifications document. No application fee. Selection by jury of City of Batavia representatives, BPAI members, and arts professionals.</p>
+      <p style="margin-top:16px;"><strong>Email:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  ongoing: {
+    label: 'Ongoing Opportunity',
+    html: `
+      <h2>Pop-Up Gallery Exhibitions</h2>
+      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <div class="modal-divider"></div>
+      <p>BPAI partners with <strong>Bar Evolution</strong> to host rotating themed pop-up exhibitions. These shows bring original art into an everyday social space &mdash; making art accessible and part of community life.</p>
+
+      <h3>How to Submit</h3>
+      <ul>
+        <li>Watch for themed open calls announced via Water Street Studios channels</li>
+        <li>Submit photos of your work along with title, medium, dimensions, and price</li>
+        <li>All media welcome &mdash; painting, photography, collage, mixed media, small sculpture</li>
+        <li>Suggested price ceiling for accessibility (varies by show)</li>
+        <li>No submission fee</li>
+      </ul>
+
+      <h3>Exhibition Format</h3>
+      <ul>
+        <li><strong>Rotation:</strong> 2-month exhibition cycles</li>
+        <li><strong>Drop-off:</strong> Sunday evening, 6&ndash;7 PM</li>
+        <li><strong>Pick-up:</strong> Sunday evening, 2 months later, 6&ndash;7 PM</li>
+        <li>Artists transport their own work</li>
+        <li>Signed gallery waiver required</li>
+        <li>Prints may be sold alongside originals</li>
+      </ul>
+
+      <h3>Past Themes</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Small Wonders</span>
+        <span class="modal-tag">Gratitude</span>
+        <span class="modal-tag">Rebirth</span>
+        <span class="modal-tag">Beyond The Bloom</span>
+        <span class="modal-tag">Haunted</span>
+      </div>
+
+      <p style="margin-top:16px;"><strong>Stay informed:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  // ── SELECTION PROCESS ──
+  step01: {
+    label: 'Step 01 of 04',
+    html: `
+      <h2>Open Call Published</h2>
+      <div class="modal-divider"></div>
+      <p>Every BPAI project begins with a public <strong>Request for Qualifications (RFQ)</strong>, distributed through multiple channels to reach the broadest possible pool of artists.</p>
+
+      <h3>How the RFQ Works</h3>
+      <ul>
+        <li><strong>No cost to apply</strong> &mdash; zero financial barriers to entry</li>
+        <li>Published through Water Street Studios, social media, press releases, and arts networks</li>
+        <li>Clearly defines project scope, site dimensions, design parameters, and compensation</li>
+        <li>Specifies eligibility (e.g., Illinois-based artists for grant-funded projects)</li>
+        <li>Includes timeline, selection criteria, and contact information</li>
+      </ul>
+
+      <h3>What Artists Submit</h3>
+      <ul>
+        <li>Portfolio of relevant past work (emphasis on large-scale or public art)</li>
+        <li>Artist statement and approach to the specific project theme</li>
+        <li>Professional references</li>
+        <li>Proof of insurance (Certificate of Insurance required before contracting)</li>
+      </ul>
+
+      <h3>Past Open Calls</h3>
+      <p>The Good Energy Gateway mural received <strong>35+ applications</strong> from its open call. Art of the Fox also used an open RFQ process, attracting artists from across the Fox Valley region.</p>
+    `
+  },
+
+  step02: {
+    label: 'Step 02 of 04',
+    html: `
+      <h2>Jury Review</h2>
+      <div class="modal-divider"></div>
+      <p>All submissions are evaluated by a diverse selection committee ensuring fair, professional, and community-representative review.</p>
+
+      <h3>Jury Composition</h3>
+      <ul>
+        <li><strong>City of Batavia representatives</strong> &mdash; ensuring alignment with municipal goals</li>
+        <li><strong>BPAI committee members</strong> &mdash; including professional working artists</li>
+        <li><strong>Arts professionals</strong> &mdash; curatorial, conservation, art history, or architectural expertise</li>
+        <li><strong>Community representatives</strong> &mdash; ensuring the public voice is heard</li>
+      </ul>
+
+      <h3>Selection Criteria</h3>
+      <ul>
+        <li>Professional experience with large-scale public artworks</li>
+        <li>Ability to translate project themes into compelling contemporary visual narratives</li>
+        <li>Portfolio quality and relevance to the specific project</li>
+        <li>Capacity to work with community input and engagement</li>
+        <li>Feasibility of proposed approach within budget and timeline</li>
+      </ul>
+
+      <h3>Finalist Stage</h3>
+      <p>For major projects, the jury narrows to <strong>3&ndash;5 finalists</strong> who may be invited to develop preliminary design concepts (with a design stipend provided). The Good Energy Gateway project selected 5 finalists from 35+ applications.</p>
+    `
+  },
+
+  step03: {
+    label: 'Step 03 of 04',
+    html: `
+      <h2>Community Engagement</h2>
+      <div class="modal-divider"></div>
+      <p>Before any paint touches a wall, the community has its say. BPAI builds public input into every major project.</p>
+
+      <h3>How It Works</h3>
+      <ul>
+        <li>Finalist designs or preliminary sketches are shared publicly</li>
+        <li>Community feedback gathered through presentations, surveys, and open forums</li>
+        <li>Written and visual feedback documented and shared with the artist</li>
+        <li>Final design presented to City Council for approval</li>
+      </ul>
+
+      <h3>Past Community Input</h3>
+      <p>For the Good Energy Gateway, community members submitted both written feedback and visual references &mdash; images of murals they liked and didn't like &mdash; which directly shaped the design parameters. Over 27 visual references and detailed written notes guided the final aesthetic.</p>
+
+      <h3>City Council Approval</h3>
+      <p>Major public art installations require formal City Council presentation and approval, ensuring alignment with Batavia's civic values and urban planning goals.</p>
+    `
+  },
+
+  step04: {
+    label: 'Step 04 of 04',
+    html: `
+      <h2>Installation</h2>
+      <div class="modal-divider"></div>
+      <p>The culmination of months of planning &mdash; the artist leads the painting with support from community volunteers, turning the mural into a shared experience.</p>
+
+      <h3>Artist-Led Process</h3>
+      <ul>
+        <li>Selected artist directs all design decisions and painting execution</li>
+        <li>Projection crew outlines the design before public painting begins</li>
+        <li>Artist uses Sharpies for detailed outlines that volunteers follow</li>
+        <li>Professional artist maintains quality control throughout</li>
+      </ul>
+
+      <h3>Community Painting</h3>
+      <ul>
+        <li>Volunteer sign-up through Sign Up Genius (no walk-ons)</li>
+        <li>AM shifts (8 AM&ndash;12 PM) and PM shifts (1&ndash;5 PM)</li>
+        <li>Weekend slots specifically for high school students</li>
+        <li>Partnership with Batavia High School AP art students for course credit</li>
+        <li>6 volunteer painters per shift plus 1 assistant</li>
+      </ul>
+
+      <h3>Public Unveiling</h3>
+      <p>Each project culminates in a public unveiling event featuring municipal leaders, community partners, and often live music. A permanent plaque recognizes the artist, sponsors, and the BPAI committee.</p>
+    `
+  },
+
+  // ── VOLUNTEER ──
+  paintdays: {
+    label: 'Volunteer Opportunity',
+    html: `
+      <h2>Paint Days</h2>
+      <div class="modal-divider"></div>
+      <p>The heart of every BPAI mural &mdash; community members pick up brushes alongside the lead artist and help bring the design to life. No painting experience required.</p>
+
+      <h3>Shift Schedule</h3>
+      <ul>
+        <li><strong>AM Shift:</strong> 8:00 AM &ndash; 12:00 PM</li>
+        <li><strong>PM Shift:</strong> 1:00 PM &ndash; 5:00 PM</li>
+        <li><strong>Weekend slots:</strong> Specifically reserved for high school students and youth</li>
+        <li>Multi-day installation windows (typically 7&ndash;10 days)</li>
+      </ul>
+
+      <h3>Requirements</h3>
+      <ul>
+        <li><strong>Age:</strong> 14 years or older</li>
+        <li><strong>Sign-up:</strong> Through Sign Up Genius (no walk-ons)</li>
+        <li><strong>Waiver:</strong> Completed Hold Harmless agreement via DocuSign</li>
+        <li><strong>Attire:</strong> Proper footwear required (no sandals), clothes you don't mind getting paint on</li>
+        <li><strong>Bring:</strong> Sunblock, hat, water bottle</li>
+        <li>Must be comfortable on scaffolding and stairs</li>
+      </ul>
+
+      <h3>Volunteer Roles</h3>
+      <ul>
+        <li><strong>Volunteer Painters (6/shift):</strong> Fill in design areas, stay in lines, help with cleanup</li>
+        <li><strong>Assistant (1/shift):</strong> Pour paint, clean brushes, keep the workspace organized</li>
+      </ul>
+
+      <h3>What We Provide</h3>
+      <ul>
+        <li>All paint, brushes, and supplies</li>
+        <li>Water available all days</li>
+        <li>Coffee, bagels, and donuts in AM shifts</li>
+        <li>Granola bars and snacks throughout the day</li>
+      </ul>
+    `
+  },
+
+  committee: {
+    label: 'Volunteer Opportunity',
+    html: `
+      <h2>Committee Roles</h2>
+      <div class="modal-divider"></div>
+      <p>The BPAI committee is the engine behind every project. We're always looking for passionate community members to join us. Minimum 5 members, meeting monthly on third Fridays from 9&ndash;10 AM.</p>
+
+      <h3>Available Roles</h3>
+      <ul>
+        <li><strong>Chairs (2):</strong> Lead strategy, organization, and group communication. Set agendas, run meetings, coordinate across all roles.</li>
+        <li><strong>Fundraising (2):</strong> Solicit business and personal donations, manage sponsor relationships, coordinate Give Butter campaigns and Farmers Market booths.</li>
+        <li><strong>Site Crew / Logistics:</strong> Identify mural locations, determine property ownership, get wall specifications, monitor installations, and coordinate equipment.</li>
+        <li><strong>Marketing (2):</strong> Develop marketing plans, create graphics and social media content, schedule posts, encourage artist applications.</li>
+        <li><strong>Writer:</strong> Develop press releases, project proposals, grant applications, and newsletter content.</li>
+        <li><strong>Outreach (2):</strong> Coordinate with local businesses, expand WSS/BPAI exposure, organize pop-up galleries, manage community partnerships.</li>
+      </ul>
+
+      <h3>Commitment</h3>
+      <ul>
+        <li><strong>Term:</strong> Two-year terms, maximum three consecutive terms</li>
+        <li><strong>Meetings:</strong> Monthly on third Fridays, 9&ndash;10 AM (minimum 8 meetings/year)</li>
+        <li><strong>Composition requires:</strong> Professional working artist, art professionals, community reps, City of Batavia rep, and WSS staff rep</li>
+      </ul>
+
+      <h3>Current Leadership</h3>
+      <p><strong>Chairs:</strong> Bonnie Baumgartner &amp; Sabrina Martin<br>
+      <strong>Contact:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  popupsupport: {
+    label: 'Volunteer Opportunity',
+    html: `
+      <h2>Pop-Up Gallery Support</h2>
+      <div class="modal-divider"></div>
+      <p>Help bring art into everyday gathering spaces. Our pop-up gallery program at Bar Evolution needs hands-on volunteers to make each exhibition a success.</p>
+
+      <h3>How Pop-Ups Work</h3>
+      <ul>
+        <li><strong>Venue:</strong> Bar Evolution, 27 N River St, Batavia</li>
+        <li><strong>Cycle:</strong> 2-month themed rotations throughout the year</li>
+        <li><strong>Open call:</strong> Artists submit work based on announced themes</li>
+        <li><strong>Juried selection:</strong> Committee reviews submissions for quality and theme fit</li>
+        <li><strong>Installation:</strong> Sunday evening drop-off, gallery-style hanging</li>
+        <li><strong>Sales:</strong> All work available for purchase, connecting artists with buyers</li>
+      </ul>
+
+      <h3>Where Volunteers Help</h3>
+      <ul>
+        <li><strong>Installation &amp; deinstallation:</strong> Hanging and arranging artwork on gallery walls</li>
+        <li><strong>Art tags &amp; labeling:</strong> Creating name tags and price labels for each piece</li>
+        <li><strong>Opening receptions:</strong> Welcoming guests, pouring drinks, engaging visitors</li>
+        <li><strong>Artist coordination:</strong> Managing drop-off/pick-up logistics</li>
+        <li><strong>Documentation:</strong> Photographing exhibitions for social media and archives</li>
+        <li><strong>Waiver management:</strong> Ensuring all participating artists complete gallery waivers</li>
+      </ul>
+
+      <h3>Past Exhibitions</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Small Wonders</span>
+        <span class="modal-tag">Gratitude</span>
+        <span class="modal-tag">Haunted</span>
+        <span class="modal-tag">Rebirth</span>
+        <span class="modal-tag">Beyond The Bloom</span>
+      </div>
+      <p style="margin-top:16px;"><strong>Get involved:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  // ── SPONSORSHIP ──
+  premier: {
+    label: 'Sponsorship &mdash; $5,000+',
+    html: `
+      <h2>Premier Sponsor</h2>
+      <div class="modal-divider"></div>
+      <p>Our highest level of partnership. Premier sponsors are foundational to making major public art projects possible in Batavia.</p>
+
+      <h3>Full Benefits</h3>
+      <ul>
+        <li><strong>Prominent logo placement</strong> on permanent mural plaque at the installation site</li>
+        <li><strong>Featured recognition</strong> at public unveiling events with municipal leaders</li>
+        <li><strong>Press coverage</strong> &mdash; named in all press releases to The Voice, Shaw Local, Patch, and other outlets</li>
+        <li><strong>Social media spotlight</strong> &mdash; dedicated sponsor appreciation posts across all BPAI/WSS channels</li>
+        <li><strong>Newsletter feature</strong> in Water Street Studios community communications</li>
+        <li><strong>Community brand association</strong> with Batavia's public art story and "City of Good Energy" identity</li>
+        <li><strong>VIP reception</strong> access at mural unveiling events</li>
+      </ul>
+
+      <h3>Past Premier Sponsors</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">
+        <span class="modal-tag">Marconi Family &mdash; $5,000</span>
+        <span class="modal-tag">City of Batavia &mdash; $2,500</span>
+        <span class="modal-tag">Barco Products &mdash; $2,500</span>
+      </div>
+
+      <h3>Your Impact</h3>
+      <p>A $5,000+ contribution can fund the complete artist compensation for a mural project, or cover all materials and supplies for an installation. Your name becomes permanently associated with a piece of Batavia's cultural landscape.</p>
+
+      <p style="margin-top:16px;"><strong>Contact:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  major: {
+    label: 'Sponsorship &mdash; $2,500',
+    html: `
+      <h2>Major Sponsor</h2>
+      <div class="modal-divider"></div>
+      <p>A significant contribution that directly enables the creation of public art in Batavia.</p>
+
+      <h3>Full Benefits</h3>
+      <ul>
+        <li><strong>Logo recognition</strong> on mural plaques at installation sites</li>
+        <li><strong>Acknowledgment</strong> in all press releases and media coverage</li>
+        <li><strong>Social media recognition</strong> across BPAI and Water Street Studios channels</li>
+        <li><strong>Public recognition</strong> at unveiling events and ceremonies</li>
+        <li><strong>Newsletter mention</strong> in WSS community communications</li>
+        <li><strong>Invitation</strong> to VIP portions of unveiling events</li>
+      </ul>
+
+      <h3>Your Impact</h3>
+      <p>A $2,500 contribution covers site preparation costs (power washing, priming, equipment) or operational staffing for an entire project cycle. This level of support ensures professional execution of every installation.</p>
+
+      <p style="margin-top:16px;"><strong>Contact:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  community: {
+    label: 'Sponsorship &mdash; $500',
+    html: `
+      <h2>Community Sponsor</h2>
+      <div class="modal-divider"></div>
+      <p>An accessible sponsorship level for local businesses and individuals who want to support public art in their community.</p>
+
+      <h3>Full Benefits</h3>
+      <ul>
+        <li><strong>Name recognition</strong> on project materials and signage</li>
+        <li><strong>Social media shoutouts</strong> across BPAI channels</li>
+        <li><strong>Acknowledgment</strong> at public events and unveilings</li>
+        <li><strong>Listing</strong> on project documentation and reports</li>
+      </ul>
+
+      <h3>Your Impact</h3>
+      <p>$500 covers the cost of a permanent mural plaque, event signage, or marketing materials for an entire project. It also funds refreshments and supplies for a full week of community volunteer painting shifts.</p>
+
+      <h3>Perfect For</h3>
+      <ul>
+        <li>Downtown Batavia businesses</li>
+        <li>Local restaurants, shops, and service providers</li>
+        <li>Families who want to invest in community beautification</li>
+        <li>Organizations aligned with arts and culture</li>
+      </ul>
+
+      <p style="margin-top:16px;"><strong>Contact:</strong> publicart@waterstreetstudios.org</p>
+    `
+  },
+
+  individual: {
+    label: 'Support &mdash; Any Amount',
+    html: `
+      <h2>Individual Supporter</h2>
+      <div class="modal-divider"></div>
+      <p>Every dollar fuels the next mural, the next pop-up gallery, and the next opportunity for a local artist to share their vision with the community.</p>
+
+      <h3>Ways to Give</h3>
+      <ul>
+        <li><strong>Online donation</strong> via Give Butter campaign</li>
+        <li><strong>Direct contribution</strong> &mdash; contact publicart@waterstreetstudios.org</li>
+        <li><strong>Sponsor a square foot</strong> &mdash; interactive giving at Farmers Market events</li>
+        <li><strong>Fundraiser beer</strong> &mdash; purchase "Good Energy Grapefruit Radler" at Sturdy Shelter Brewing</li>
+        <li><strong>Merchandise</strong> &mdash; BPAI shirts, bandanas, and prints at events</li>
+        <li><strong>In-kind donations</strong> &mdash; supplies, equipment, food for volunteers</li>
+      </ul>
+
+      <h3>Donor Benefits</h3>
+      <ul>
+        <li>Donations of <strong>$30+</strong> receive a limited edition print</li>
+        <li>Public acknowledgment at events and on social media</li>
+        <li>The knowledge that you helped create something permanent and beautiful in your community</li>
+      </ul>
+
+      <h3>Tax Deductible</h3>
+      <p><strong>Batavia Artists Association NFP Inc</strong> (dba Water Street Studios) is a registered Illinois not-for-profit corporation. All contributions are tax deductible and support artist compensation, materials, and community programming.</p>
+
+      <p style="margin-top:16px;"><strong>Contact:</strong> publicart@waterstreetstudios.org<br><strong>Phone:</strong> 630-761-9777</p>
+    `
+  },
+
+  // ─── KEY DONORS ───
+
+  donor_marconi: {
+    label: 'Premier Sponsor',
+    html: `
+      <div style="text-align:center;padding:32px 0 16px;background:#f5f5f4;margin:0 -24px 24px;display:flex;align-items:center;justify-content:center;min-height:180px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473988/sponsor-marconi-family_cd8rpp.png" alt="The Marconi Family" style="max-height:120px;width:auto;">
+      </div>
+      <h2>The Marconi Family</h2>
+      <p style="color:#FDC400;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Premier Sponsor &middot; $5,000</p>
+      <div class="modal-divider"></div>
+      <p>The Marconi family's connection to Batavia's downtown runs deep. As the property owner of the building at 18 E Wilson St, Michael Marconi offered the 24' &times; 20' wall that became the canvas for the Good Energy Gateway mural &mdash; transforming a family legacy into a community landmark.</p>
+
+      <h3>Their Contribution</h3>
+      <ul>
+        <li><strong>Premier sponsor</strong> with a $5,000 donation to the Good Energy Gateway project</li>
+        <li><strong>Property access</strong> &mdash; provided the wall and building infrastructure for the mural</li>
+        <li><strong>Family legacy</strong> &mdash; the building has been part of the Marconi story for decades</li>
+      </ul>
+
+      <h3>In Their Words</h3>
+      <p style="font-style:italic;border-left:3px solid #009BC7;padding-left:16px;color:#1e293b;">&ldquo;This wall has been part of my family's story for decades, and I can't think of a better way to honor my father and our community than by turning it into a symbol of Batavia's spirit.&rdquo;</p>
+      <p style="font-weight:700;margin-top:8px;">&mdash; Michael Marconi</p>
+    `
+  },
+
+  donor_byus: {
+    label: 'Sponsor',
+    html: `
+      <div style="text-align:center;padding:32px 0 16px;background:#f5f5f4;margin:0 -24px 24px;display:flex;align-items:center;justify-content:center;min-height:180px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473985/sponsor-byus-steel_xex6qw.png" alt="Byus Steel" style="max-height:120px;width:auto;">
+      </div>
+      <h2>Byus Steel</h2>
+      <p style="color:#FDC400;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Project Sponsor</p>
+      <div class="modal-divider"></div>
+      <p>Byus Steel is a proud local business supporting the Batavia Public Art Initiative. Their sponsorship helps fund the infrastructure and materials that make large-scale mural projects possible in the heart of downtown Batavia.</p>
+
+      <h3>Supporting Public Art</h3>
+      <ul>
+        <li><strong>Financial sponsorship</strong> &mdash; helping fund mural materials, artist compensation, and project logistics</li>
+        <li><strong>Local business investment</strong> &mdash; demonstrating that Batavia's business community believes in the power of public art</li>
+        <li><strong>Community partnership</strong> &mdash; strengthening the connection between local industry and the arts</li>
+      </ul>
+    `
+  },
+
+  donor_batavia: {
+    label: 'Municipal Partner',
+    html: `
+      <div style="text-align:center;padding:32px 0 16px;background:#f5f5f4;margin:0 -24px 24px;display:flex;align-items:center;justify-content:center;min-height:180px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473986/sponsor-city-of-batavia_x7q930.png" alt="The City of Batavia" style="max-height:120px;width:auto;">
+      </div>
+      <h2>The City of Batavia</h2>
+      <p style="color:#FDC400;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Municipal Partner &middot; $2,500</p>
+      <div class="modal-divider"></div>
+      <p>The City of Batavia is a key municipal partner, providing both financial support and the civic infrastructure that makes public art possible. Their $2,500 sponsorship was approved by the City Council in June 2025, signaling official civic endorsement of the initiative.</p>
+
+      <h3>City Support</h3>
+      <ul>
+        <li><strong>$2,500 sponsorship</strong> &mdash; approved by City Council on June 10, 2025</li>
+        <li><strong>Permitting &amp; access</strong> &mdash; facilitating permits for mural installations on public and private buildings</li>
+        <li><strong>City Hall collaboration</strong> &mdash; the Government Center at 100 N Island Ave hosts the Art of the Fox window murals</li>
+        <li><strong>Historic Preservation Council</strong> &mdash; working with BPAI to navigate guidelines for art in the historic district</li>
+      </ul>
+
+      <h3>Civic Vision</h3>
+      <p>The City's partnership reflects Batavia's commitment to placemaking &mdash; using public art to strengthen civic identity, attract visitors, and celebrate the community's heritage along the Fox River.</p>
+    `
+  },
+
+  donor_sturdy: {
+    label: 'Community Partner',
+    html: `
+      <div style="text-align:center;padding:32px 0 16px;background:#f5f5f4;margin:0 -24px 24px;display:flex;align-items:center;justify-content:center;min-height:180px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770473987/sponsor-sturdy-shelter_ofvcld.png" alt="Sturdy Shelter Brewing" style="max-height:120px;width:auto;">
+      </div>
+      <h2>Sturdy Shelter Brewing</h2>
+      <p style="color:#FDC400;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Community Partner &middot; ~$2,000</p>
+      <div class="modal-divider"></div>
+      <p>Sturdy Shelter Brewing has partnered with BPAI through a creative fundraising collaboration &mdash; the <strong>"Good Energy Grapefruit Radler,"</strong> a limited-edition craft beer whose proceeds support the public art initiative. It's community building in the most Batavia way possible.</p>
+
+      <h3>The Partnership</h3>
+      <ul>
+        <li><strong>Fundraiser beer</strong> &mdash; "Good Energy Grapefruit Radler" brewed specifically for BPAI</li>
+        <li><strong>~$2,000 in proceeds</strong> donated to support mural projects</li>
+        <li><strong>Ongoing collaboration</strong> &mdash; potential for continued fundraising partnerships</li>
+        <li><strong>Community gathering point</strong> &mdash; a natural meeting place for BPAI supporters and art lovers</li>
+      </ul>
+
+      <h3>Get Involved</h3>
+      <p>Visit Sturdy Shelter Brewing and grab a Good Energy Grapefruit Radler &mdash; every pint supports public art in Batavia.</p>
+    `
+  },
+
+  // ─── COMMITTEE MEMBERS ───
+
+  member_bonnie: {
+    label: 'Co-Chair',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459251/profile-bonnie-baumgartner-topaz-enhance-4x-faceai_kvugkp.jpg" alt="Bonnie Baumgartner" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Bonnie Baumgartner</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Organization</p>
+      <div class="modal-divider"></div>
+      <p>Bonnie co-leads the Batavia Public Art Initiative alongside Sabrina Martin, driving the committee's vision from concept to completion. She is the organizational backbone of BPAI, managing communications, coordinating project workplans, and keeping every initiative on track.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Committee leadership</strong> &mdash; co-chairs meetings, sets agendas, and guides strategic direction</li>
+        <li><strong>Communications lead</strong> &mdash; manages outreach to the Historic Preservation Council and City Council</li>
+        <li><strong>Fundraising coordination</strong> &mdash; manages the Give Butter campaign and donor relations</li>
+        <li><strong>RFQ development</strong> &mdash; crafts and distributes Requests for Qualifications to attract artists</li>
+        <li><strong>Volunteer coordination</strong> &mdash; organizes community paint days and event logistics</li>
+      </ul>
+
+      <h3>Projects Led</h3>
+      <ul>
+        <li>Art of the Fox &mdash; City Hall Window Murals (2024)</li>
+        <li>Good Energy Gateway Mural (2025)</li>
+        <li>America 250 Mural (2026, in progress)</li>
+      </ul>
+    `
+  },
+
+  member_sabrina: {
+    label: 'Co-Chair',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770460081/profile-sabrina-martin_ja60ob.jpg" alt="Sabrina Martin" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Sabrina Martin</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Logistics</p>
+      <div class="modal-divider"></div>
+      <p>Sabrina brings a deep history with Water Street Studios and extensive experience in logistics, grant writing, and community coordination to her role as co-chair. Her background in adult education and writing curriculum makes her a natural storyteller for the initiative.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Committee co-leadership</strong> &mdash; strategic planning and organizational direction since 2023</li>
+        <li><strong>Grant writing</strong> &mdash; securing funding including the Illinois Arts Council America 250 grant</li>
+        <li><strong>Artist management</strong> &mdash; handles RFQ submissions, artist notifications, and selection coordination</li>
+        <li><strong>Press &amp; communications</strong> &mdash; writes press releases and manages media outreach</li>
+        <li><strong>Pop-up gallery coordination</strong> &mdash; organizes community exhibitions at Bar Evolution</li>
+      </ul>
+
+      <h3>Background</h3>
+      <ul>
+        <li>Long history with Water Street Studios</li>
+        <li>Experience running fundraisers and community events</li>
+        <li>Adult education and writing curriculum background</li>
+      </ul>
+    `
+  },
+
+  member_rebecca: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459271/profile-rebecca-allen-gemini_wsmriz.png" alt="Rebecca Allen" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Rebecca Allen</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Outreach & Pop-Up Galleries</p>
+      <div class="modal-divider"></div>
+      <p>Rebecca leads community outreach for BPAI and manages the pop-up gallery program. Her extensive experience in community engagement has been instrumental in bringing art directly to the people of Batavia.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Pop-up gallery management</strong> &mdash; coordinates exhibitions at Bar Evolution including Small Wonders, Gratitude, Rebirth, and Beyond The Bloom</li>
+        <li><strong>Artwork organization</strong> &mdash; curates and manages art selection for community shows</li>
+        <li><strong>Event planning</strong> &mdash; coordinates reveal party logistics, refreshments, and signage</li>
+        <li><strong>Donor recognition</strong> &mdash; designs and prints materials for sponsors and supporters</li>
+        <li><strong>Community outreach</strong> &mdash; builds relationships between BPAI and the wider Batavia community</li>
+      </ul>
+    `
+  },
+
+  member_abby: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459236/profile-Abby-Beck-Smaller_yorwvd.jpg" alt="Abby Beck" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Abby Beck</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Budget & Civic Liaison</p>
+      <div class="modal-divider"></div>
+      <p>Abby serves as VP of Advancement at The Conservation Foundation and brings vital civic connections to the committee. As an Alderwoman, she bridges the gap between BPAI and Batavia's city government, ensuring public art projects move smoothly through municipal processes.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Budget oversight</strong> &mdash; helps determine project budgets and financial planning</li>
+        <li><strong>Civic liaison</strong> &mdash; manages Historic Preservation Council sign permits and City Council outreach</li>
+        <li><strong>Conservation partnership</strong> &mdash; facilitated the Art of the Fox collaboration with The Conservation Foundation</li>
+        <li><strong>Fundraising</strong> &mdash; coordinates donor outreach and event invitations</li>
+        <li><strong>Council advocacy</strong> &mdash; champions public art within Batavia's city government</li>
+      </ul>
+    `
+  },
+
+  member_lori: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459264/profile-lori-botterman_svfo1x.jpg" alt="Lori Botterman" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Lori Botterman</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Fundraising & Press</p>
+      <div class="modal-divider"></div>
+      <p>Lori leads BPAI's fundraising strategy and press communications. Her writing skills and media connections help tell the story of Batavia's public art movement to the wider community.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Fundraising lead</strong> &mdash; develops and executes donor engagement strategies</li>
+        <li><strong>Press relations</strong> &mdash; writes and distributes press releases to local media</li>
+        <li><strong>Event promotion</strong> &mdash; coordinates signage, materials, and publicity for mural unveilings</li>
+        <li><strong>Sponsor outreach</strong> &mdash; builds relationships with local businesses and donors</li>
+        <li><strong>Donor communications</strong> &mdash; keeps supporters informed and engaged throughout projects</li>
+      </ul>
+    `
+  },
+
+  member_bill: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459244/profile-Bill_headshot_1_copy_auqgaa.jpg" alt="Bill McGrath" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Bill McGrath</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Strategy & Logistics</p>
+      <div class="modal-divider"></div>
+      <p>Bill brings strategic thinking and hands-on logistics expertise to the committee. He handles the critical behind-the-scenes work that makes large-scale mural projects possible &mdash; from property agreements to scaffolding coordination.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Mural agreements</strong> &mdash; negotiates and coordinates agreements with property owners</li>
+        <li><strong>Insurance coordination</strong> &mdash; manages COI (Certificate of Insurance) requirements for projects</li>
+        <li><strong>Site logistics</strong> &mdash; coordinates crew access, scaffolding, and site preparation</li>
+        <li><strong>Historic Preservation Council</strong> &mdash; manages regulatory coordination for historic district projects</li>
+        <li><strong>Financial planning</strong> &mdash; drafts proposal letters and manages project budgets</li>
+      </ul>
+    `
+  },
+
+  member_josh: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495382/profile-Joshua-Schultz-gemini-crop_neecud.png" alt="Josh Schultz" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Josh Schultz</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Project Manager & Installation</p>
+      <div class="modal-divider"></div>
+      <p>Josh joined the committee in early 2024 and quickly became essential as project manager for BPAI's mural installations. He volunteered to donate his time for the Good Energy Gateway project and introduced the committee to the Walldogs mural painting tradition.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Project management</strong> &mdash; oversees contracts, installation schedules, and site preparation</li>
+        <li><strong>Installation coordination</strong> &mdash; manages volunteer crews and supply purchasing</li>
+        <li><strong>Good Energy Gateway</strong> &mdash; donated time as project manager for the community mural</li>
+        <li><strong>Walldogs connection</strong> &mdash; introduced the historic mural painting tradition to the committee</li>
+        <li><strong>Volunteer leadership</strong> &mdash; coordinates community volunteers during paint days</li>
+      </ul>
+    `
+  },
+
+  member_ellyn: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770567526/ellyn-expand-blur-back_auwxd8.png" alt="Ellyn Theis" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Ellyn Theis</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Marketing & Brand Development</p>
+      <div class="modal-divider"></div>
+      <p>Ellyn is the creative force behind BPAI's visual identity and marketing presence. She manages social media, designs event materials, and ensures the initiative's brand is cohesive and compelling across all touchpoints.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Social media management</strong> &mdash; maintains a consistent posting schedule across BPAI channels</li>
+        <li><strong>Brand &amp; design</strong> &mdash; creates mural signage templates, event flyers, posters, and graphics</li>
+        <li><strong>Press materials</strong> &mdash; develops press releases and media kits</li>
+        <li><strong>Call for Artists distribution</strong> &mdash; designs and distributes artist opportunity announcements</li>
+        <li><strong>Hands-on volunteer</strong> &mdash; participates in site prep including power washing and paint days</li>
+      </ul>
+    `
+  },
+
+  member_anita: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495375/profile-anita-wolff-gemini_tbynbg.png" alt="Anita Wolff" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Anita Wolff</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Committee Member</p>
+      <div class="modal-divider"></div>
+      <p>Anita contributes to BPAI's budgeting efforts and project management, helping keep initiatives moving forward. She plays an active role in merchandise and community engagement projects.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Budget planning</strong> &mdash; collaborates on project budget determination and financial oversight</li>
+        <li><strong>Merchandise coordination</strong> &mdash; manages BPAI merch and bandana projects</li>
+        <li><strong>Project support</strong> &mdash; keeps community engagement initiatives on track</li>
+        <li><strong>Community volunteer</strong> &mdash; active participant in events and paint days</li>
+      </ul>
+    `
+  },
+
+  member_gary: {
+    label: 'Committee Member',
+    html: `
+      <div style="text-align:center;padding-top:24px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770494167/profile-gary-ricke-bw-black-bkgrd-29aug2025-crop_e15t91.jpg" alt="Gary Ricke" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      </div>
+      <h2 style="text-align:center;margin-top:20px;">Gary Ricke</h2>
+      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Content Architect</p>
+      <div class="modal-divider"></div>
+      <p>A 19-year Batavia resident, Gary brings 27 years of digital marketing expertise to BPAI as Content Architect. He specializes in short-format storytelling and AI marketing strategies, with a deep commitment to what he calls <strong>Human AI Marketing</strong> &mdash; authenticity above all.</p>
+
+      <h3>Key Contributions</h3>
+      <ul>
+        <li><strong>Content architecture</strong> &mdash; shaping BPAI's storytelling and digital narrative</li>
+        <li><strong>Short-format storytelling</strong> &mdash; crafting compelling content that captures the initiative's impact</li>
+        <li><strong>AI marketing strategy</strong> &mdash; leveraging AI tools to amplify the committee's reach while staying authentic</li>
+        <li><strong>Digital marketing expertise</strong> &mdash; 27 years of agency experience serving community organizations and nonprofits</li>
+      </ul>
+
+      <h3>Community Roots</h3>
+      <p>Gary founded a marketing internship program with Batavia High School in 2020, connecting local organizations with talented students at a fraction of the usual cost. His passion for community extends to <strong>BataviaIL.co</strong> &mdash; a project to bring every organization, business, school team, club, church, and community service in Batavia to the attention of every single resident.</p>
+
+      <h3>Favorite Clients</h3>
+      <ul>
+        <li>The City of Batavia</li>
+        <li>The Chicago Academy for The Arts</li>
+        <li>Lutheran Indian Ministries</li>
+        <li>Arts for Everybody</li>
+        <li>The Fetal Therapy Nurse Network</li>
+        <li>The Community Renewal Society</li>
+      </ul>
+    `
+  }
+
+    };
+
+    // ─── MODAL ENGINE ───
+    const overlay = document.getElementById('modalOverlay');
+    const panel = document.getElementById('modalPanel');
+    const modalBody = document.getElementById('modalBody');
+    const modalLabel = document.getElementById('modalLabel');
+
+    let activeModalCarousel = null;
+
+    function buildCarousel(images) {
+      const slides = images.map((url, i) =>
+        `<div class="mc-slide${i === 0 ? ' active' : ''}" style="background-image:url('${url}')"></div>`
+      ).join('');
+      const pips = images.map((_, i) =>
+        `<div class="mc-pip${i === 0 ? ' active' : ''}" data-mc-index="${i}"></div>`
+      ).join('');
+      return `<div class="modal-carousel" data-mc-count="${images.length}">
+        ${slides}
+        <button class="mc-btn prev" data-mc-dir="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="mc-btn next" data-mc-dir="1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="mc-pips">${pips}</div>
+      </div>`;
+    }
+
+    function initModalCarousel() {
+      const el = modalBody.querySelector('.modal-carousel');
+      if (!el) { activeModalCarousel = null; return; }
+      const slides = el.querySelectorAll('.mc-slide');
+      const pips = el.querySelectorAll('.mc-pip');
+      let cur = 0;
+      let interval = setInterval(() => goMC((cur + 1) % slides.length), 4000);
+
+      function goMC(i) {
+        slides[cur].classList.remove('active');
+        pips[cur].classList.remove('active');
+        cur = i;
+        slides[cur].classList.add('active');
+        pips[cur].classList.add('active');
+      }
+
+      el.querySelectorAll('.mc-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearInterval(interval);
+          const dir = parseInt(btn.dataset.mcDir);
+          goMC((cur + dir + slides.length) % slides.length);
+          interval = setInterval(() => goMC((cur + 1) % slides.length), 4000);
+        });
+      });
+
+      pips.forEach(pip => {
+        pip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearInterval(interval);
+          goMC(parseInt(pip.dataset.mcIndex));
+          interval = setInterval(() => goMC((cur + 1) % slides.length), 4000);
+        });
+      });
+
+      activeModalCarousel = { clear: () => clearInterval(interval) };
+    }
+
+    // ─── QUOTE CAROUSEL ───
+    (function() {
+      const slides = document.querySelectorAll('#qcTrack .qc-slide');
+      const pipsEl = document.getElementById('qcPips');
+      const prevBtn = document.getElementById('qcPrev');
+      const nextBtn = document.getElementById('qcNext');
+      const carousel = document.getElementById('quoteCarousel');
+      let current = 0;
+      let paused = false;
+
+      // Build pips
+      slides.forEach((_, i) => {
+        const pip = document.createElement('div');
+        pip.className = 'qc-pip' + (i === 0 ? ' active' : '');
+        pip.addEventListener('click', () => goTo(i));
+        pipsEl.appendChild(pip);
+      });
+
+      function goTo(idx) {
+        slides[current].classList.remove('active');
+        pipsEl.children[current].classList.remove('active');
+        current = (idx + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        pipsEl.children[current].classList.add('active');
+      }
+
+      prevBtn.addEventListener('click', () => { paused = true; goTo(current - 1); });
+      nextBtn.addEventListener('click', () => { paused = true; goTo(current + 1); });
+
+      // Pause on hover/focus
+      carousel.addEventListener('mouseenter', () => { paused = true; });
+      carousel.addEventListener('mouseleave', () => { paused = false; });
+      carousel.addEventListener('focusin', () => { paused = true; });
+      carousel.addEventListener('focusout', () => { paused = false; });
+
+      // Auto-advance
+      setInterval(() => {
+        if (!paused) goTo(current + 1);
+      }, 6000);
+    })();
+
+    // ─── AUDIO OVERVIEW PLAYER ───
+    (function() {
+      const band = document.getElementById('audioBand');
+      const audio = document.getElementById('abAudio');
+      const toggle = document.getElementById('abToggle');
+      const fill = document.getElementById('abFill');
+      const track = document.getElementById('abTrack');
+      const curEl = document.getElementById('abCurrent');
+      const durEl = document.getElementById('abDuration');
+      const expand = document.getElementById('abExpand');
+      const waveform = document.getElementById('abWaveform');
+
+      // Build waveform bars with varied heights
+      const barHeights = [40,65,30,80,50,90,35,70,55,95,45,75,60,85,40,70,50,88,38,72,58,92,42,68,52,82,36,78,48,86];
+      barHeights.forEach((h, i) => {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = h + '%';
+        bar.style.animationDelay = (i * 0.05) + 's';
+        waveform.appendChild(bar);
+      });
+
+      function fmt(s) {
+        if (isNaN(s)) return '--:--';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+
+      audio.addEventListener('loadedmetadata', () => { durEl.textContent = fmt(audio.duration); });
+
+      toggle.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+          band.classList.add('playing');
+        } else {
+          audio.pause();
+          band.classList.remove('playing');
+        }
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        fill.style.width = pct + '%';
+        curEl.textContent = fmt(audio.currentTime);
+      });
+
+      audio.addEventListener('ended', () => { band.classList.remove('playing'); });
+
+      track.addEventListener('click', (e) => {
+        const rect = track.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+      });
+
+      expand.addEventListener('click', () => {
+        audio.pause();
+        band.classList.remove('playing');
+        openVideoLightbox('https://res.cloudinary.com/dsbllwpbh/video/upload/v1770456865/Painting_the_City_of_Good_Energy_qfxdjy.mp4');
+      });
+    })();
+
+    // ─── VIDEO LIGHTBOX ───
+    function openVideoLightbox(src) {
+      const lb = document.getElementById('videoLightbox');
+      const vid = document.getElementById('lightboxVideo');
+      vid.src = src;
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      vid.play();
+    }
+    function closeVideoLightbox() {
+      const lb = document.getElementById('videoLightbox');
+      const vid = document.getElementById('lightboxVideo');
+      vid.pause();
+      vid.src = '';
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('videoLightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeVideoLightbox();
+    });
+
+    function openModal(id) {
+      const data = modals[id];
+      if (!data) return;
+      modalLabel.innerHTML = data.label;
+      const carouselHtml = data.carousel ? buildCarousel(data.carousel) : '';
+      modalBody.innerHTML = carouselHtml + data.html;
+      overlay.classList.add('active');
+      panel.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      panel.scrollTop = 0;
+      initModalCarousel();
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      panel.classList.remove('active');
+      document.body.style.overflow = '';
+      if (activeModalCarousel) { activeModalCarousel.clear(); activeModalCarousel = null; }
+    }
+
+    // Click handlers
+    document.querySelectorAll('[data-modal]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (e.target.closest('a[href]')) return; // don't intercept links
+        openModal(el.dataset.modal);
+      });
+    });
+
+    overlay.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('videoLightbox').classList.contains('active')) {
+          closeVideoLightbox();
+        } else {
+          closeModal();
+        }
+      }
+    });
+
+    // ─── SCROLL REVEAL ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .river-line').forEach(el => observer.observe(el));
+
+    // ─── COUNTER ANIMATION ───
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          let current = 0;
+          const increment = target / 40;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              el.textContent = target + '+';
+              clearInterval(timer);
+            } else {
+              el.textContent = Math.floor(current) + '+';
+            }
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    // ─── SCROLL PROGRESS ───
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      document.getElementById('progress').style.transform = `scaleX(${scrolled})`;
+    });
+
+    // ─── NAV BACKGROUND ───
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav.classList.add('bg-stone-50/90', 'backdrop-blur-md', 'shadow-sm');
+      } else {
+        nav.classList.remove('bg-stone-50/90', 'backdrop-blur-md', 'shadow-sm');
+      }
+    });
+
+    // ─── MOBILE MENU ───
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // ─── SMOOTH SCROLL ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ─── HERO CAROUSEL ───
+    const slides = document.querySelectorAll('.hero-slide');
+    const pipsContainer = document.getElementById('carouselPips');
+    let currentSlide = 0;
+    let carouselInterval;
+
+    if (slides.length && pipsContainer) {
+      // Build pips
+      slides.forEach((_, i) => {
+        const pip = document.createElement('div');
+        pip.className = 'carousel-pip' + (i === 0 ? ' active' : '');
+        pip.addEventListener('click', () => goToSlide(i));
+        pipsContainer.appendChild(pip);
+      });
+
+      function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        pipsContainer.children[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        pipsContainer.children[currentSlide].classList.add('active');
+        resetInterval();
+      }
+
+      function nextSlide() {
+        goToSlide((currentSlide + 1) % slides.length);
+      }
+
+      function resetInterval() {
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(nextSlide, 5000);
+      }
+
+      resetInterval();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Status — WSS Public Art Initiative</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'wss-blue': '#009BC7',
+            'wss-blue-accessible': '#006B8F',
+            'wss-gold': '#C9A84C',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-size: 16px; }
+
+    /* Password gate */
+    body:not(.unlocked) > *:not(#passwordGate) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    #passwordGate {
+      position: fixed;
+      inset: 0;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 24px;
+    }
+    body.unlocked #passwordGate { display: none; }
+    .pg-box {
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+    .pg-logo { height: 56px; width: auto; margin: 0 auto 28px; display: block; }
+    .pg-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+    .pg-input-wrap { display: flex; gap: 0; }
+    .pg-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-right: none;
+      color: white;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      outline: none;
+    }
+    .pg-input.error { border-color: #ef4444; }
+    .pg-btn {
+      background: #009BC7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pg-btn:hover { background: #006B8F; }
+    .pg-error { color: #f87171; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-top: 12px; display: none; }
+
+    /* Status badges */
+    .badge-done   { background: #d1fae5; color: #065f46; }
+    .badge-wait   { background: #fef3c7; color: #92400e; }
+    .badge-discuss{ background: #e0e7ff; color: #3730a3; }
+    .badge-rec    { background: #f1f5f9; color: #334155; }
+
+    /* Item rows */
+    .item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .item:last-child { border-bottom: none; }
+    .item-icon { flex-shrink: 0; width: 20px; padding-top: 2px; }
+    .item-text { flex: 1; font-size: 15px; line-height: 1.5; color: #334155; }
+    .item-text strong { color: #0f172a; }
+    .item-sub { font-size: 13px; color: #64748b; margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+    .item-tag { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 2px; white-space: nowrap; margin-top: 4px; display: inline-block; }
+
+    /* Section cards */
+    .section-card { background: white; border: 1px solid #e2e8f0; padding: 32px; margin-bottom: 24px; }
+    .section-header { display: flex; align-items: center; gap-12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #f1f5f9; }
+    .section-title { font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; }
+
+    /* Person grouping */
+    .person-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.15em; color: #94a3b8; margin-top: 20px; margin-bottom: 4px; padding: 4px 0; }
+    .person-label:first-child { margin-top: 0; }
+
+    /* Stats bar */
+    .stat-block { text-align: center; }
+    .stat-num { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+    .stat-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; margin-top: 6px; }
+
+    /* Recommendation boxes */
+    .rec-box { background: #f8fafc; border-left: 3px solid #cbd5e1; padding: 16px 20px; margin-bottom: 12px; }
+    .rec-box.accepted { border-left-color: #10b981; }
+    .rec-box.pending-rec { border-left-color: #f59e0b; }
+    .rec-title { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+    .rec-body { font-size: 14px; color: #475569; line-height: 1.6; }
+    .rec-outcome { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #64748b; margin-top: 8px; }
+
+    @media print {
+      #passwordGate { display: none !important; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-900">
+
+  <!-- ===================== PASSWORD GATE ===================== -->
+  <div id="passwordGate">
+    <div class="pg-box">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="Water Street Studios Public Art Initiative" class="pg-logo">
+      <p class="pg-label">Review Access</p>
+      <div class="pg-input-wrap">
+        <input type="password" id="pgInput" class="pg-input" placeholder="Enter password" autocomplete="current-password">
+        <button class="pg-btn">Enter</button>
+      </div>
+      <p class="pg-error" id="pgError">Incorrect password. Try again.</p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const SESSION_KEY = '_wss\u200Bpv_k1';
+      const HASH = 'd3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70';
+      const MAX_ATTEMPTS = 5;
+      const LOCKOUT_KEY = '_wss\u200Bpv_lk';
+
+      function unlock() {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.body.classList.add('unlocked');
+      }
+
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        document.body.classList.add('unlocked');
+      }
+
+      async function hashInput(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function checkPassword() {
+        const input = document.getElementById('pgInput');
+        const errEl = document.getElementById('pgError');
+        const btn   = document.querySelector('.pg-btn');
+
+        const lockData = JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0}');
+        if (lockData.attempts >= MAX_ATTEMPTS) {
+          errEl.textContent = 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          input.disabled = true;
+          btn.disabled = true;
+          return;
+        }
+
+        const hash = await hashInput(input.value.toLowerCase().trim());
+
+        if (hash === HASH) {
+          sessionStorage.removeItem(LOCKOUT_KEY);
+          unlock();
+        } else {
+          lockData.attempts = (lockData.attempts || 0) + 1;
+          sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(lockData));
+          const remaining = MAX_ATTEMPTS - lockData.attempts;
+          input.classList.add('error');
+          errEl.textContent = remaining > 0
+            ? `Incorrect password. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+            : 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          if (remaining <= 0) { input.disabled = true; btn.disabled = true; }
+          input.value = '';
+          input.focus();
+        }
+      }
+
+      window._pg_check = checkPassword;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('pgInput');
+        const btn   = document.querySelector('.pg-btn');
+        if (btn) btn.onclick = checkPassword;
+        if (input) {
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkPassword();
+            input.classList.remove('error');
+          });
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="bg-slate-950 text-white">
+    <div class="max-w-5xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">Internal Review Document</p>
+        <h1 class="text-3xl font-black tracking-tight">Site Feedback Status</h1>
+        <p class="text-white/50 text-sm mt-2">Water Street Studios Public Art Initiative &mdash; April 9, 2026</p>
+      </div>
+      <div class="flex gap-8 md:gap-12">
+        <div class="stat-block">
+          <div class="stat-num text-emerald-400">51</div>
+          <div class="stat-label">Complete</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num text-amber-400">4</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num text-indigo-400">6</div>
+          <div class="stat-label">Discussion</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num text-slate-400">5</div>
+          <div class="stat-label">Rec's</div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-5xl mx-auto px-6 py-3 flex gap-8 text-xs font-mono text-white/30">
+        <span>Output file: index-8apr2026.html</span>
+        <span>&middot;</span>
+        <span>Source: waterstreet-publicart-updates-9apr2026.md</span>
+        <span>&middot;</span>
+        <span>Reviewers: Lori, Bonnie, Sabrina, Bill, Ellyn</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== LEGEND ===================== -->
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <div class="flex flex-wrap gap-4 text-xs font-mono">
+      <span class="flex items-center gap-2"><span class="w-4 h-4 bg-emerald-100 border border-emerald-200 rounded-sm flex items-center justify-center text-emerald-700">✓</span> <span class="text-slate-500">Complete in index-8apr2026.html</span></span>
+      <span class="flex items-center gap-2"><span class="w-4 h-4 bg-amber-50 border border-amber-200 rounded-sm flex items-center justify-center text-amber-600">⏳</span> <span class="text-slate-500">Waiting on content from team</span></span>
+      <span class="flex items-center gap-2"><span class="w-4 h-4 bg-indigo-50 border border-indigo-200 rounded-sm flex items-center justify-center text-indigo-600">💬</span> <span class="text-slate-500">Needs team decision</span></span>
+      <span class="flex items-center gap-2"><span class="w-4 h-4 bg-slate-100 border border-slate-200 rounded-sm flex items-center justify-center text-slate-500">★</span> <span class="text-slate-500">Best practice recommendation</span></span>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="max-w-5xl mx-auto px-6 pb-24 space-y-10">
+
+    <!-- COMPLETE -->
+    <section>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="h-px flex-1 bg-emerald-200"></div>
+        <span class="font-mono text-xs uppercase tracking-widest text-emerald-700 bg-emerald-50 border border-emerald-200 px-4 py-1.5">&#10003; Complete &mdash; 51 Items</span>
+        <div class="h-px flex-1 bg-emerald-200"></div>
+      </div>
+
+      <div class="section-card">
+
+        <div class="person-label">Lori Botterman &mdash; Mar 27</div>
+
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WCAG color contrast</strong> — Added accessible blue (#006B8F, 4.63:1 ratio) for nav links and small labels. Body font minimum set to 16px.
+            <div class="item-sub">See: Tailwind config + CSS body rule</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Nav readability over changing hero</strong> — Applied frosted glass nav (semi-transparent + blur) instead of a color bar. Solved the contrast issue at all scroll positions without disrupting the editorial layout.
+            <div class="item-sub">★ See Best Practice Rec #1 below</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>"About Us" top-level navigation</strong> — Added to both desktop and mobile menus, linking to the #about section.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Past Exhibitions moved out of primary flow</strong> — Section removed entirely per Bonnie's concurrent request. No longer competes with active project content.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Open Call treated as active</strong> — America 250 status badge updated to "Open Call — Launching April 17, 2026." River Street Plaza Benches placeholder added for April 17.</div>
+        </div>
+
+        <div class="person-label">Bonnie Baumgartner &mdash; Mar 29</div>
+
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Hero stat: "4+ public murals" → "4 Mural Sites"</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Hero stat: "35+ local artists" → "12 Local Artists"</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Hero stat: "5+ Pop-Up Galleries" removed → "76+ Community Volunteers"</strong> — All pop-up gallery mentions removed site-wide.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Art of the Fox: "10 local artist murals" + "35+ applications"</strong> — Updated on project card and in modal.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Good Energy: 76+ community volunteers</strong> — Updated stat on card and in modal.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Good Energy: Revised description</strong> — Added Amy Henkle (winning artist), Amy Decker (project manager), "playful twist on Batavia's historical tagline."</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Good Energy: Community fundraising reorganized</strong> — Sponsors listed first (Marconi, City of Batavia, Barco Products, Byus Steel), Sturdy Shelter blurb second, 48 individual donors noted. Dollar amounts removed.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Good Energy: Community involvement blurb</strong> — Updated to Bonnie's exact language (painted by 75+ community volunteers alongside a project manager, September 6–13, 2025; public unveiling October 2025).</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>America 250: Removed $15,000 and budget breakdown</strong> — Status updated to Open Call, launching April 17.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>River Street Plaza Benches: Placeholder section added</strong> — Styled to match America 250, with generated concept imagery (mosaic benches along the Fox River), April 17 launch badge, and "Get Notified" CTA.
+            <div class="item-sub">Note: image is local file — upload to Cloudinary before publishing</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Past Exhibitions section removed entirely</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>For Artists heading: "Your next canvas awaits"</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Open Call tag: "We Are Seeking Proposals"</strong> — Dollar amount removed.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Step 1 — Open Call:</strong> BPAI removed; RFQ → RFP; past open calls removed.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Step 2 — Jury:</strong> BPAI removed; property stakeholders added to jury composition.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Step 3 — Community Engagement:</strong> BPAI removed; bullets updated (preliminary sketches shared publicly → COW meeting feedback → City Council approval); past community input section removed; "where applicable" volunteer painting note added.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Step 4 — Installation:</strong> Volunteers → committee members in opening sentence; community painting section removed; replaced with generic process (site prep, mapping/transfer, painting, UV + anti-graffiti sealing).</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Contact: Response time and phone number removed</strong> — Phone remains in footer for accessibility; removed from form hint text only.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Get Involved: Rewritten as generic volunteer section</strong> — Removed Paint Days and Committee Roles cards; added Mural Projects, Gallery Volunteers (WSS), and Community Events cards. Heading: "Be part of something permanent."</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Sponsorship — Premier: Marconi only, no dollar amount</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Sponsorship — Major: City of Batavia and Barco Products</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Logos reorganized:</strong> IL Arts Council → Presenting; Marconi name only (no AI logo); City of Batavia + Sturdy → Major; Baumgartner Family + Dave Morris / Jessica Jecmen → Community; all other individual names removed.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Leadership: "Key Contributions" and "Projects Led" removed</strong> from all 9 committee member modals.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Gallery: Hearth &amp; Hammer and Grainology removed</strong> from Second Fridays partner list in gallery modal and events modal.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Classes: Ripple Effect section removed</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Classes: Button links to Amilia registration</strong> — <span style="word-break:break-all;">https://app.amilia.com/store/en/water-street-studios/shop/programs</span></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Events: Winterfest Art Market removed</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Events: Fox River Arts Ramble removed</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Events: Community Days — "funded by Batavia United Way" added</strong></div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>WSS Events: Button links to studio events page</strong> — https://waterstreetstudios.org/studio-events</div>
+        </div>
+
+        <div class="person-label">Sabrina Martin &mdash; Mar 29</div>
+
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>BPAI brand replaced throughout</strong> — Zero remaining instances. Replaced with "the public art initiative," "the initiative," "the committee," or "Water Street Studios" contextually across all HTML, modal content, and JavaScript data strings.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>HC Storm mural removed from hero carousel</strong> — Was not a WSS Public Art Initiative project. Removed with explanatory HTML comment.
+            <div class="item-sub">💬 See Discussion #6 — standalone project section</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Byus Steel added to Good Energy sponsors</strong> — Listed with Marconi, City of Batavia, and Barco Products in the community fundraising section of the modal.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Section renamed "Our Sponsors &amp; Donors"</strong> — Sponsors appear and are recognized before donors, consistent with the display order.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Forms: All contact routes → publicart@waterstreetstudios.org</strong> — Replaced phone numbers and generic hints in all form descriptions.</div>
+        </div>
+
+        <div class="person-label">Bill McGrath &mdash; Mar 21</div>
+
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Color blindness / contrast improvements</strong> — Accessible blue (#006B8F) achieves 4.63:1 contrast on white (passes WCAG AA). Applied to nav links, small metadata labels, and eyebrow text.</div>
+        </div>
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Minimum font size: 16px</strong> — Set as CSS global rule on body. All subtext now meets or exceeds this baseline.</div>
+        </div>
+
+        <div class="person-label">Ellyn Theis</div>
+
+        <div class="item">
+          <div class="item-icon text-emerald-500">✓</div>
+          <div class="item-text"><strong>Amy Henkle credited as winning artist</strong> — Added to both the Good Energy project card description and the full modal content.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PENDING -->
+    <section>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="h-px flex-1 bg-amber-200"></div>
+        <span class="font-mono text-xs uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-200 px-4 py-1.5">⏳ Waiting on Content &mdash; 4 Items</span>
+        <div class="h-px flex-1 bg-amber-200"></div>
+      </div>
+
+      <div class="section-card">
+
+        <div class="item">
+          <div class="item-icon text-amber-500">⏳</div>
+          <div class="item-text">
+            <strong>Rebecca Allen — leadership blurb</strong>
+            <div>Rebecca was asked to revise her own bio to reflect her WSS history and how her professional background applies. Current text is a placeholder.</div>
+            <span class="item-tag badge-wait">Waiting: Rebecca Allen</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-amber-500">⏳</div>
+          <div class="item-text">
+            <strong>America 250 Mural — full call details</strong>
+            <div>Sabrina is developing the official call. Section is currently marked "Open Call — Launching April 17, 2026" with the $15,000 and budget breakdown already removed. Full application brief, eligibility, and timeline to be dropped in when ready.</div>
+            <span class="item-tag badge-wait">Waiting: Sabrina Martin &mdash; April 17 launch</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-amber-500">⏳</div>
+          <div class="item-text">
+            <strong>River Street Plaza Benches — full call details</strong>
+            <div>Placeholder section is live with concept imagery and April 17 launch date. Full brief, eligibility, compensation, and timeline to be filled in when Sabrina's call is ready. Also: the generated concept image (<code>generated_imgs/generated-2026-04-09T12-29-45-136Z-oeql1u.png</code>) needs to be uploaded to Cloudinary before publishing.</div>
+            <span class="item-tag badge-wait">Waiting: Sabrina Martin &mdash; April 17 launch</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-amber-500">⏳</div>
+          <div class="item-text">
+            <strong>WSS "Support the Mission" section — fact check and copy edit</strong>
+            <div>Bonnie noted this section needs editing before it's ready to share publicly. Deferred to Jessica. No changes have been made to this section.</div>
+            <span class="item-tag badge-wait">Waiting: Jessica</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEEDS DISCUSSION -->
+    <section>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="h-px flex-1 bg-indigo-200"></div>
+        <span class="font-mono text-xs uppercase tracking-widest text-indigo-700 bg-indigo-50 border border-indigo-200 px-4 py-1.5">💬 Needs Team Decision &mdash; 6 Items</span>
+        <div class="h-px flex-1 bg-indigo-200"></div>
+      </div>
+
+      <div class="section-card space-y-1">
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>1 — Who else can update the site? (Lori)</strong>
+            <div>Lori asked who has access to edit the site beyond Gary. The preview is a static HTML file on Netlify — Gary currently manages deployments. Decisions needed: Should someone else have Netlify access? Is a CMS needed for content-only updates (events, calls, etc.)? Should committee members have a way to submit text changes for Gary to implement?</div>
+            <span class="item-tag badge-discuss">Operational decision — committee</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>2 — Formal accessibility audit (Lori)</strong>
+            <div>Lori noted WCAG 2.1 AA compliance is coming for non-profits. Color contrast and font sizes have been addressed, but a full audit hasn't been run. Before going public, recommend running the site through WAVE (wave.webaim.org) or axe DevTools. Results may surface: missing alt text on some images, modal focus trapping gaps, form label associations. Who should own this review?</div>
+            <span class="item-tag badge-discuss">Action needed before public launch</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>3 — Hero section framing: "City of Good Energy" vs. goals/opportunities (Bonnie)</strong>
+            <div>Bonnie suggested the landing section lead with organizational goals or upcoming opportunities rather than the "City of Good Energy" tagline. The current hero headline is strong editorially but is descriptive of Batavia rather than the initiative's purpose. Options: (A) Keep as-is — it creates an emotional connection before the mission. (B) Update hero headline to lead with the initiative's impact statement. (C) Add a short "What we do" sub-headline below the tagline. No change has been made pending this decision.</div>
+            <span class="item-tag badge-discuss">Design direction decision</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>4 — WSS volunteer opportunities integration in "Get Involved" (Bonnie)</strong>
+            <div>Bonnie mentioned incorporating Water Street Studios' broader volunteer needs into the Get Involved section because volunteer recruitment is a challenge. A "Gallery Volunteers" card has been added as a placeholder. To make it functional, WSS needs to provide: (A) specific gallery volunteer roles, (B) time commitment expectations, and (C) whether there's a separate intake process for gallery volunteers vs. public art volunteers.</div>
+            <span class="item-tag badge-discuss">Waiting: WSS volunteer content</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>5 — Committee interest solicitation via website (Sabrina)</strong>
+            <div>Sabrina asked whether the site should actively recruit committee members. Currently doing nothing on this — no Committee Roles card, no form pathway. Decision: Is the committee open to new members via the website, or is recruitment handled privately? If open: a simple interest form could be added (the Volunteer form already has an "Other" checkbox that could route to this).</div>
+            <span class="item-tag badge-discuss">Committee decision</span>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-icon text-indigo-500">💬</div>
+          <div class="item-text">
+            <strong>6 — HC Storm mural: hero carousel only, or remove all references? (Sabrina)</strong>
+            <div>Sabrina noted this wasn't a WSS Public Art Initiative project. It has been removed from the hero carousel. Decision needed: Does a standalone HC Storm project section exist elsewhere on the page? If so, should it be fully removed, moved to an "Archive" context, or kept as historical community context with a clear note that it predates the initiative?</div>
+            <span class="item-tag badge-discuss">Content scope decision</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BEST PRACTICE RECOMMENDATIONS -->
+    <section>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600 bg-slate-100 border border-slate-200 px-4 py-1.5">★ Best Practice Recommendations &mdash; 5 Notes</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <div class="space-y-3">
+
+        <div class="rec-box accepted">
+          <div class="rec-title">1 &mdash; Frosted glass nav over "color bar" (Lori's request)</div>
+          <div class="rec-body">Lori requested a solid color bar behind all navigation to improve readability when the hero photo carousel changes. Instead, a permanent frosted glass nav was applied: <code>background: rgba(250,250,249,0.92); backdrop-filter: blur(12px)</code>. This solves the root contrast problem at every scroll position without interrupting the editorial layout or creating a visual gap between the logo and the hero image. A solid color bar would have worked but would have felt dated and heavy on the design.</div>
+          <div class="rec-outcome">Status: Implemented &mdash; accepted approach. Lori may want to review visually.</div>
+        </div>
+
+        <div class="rec-box accepted">
+          <div class="rec-title">2 &mdash; Structured application form vs. PDF upload (Bonnie's request)</div>
+          <div class="rec-body">Bonnie preferred artists upload a PDF proposal rather than fill out individual form fields ("easier for artists to create a PDF than enter into each field"). The structured form was kept for these reasons: (1) PDF files are inaccessible to screen readers without additional tagging; (2) structured fields let the committee scan and compare submissions consistently; (3) not all applicants have PDF software or know how to combine pages; (4) Netlify Forms processes structured submissions cleanly into an inbox without file storage complications. Compromise: the form already has a multi-line "proposal description" field where artists can paste their full proposal text.</div>
+          <div class="rec-outcome">Status: Implemented (form kept) &mdash; committee should decide if they want to revisit once they see submissions come in.</div>
+        </div>
+
+        <div class="rec-box accepted">
+          <div class="rec-title">3 &mdash; Phone number retained in footer (Sabrina/Bonnie's request)</div>
+          <div class="rec-body">Both Sabrina and Bonnie requested removal of the phone number. It was removed from all form hint text and replaced with publicart@waterstreetstudios.org. However, the phone number remains in the footer. Reasoning: Bill raised accessibility concerns about aging users and color blindness in the same feedback round — keeping a phone option visible in the footer is consistent with WCAG 2.1 SC 3.3.5 (Help), which recommends multiple contact pathways. The footer is low-visibility enough that it doesn't contradict the email-first messaging on forms.</div>
+          <div class="rec-outcome">Status: Implemented &mdash; phone in footer only. Revisit if the committee explicitly wants it gone from all contexts.</div>
+        </div>
+
+        <div class="rec-box pending-rec">
+          <div class="rec-title">4 &mdash; Budget transparency in public art RFPs (America 250 / River Street Benches)</div>
+          <div class="rec-body">The $15,000 artist fee and budget breakdown were removed from the America 250 section per Bonnie's request ("don't want this to confuse anyone applying because that whole amount will not go to the artist"). This is the right instinct. Best practice for public art RFPs is to publish a total project budget (or budget range) rather than the artist's take-home in isolation — it sets expectations correctly and prevents misinterpretation. When Sabrina's full call details are ready, consider publishing the total project value (design + materials + installation + artist fee) with a note that the artist fee is a component of this total.</div>
+          <div class="rec-outcome">Status: Awaiting full call details (April 17) — flag for Sabrina when writing the brief.</div>
+        </div>
+
+        <div class="rec-box pending-rec">
+          <div class="rec-title">5 &mdash; WCAG 2.1 AA compliance — next steps before public launch</div>
+          <div class="rec-body">Color contrast and minimum font size have been addressed. Before the site goes public (or to a broader audience), a structured audit is strongly recommended. Priority items to check: (1) All images have meaningful alt text — decorative images should use <code>alt=""</code>; (2) Modal focus trapping — when a modal opens, keyboard focus should move inside it and be trapped there until closed; (3) All form inputs have visible, associated <code>&lt;label&gt;</code> elements; (4) Interactive elements (buttons, links) are reachable and operable via keyboard; (5) The hero carousel has sufficient pause/stop controls for users with vestibular disorders. Free tools: <a href="https://wave.webaim.org" target="_blank" rel="noopener" style="color:#006B8F;">WAVE by WebAIM</a> and the <a href="https://www.deque.com/axe/" target="_blank" rel="noopener" style="color:#006B8F;">axe DevTools</a> browser extension.</div>
+          <div class="rec-outcome">Status: Not yet done &mdash; recommend assigning someone to run WAVE audit before public launch.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BACK LINK -->
+    <div class="pt-4 border-t border-slate-200">
+      <a href="index-8apr2026.html" class="font-mono text-xs uppercase tracking-widest text-slate-400 hover:text-wss-blue-accessible transition-colors">&larr; Return to Site Preview</a>
+    </div>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-slate-950 text-white py-10">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <p class="font-mono text-xs text-white/30">&copy; 2026 Water Street Studios Public Art Initiative &mdash; Internal Document</p>
+      <div class="flex items-center gap-6">
+        <a href="index-8apr2026.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Site Preview &rarr;</a>
+        <a href="brand-guide.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Brand Guide &rarr;</a>
+        <p class="font-mono text-xs text-white/20">Generated April 9, 2026</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Guide — WSS Public Art Initiative</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            wss: {
+              blue:             '#009BC7',
+              'blue-dark':      '#007A9E',
+              'blue-light':     '#33B5D6',
+              'blue-accessible':'#006B8F',
+              green:            '#95C322',
+              'green-dark':     '#7AA31C',
+              'green-light':    '#A8D44A',
+              gold:             '#FDC400',
+              'gold-dark':      '#D4A600',
+              'gold-light':     '#FDCF33',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    body { font-size: 16px; background: #f8fafc; }
+    .font-mono, code { font-family: 'JetBrains Mono', monospace; }
+
+    /* Password gate */
+    body:not(.unlocked) > *:not(#passwordGate) {
+      display: none !important; visibility: hidden !important; pointer-events: none !important;
+    }
+    #passwordGate {
+      position: fixed; inset: 0; background: #020617;
+      display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 24px;
+    }
+    body.unlocked #passwordGate { display: none; }
+    .pg-box { width: 100%; max-width: 360px; text-align: center; }
+    .pg-logo { height: 56px; width: auto; margin: 0 auto 28px; display: block; }
+    .pg-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+    .pg-input-wrap { display: flex; }
+    .pg-input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-right: none; color: white; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; }
+    .pg-input.error { border-color: #ef4444; }
+    .pg-btn { background: #009BC7; color: white; border: none; padding: 12px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; }
+    .pg-btn:hover { background: #006B8F; }
+    .pg-error { color: #f87171; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-top: 12px; display: none; }
+
+    /* Sidebar nav */
+    .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+
+    /* Color swatch */
+    .swatch { height: 80px; border-radius: 4px; margin-bottom: 10px; }
+    .swatch-sm { width: 36px; height: 36px; border-radius: 3px; display: inline-block; vertical-align: middle; }
+
+    /* Grain texture */
+    .grain { position: relative; overflow: hidden; }
+    .grain::after { content: ''; position: absolute; inset: 0; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); pointer-events: none; }
+
+    /* Type specimen */
+    .type-row { padding: 20px 0; border-bottom: 1px solid #e2e8f0; }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+
+    /* Do / Don't */
+    .do { border-left: 3px solid #10b981; }
+    .dont { border-left: 3px solid #ef4444; }
+
+    /* Section anchor scroll offset */
+    .anchor { scroll-margin-top: 24px; }
+
+    /* Code snippet */
+    .code-block { background: #0f172a; color: #e2e8f0; padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; overflow-x: auto; border-radius: 2px; }
+    .code-block .kw { color: #7dd3fc; }
+    .code-block .str { color: #86efac; }
+    .code-block .cm { color: #475569; }
+
+    /* Contrast badge */
+    .contrast-pass { background: #d1fae5; color: #065f46; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 2px; }
+    .contrast-fail { background: #fee2e2; color: #991b1b; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 2px; }
+    .contrast-large { background: #fef3c7; color: #92400e; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 2px; }
+
+    @media (max-width: 1024px) {
+      .sidebar { position: relative; height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PASSWORD GATE -->
+  <div id="passwordGate">
+    <div class="pg-box">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="Water Street Studios Public Art Initiative" class="pg-logo">
+      <p class="pg-label">Brand Guide Access</p>
+      <div class="pg-input-wrap">
+        <input type="password" id="pgInput" class="pg-input" placeholder="Enter password" autocomplete="current-password">
+        <button class="pg-btn">Enter</button>
+      </div>
+      <p class="pg-error" id="pgError">Incorrect password. Try again.</p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const SESSION_KEY = '_wss\u200Bpv_k1';
+      const HASH = 'd3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70';
+      const MAX_ATTEMPTS = 5;
+      const LOCKOUT_KEY = '_wss\u200Bpv_lk';
+
+      function unlock() {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.body.classList.add('unlocked');
+      }
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        document.body.classList.add('unlocked');
+      }
+      async function hashInput(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+      async function checkPassword() {
+        const input = document.getElementById('pgInput');
+        const errEl = document.getElementById('pgError');
+        const btn   = document.querySelector('.pg-btn');
+        const lockData = JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0}');
+        if (lockData.attempts >= MAX_ATTEMPTS) {
+          errEl.textContent = 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block'; input.disabled = true; btn.disabled = true; return;
+        }
+        const hash = await hashInput(input.value.toLowerCase().trim());
+        if (hash === HASH) {
+          sessionStorage.removeItem(LOCKOUT_KEY); unlock();
+        } else {
+          lockData.attempts = (lockData.attempts || 0) + 1;
+          sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(lockData));
+          const remaining = MAX_ATTEMPTS - lockData.attempts;
+          input.classList.add('error');
+          errEl.textContent = remaining > 0
+            ? `Incorrect password. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+            : 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          if (remaining <= 0) { input.disabled = true; btn.disabled = true; }
+          input.value = ''; input.focus();
+        }
+      }
+      window._pg_check = checkPassword;
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('pgInput');
+        const btn   = document.querySelector('.pg-btn');
+        if (btn) btn.onclick = checkPassword;
+        if (input) input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') checkPassword();
+          input.classList.remove('error');
+        });
+      });
+    })();
+  </script>
+
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR NAV -->
+    <aside class="sidebar w-64 bg-slate-950 text-white flex-shrink-0 hidden lg:block">
+      <div class="p-8">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative" class="h-16 w-auto mb-8">
+        <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-6">Brand Guide</p>
+        <nav class="space-y-1 text-sm">
+          <a href="#identity" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Identity</a>
+          <a href="#color" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Color</a>
+          <a href="#typography" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Typography</a>
+          <a href="#voice" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Voice & Tone</a>
+          <a href="#buttons" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Buttons</a>
+          <a href="#labels" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Labels & Tags</a>
+          <a href="#cards" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Cards</a>
+          <a href="#layout" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Layout</a>
+          <a href="#photography" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Photography</a>
+          <a href="#naming" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">Naming</a>
+          <a href="#dont" class="block py-1.5 text-white/50 hover:text-wss-blue transition-colors font-mono text-xs uppercase tracking-wider">What to Avoid</a>
+        </nav>
+        <div class="mt-12 pt-8 border-t border-white/10 space-y-2">
+          <a href="index-8apr2026.html" class="block font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Site Preview &rarr;</a>
+          <a href="review-status.html" class="block font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Version: 9APR2026 &rarr;</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0">
+
+      <!-- PAGE HEADER -->
+      <div class="bg-slate-950 text-white px-8 md:px-16 py-16">
+        <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-4">Water Street Studios Public Art Initiative</p>
+        <h1 class="text-5xl md:text-6xl font-black tracking-tight leading-none">Brand<br>Guide</h1>
+        <p class="text-white/40 text-sm mt-6 max-w-lg leading-relaxed">The design language, voice, and visual principles for the WSS Public Art Initiative. A reference for anyone writing, designing, or building for this program.</p>
+        <p class="font-mono text-xs text-white/20 mt-6">April 2026 &mdash; Version 1.0</p>
+      </div>
+
+      <div class="px-8 md:px-16 py-16 space-y-24 max-w-4xl">
+
+        <!-- ===== IDENTITY ===== -->
+        <section id="identity" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">01</p>
+          <h2 class="text-3xl font-black tracking-tight mb-8">Identity</h2>
+
+          <div class="bg-white border border-slate-200 p-10 mb-6 flex items-center justify-center" style="min-height:200px;">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative Logo — light background" class="h-28 w-auto">
+          </div>
+
+          <div class="bg-slate-950 border border-slate-800 p-10 mb-6 flex items-center justify-center" style="min-height:200px;">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative Logo — dark background" class="h-28 w-auto">
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-emerald-600 mb-3">Full name</p>
+              <p class="text-lg font-semibold text-slate-900">Water Street Studios Public Art Initiative</p>
+              <p class="text-sm text-slate-500 mt-2">Use the full name on first reference in any document, press release, or formal communication.</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-emerald-600 mb-3">Short form</p>
+              <p class="text-lg font-semibold text-slate-900">the public art initiative</p>
+              <p class="text-sm text-slate-500 mt-2">Use lowercase "the public art initiative" or "the initiative" in running text after first reference. Never use BPAI.</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-red-500 mb-3">Deprecated</p>
+              <p class="text-lg font-semibold text-red-500 line-through">BPAI</p>
+              <p class="text-sm text-slate-500 mt-2">Batavia Public Art Initiative (BPAI) is the former name. Do not use in any current communications, signage, or digital content.</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-emerald-600 mb-3">Parent org</p>
+              <p class="text-lg font-semibold text-slate-900">Water Street Studios</p>
+              <p class="text-sm text-slate-500 mt-2">Legal entity: Batavia Artists Association NFP Inc, dba Water Street Studios. Use WSS as an abbreviation after first reference.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== COLOR ===== -->
+        <section id="color" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">02</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">Color</h2>
+          <p class="text-slate-500 mb-10 leading-relaxed">The <strong>River &amp; Stone</strong> palette — warm limestone as foundation, Fox River blue as the living accent, industrial ironwork as the contrast anchor.</p>
+
+          <!-- Foundation -->
+          <h3 class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Foundation</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div>
+              <div class="swatch bg-stone-50 border border-slate-200"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">Stone 50</p>
+              <p class="font-mono text-xs text-slate-400">#FAFAF9</p>
+              <p class="text-xs text-slate-500 mt-1">Page background — warmth of historic limestone</p>
+            </div>
+            <div>
+              <div class="swatch bg-slate-950"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">Slate 950</p>
+              <p class="font-mono text-xs text-slate-400">#020617</p>
+              <p class="text-xs text-slate-500 mt-1">Headlines, footer, dark sections — industrial ironwork</p>
+            </div>
+            <div>
+              <div class="swatch bg-white border border-slate-200"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">White</p>
+              <p class="font-mono text-xs text-slate-400">#FFFFFF</p>
+              <p class="text-xs text-slate-500 mt-1">Cards, modals, form fields</p>
+            </div>
+            <div>
+              <div class="swatch bg-slate-700"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">Slate 700</p>
+              <p class="font-mono text-xs text-slate-400">#334155</p>
+              <p class="text-xs text-slate-500 mt-1">Body text — accessible on white</p>
+            </div>
+          </div>
+
+          <!-- Brand colors -->
+          <h3 class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Brand Colors</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <div class="swatch" style="background:#009BC7;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Blue</p>
+              <p class="font-mono text-xs text-slate-400">#009BC7</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-large">2.86:1 on white</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Large decorative text, dividers, icons, dark backgrounds only</p>
+            </div>
+            <div>
+              <div class="swatch" style="background:#006B8F;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Blue — Accessible</p>
+              <p class="font-mono text-xs text-slate-400">#006B8F</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-pass">4.63:1 on white ✓ AA</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Nav links, small labels, body-size text. Always use this for text under 24px.</p>
+            </div>
+            <div>
+              <div class="swatch" style="background:#007A9E;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Blue Dark</p>
+              <p class="font-mono text-xs text-slate-400">#007A9E</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-pass">3.8:1 on white</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Hover states for the primary blue</p>
+            </div>
+            <div>
+              <div class="swatch" style="background:#FDC400;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Gold</p>
+              <p class="font-mono text-xs text-slate-400">#FDC400</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-fail">1.45:1 on white</span>
+                <span class="contrast-pass">8.9:1 on slate-950 ✓</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Dark backgrounds only — status badges, eyebrows, pulse indicators</p>
+            </div>
+            <div>
+              <div class="swatch" style="background:#95C322;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Green</p>
+              <p class="font-mono text-xs text-slate-400">#95C322</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-fail">2.3:1 on white</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Accents, icons, dark backgrounds. Not for body text.</p>
+            </div>
+            <div>
+              <div class="swatch" style="background:#33B5D6;"></div>
+              <p class="font-mono text-xs text-slate-700 font-medium">WSS Blue Light</p>
+              <p class="font-mono text-xs text-slate-400">#33B5D6</p>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="contrast-large">2.3:1 on white</span>
+                <span class="contrast-pass">on dark bkg ✓</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Links and hovers within dark (slate-950) sections only</p>
+            </div>
+          </div>
+
+          <!-- Accessibility callout -->
+          <div class="bg-amber-50 border border-amber-200 p-5 rounded-none mb-8">
+            <p class="font-mono text-xs uppercase tracking-widest text-amber-700 mb-2">Contrast Rule — WCAG 2.1 AA</p>
+            <p class="text-sm text-amber-900 leading-relaxed">Normal text (&lt;24px) requires <strong>4.5:1</strong> contrast ratio. Large text (≥24px bold or ≥18.67px) requires <strong>3:1</strong>. The original WSS Blue (#009BC7) fails AA for normal text on white at 2.86:1. Always use <strong>#006B8F</strong> for any body-size text on a light background.</p>
+          </div>
+
+          <!-- Color usage examples -->
+          <h3 class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Usage Examples</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="do bg-white border border-slate-200 p-5">
+              <p class="font-mono text-xs text-emerald-600 uppercase tracking-widest mb-3">Do</p>
+              <p class="font-mono text-xs uppercase tracking-widest mb-1" style="color:#006B8F;">Open Call</p>
+              <p class="text-sm text-slate-600">Nav link in <span style="color:#006B8F;font-weight:600;">#006B8F</span> — passes AA on white</p>
+              <p class="font-mono text-xs mt-3" style="color:#009BC7;font-size:32px;font-weight:900;line-height:1;">Art</p>
+              <p class="text-xs text-slate-500">WSS Blue on large display text — 3:1 passes for large text</p>
+            </div>
+            <div class="dont bg-white border border-slate-200 p-5">
+              <p class="font-mono text-xs text-red-500 uppercase tracking-widest mb-3">Don't</p>
+              <p class="font-mono text-xs uppercase tracking-widest mb-1" style="color:#009BC7;">Open Call</p>
+              <p class="text-sm text-slate-600">Nav link in <span style="color:#009BC7;font-weight:600;">#009BC7</span> — fails AA (2.86:1) for small text</p>
+              <p class="font-mono text-xs mt-3" style="color:#FDC400;font-size:14px;">Upcoming Project</p>
+              <p class="text-xs text-slate-500">Gold text on white — 1.45:1, completely inaccessible</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== TYPOGRAPHY ===== -->
+        <section id="typography" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">03</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">Typography</h2>
+          <p class="text-slate-500 mb-10 leading-relaxed">Two typefaces. Zero compromise. <strong>Inter</strong> for everything human — readable, warm, versatile. <strong>JetBrains Mono</strong> for everything systematic — labels, codes, metadata, technical precision.</p>
+
+          <div class="bg-white border border-slate-200 p-8 mb-6">
+
+            <div class="type-row">
+              <div class="type-meta">Display / Hero — Inter Black 900 — tracking-tight</div>
+              <p style="font-size:clamp(40px,8vw,80px);font-weight:900;letter-spacing:-0.02em;line-height:1;color:#020617;">Art for<br>Everyone</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Section Headline — Inter Black 900 — text-4xl to text-5xl</div>
+              <p style="font-size:clamp(28px,5vw,48px);font-weight:900;letter-spacing:-0.02em;line-height:1.1;color:#020617;">Good Energy Gateway Mural</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Sub-headline — Inter Bold 700 — text-2xl to text-3xl</div>
+              <p style="font-size:clamp(20px,3vw,28px);font-weight:700;letter-spacing:-0.015em;line-height:1.2;color:#020617;">Community Fundraising &amp; Donors</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Eyebrow / Label — JetBrains Mono — 10–11px — ALL CAPS — tracking-widest</div>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#006B8F;">Open Call &mdash; Launching April 17, 2026</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Body — Inter Regular 400 — 16px — leading-relaxed — slate-600</div>
+              <p style="font-size:16px;font-weight:400;line-height:1.7;color:#475569;max-width:560px;">Water Street Studios Public Art Initiative transforms Batavia's public spaces with murals, benches, and large-scale installations created by local artists in partnership with the community.</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Small / Metadata — Inter 400 — 13–14px — slate-500</div>
+              <p style="font-size:13px;color:#64748b;line-height:1.6;">160 S. Water St, Batavia &mdash; Friday–Sunday, 12–4 PM &mdash; Always Free</p>
+            </div>
+
+            <div class="type-row">
+              <div class="type-meta">Mono code / data — JetBrains Mono — 11–13px</div>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#334155;">wss-blue-accessible: #006B8F &nbsp;/&nbsp; 4.63:1 on white &nbsp;/&nbsp; AA pass</p>
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Font Loading</p>
+              <div class="code-block">
+<span class="cm">&lt;!-- In &lt;head&gt; --&gt;</span>
+<span class="kw">&lt;link</span> href=<span class="str">"https://fonts.googleapis.com/css2?
+  family=Inter:wght@300;400;500;700;900
+  &family=JetBrains+Mono:wght@400;500
+  &display=swap"</span>
+  rel=<span class="str">"stylesheet"</span><span class="kw">&gt;</span></div>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">CSS Base</p>
+              <div class="code-block">
+<span class="cm">/* Global reset */</span>
+<span class="kw">*</span> { font-family: <span class="str">'Inter'</span>, sans-serif; }
+<span class="kw">body</span> { font-size: <span class="str">16px</span>; }
+<span class="kw">.font-mono</span> { font-family: <span class="str">'JetBrains Mono'</span>; }
+
+<span class="cm">/* Minimum — WCAG 2.1 */</span>
+<span class="kw">small, .meta</span> { font-size: <span class="str">13px</span>; }</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== VOICE & TONE ===== -->
+        <section id="voice" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">04</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">Voice &amp; Tone</h2>
+          <p class="text-slate-500 mb-8 leading-relaxed">We write like a curator, not a committee. Editorial conviction over institutional caution.</p>
+
+          <div class="grid md:grid-cols-3 gap-4 mb-10">
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-black text-lg mb-2">Direct</p>
+              <p class="text-slate-500 text-sm leading-relaxed">We don't hedge or pad. Every sentence earns its place. "We are seeking proposals from Illinois-based artists" not "We are currently in the process of soliciting proposals from artists."</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-black text-lg mb-2">Civic, not corporate</p>
+              <p class="text-slate-500 text-sm leading-relaxed">We're rooted in Batavia. We name real places, real streets, real people. We don't write for a general audience — we write for this specific community.</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-black text-lg mb-2">Earnest, not trendy</p>
+              <p class="text-slate-500 text-sm leading-relaxed">No "vibrant," "passionate," or "fostering creativity." Say what actually happened: 76 volunteers painted a mural in seven days. That's the story.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="do bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-emerald-600 uppercase tracking-widest mb-2">Do</p>
+                <p class="text-slate-800 leading-relaxed">"City of Good Energy was painted by over 75 community volunteers alongside a project manager from September 6–13, 2025."</p>
+              </div>
+              <div class="dont bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-red-500 uppercase tracking-widest mb-2">Don't</p>
+                <p class="text-slate-800 leading-relaxed">"We are passionate about fostering a vibrant creative community through innovative public art experiences."</p>
+              </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="do bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-emerald-600 uppercase tracking-widest mb-2">Do</p>
+                <p class="text-slate-800 leading-relaxed">"We are seeking proposals" or "Submit a proposal"</p>
+              </div>
+              <div class="dont bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-red-500 uppercase tracking-widest mb-2">Don't</p>
+                <p class="text-slate-800 leading-relaxed">"Apply Now" with a dollar amount as the primary CTA — implies a transaction, not an artistic invitation</p>
+              </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="do bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-emerald-600 uppercase tracking-widest mb-2">Do — Referring to the initiative</p>
+                <p class="text-slate-800 leading-relaxed">First reference: "Water Street Studios Public Art Initiative"<br>After that: "the public art initiative" or "the initiative"</p>
+              </div>
+              <div class="dont bg-white border border-slate-200 p-5">
+                <p class="font-mono text-xs text-red-500 uppercase tracking-widest mb-2">Don't</p>
+                <p class="text-slate-800 leading-relaxed">"BPAI" — deprecated. Never use this abbreviation in any current content, signage, or digital communication.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== BUTTONS ===== -->
+        <section id="buttons" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">05</p>
+          <h2 class="text-3xl font-black tracking-tight mb-8">Buttons</h2>
+
+          <div class="bg-white border border-slate-200 p-8 mb-6 space-y-6">
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">Primary — Black</p>
+              <button class="bg-slate-950 text-white px-8 py-4 font-mono text-xs uppercase tracking-widest hover:bg-wss-blue-accessible transition-colors">View Public Art</button>
+              <div class="code-block mt-3">bg-slate-950 text-white px-8 py-4
+font-mono text-xs uppercase tracking-widest
+hover:bg-wss-blue-accessible transition-colors</div>
+            </div>
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">Primary — Blue (on dark sections)</p>
+              <div class="bg-slate-950 p-4 inline-block">
+                <button style="background:#009BC7;color:white;padding:14px 28px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;border:none;cursor:pointer;">Submit a Proposal</button>
+              </div>
+              <div class="code-block mt-3">background: #009BC7 &mdash; use on dark (slate-950) sections only</div>
+            </div>
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">Ghost / Outline</p>
+              <button class="border border-slate-950 text-slate-950 px-8 py-4 font-mono text-xs uppercase tracking-widest hover:bg-slate-950 hover:text-white transition-colors">Learn More</button>
+              <div class="code-block mt-3">border border-slate-950 text-slate-950 px-8 py-4
+font-mono text-xs uppercase tracking-widest
+hover:bg-slate-950 hover:text-white transition-colors</div>
+            </div>
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">Arrow / Inline Link</p>
+              <button class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible hover:text-slate-950 transition-colors">Explore the Mural &rarr;</button>
+              <div class="code-block mt-3">font-mono text-xs uppercase tracking-widest
+text-wss-blue-accessible hover:text-slate-950 transition-colors</div>
+            </div>
+
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 p-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-amber-700 mb-2">Button Rules</p>
+            <ul class="text-sm text-amber-900 space-y-1 leading-relaxed">
+              <li>— All button text is <strong>ALL CAPS</strong>, JetBrains Mono, tracking-widest</li>
+              <li>— No border-radius. Square corners are intentional — they reference industrial precision.</li>
+              <li>— One primary action per section. Don't stack two black buttons side-by-side.</li>
+              <li>— Never put a dollar amount in a button label for artist calls.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ===== LABELS & TAGS ===== -->
+        <section id="labels" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">06</p>
+          <h2 class="text-3xl font-black tracking-tight mb-8">Labels &amp; Tags</h2>
+
+          <div class="bg-white border border-slate-200 p-8 space-y-6">
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Status Badges — on dark sections</p>
+              <div class="bg-slate-950 p-6 flex flex-wrap gap-4">
+                <span class="font-mono text-xs uppercase tracking-widest px-3 py-1.5" style="background:rgba(253,196,0,0.15);color:#FDC400;border:1px solid rgba(253,196,0,0.3);">Open Call — Apr 17</span>
+                <span class="font-mono text-xs uppercase tracking-widest px-3 py-1.5" style="background:rgba(0,155,199,0.15);color:#33B5D6;border:1px solid rgba(0,155,199,0.3);">Completed 2025</span>
+                <span class="font-mono text-xs uppercase tracking-widest px-3 py-1.5" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.12);">Details Coming Soon</span>
+              </div>
+            </div>
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Eyebrow Labels — above headlines</p>
+              <div class="space-y-3">
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-widest" style="color:#006B8F;letter-spacing:0.18em;">Public Art Initiative</p>
+                  <p class="text-3xl font-black tracking-tight mt-1">America 250 Mural</p>
+                </div>
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-widest text-wss-gold" style="letter-spacing:0.18em;">Coming 2026 — Open Call Launching April 17</p>
+                  <p class="text-3xl font-black tracking-tight text-white mt-1 bg-slate-950 inline-block px-2">River Street Plaza Benches</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Stat Tags — project cards</p>
+              <div class="flex flex-wrap gap-3">
+                <span class="font-mono text-xs uppercase tracking-widest bg-slate-950 text-white px-3 py-1.5">10 Local Artist Murals</span>
+                <span class="font-mono text-xs uppercase tracking-widest bg-slate-950 text-white px-3 py-1.5">76+ Community Volunteers</span>
+                <span class="font-mono text-xs uppercase tracking-widest bg-slate-950 text-white px-3 py-1.5">35+ Applications</span>
+                <span class="font-mono text-xs uppercase tracking-widest bg-wss-blue text-white px-3 py-1.5">RFP Open Call</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===== CARDS ===== -->
+        <section id="cards" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">07</p>
+          <h2 class="text-3xl font-black tracking-tight mb-8">Cards</h2>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+
+            <!-- Project card -->
+            <div class="bg-slate-950 text-white overflow-hidden">
+              <div style="height:180px;background:linear-gradient(135deg,#007A9E,#020617);display:flex;align-items:center;justify-content:center;">
+                <p class="font-mono text-xs text-white/30 uppercase tracking-widest">Project Image</p>
+              </div>
+              <div class="p-6">
+                <p class="font-mono text-xs uppercase tracking-widest mb-2" style="color:#FDC400;">Completed 2025</p>
+                <h3 class="text-xl font-black tracking-tight mb-2">Good Energy Gateway</h3>
+                <p class="text-white/50 text-sm leading-relaxed mb-4">A playful twist on Batavia's historical tagline, brought to life by 76+ community volunteers.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="font-mono text-xs bg-white/10 text-white/60 px-2 py-1">76+ Volunteers</span>
+                </div>
+                <button class="font-mono text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors">View Project &rarr;</button>
+              </div>
+            </div>
+
+            <!-- Info card (WSS) -->
+            <div class="bg-white border border-slate-200 p-6 md:p-8">
+              <div class="w-10 h-10 bg-slate-950 flex items-center justify-center mb-5">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              </div>
+              <h3 class="text-lg font-black tracking-tight mb-2">Take a Class</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">340+ students from 35 municipalities. 30+ professional instructors. Ages 5 through senior citizens.</p>
+              <p class="font-mono text-xs text-slate-400 uppercase tracking-widest">Click to explore &rarr;</p>
+            </div>
+
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 p-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-2">Card Rules</p>
+            <ul class="text-sm text-slate-600 space-y-1 leading-relaxed">
+              <li>— Project cards live on <code>bg-slate-950</code>. Information cards live on <code>bg-white</code>.</li>
+              <li>— No border-radius anywhere. Hard corners only.</li>
+              <li>— Project card hover: <code>transform: translateY(-4px)</code> — subtle lift, no shadow.</li>
+              <li>— Icons in info cards use a 40×40 black square as a container, never free-floating.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ===== LAYOUT ===== -->
+        <section id="layout" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">08</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">Layout</h2>
+          <p class="text-slate-500 mb-8 leading-relaxed">Asymmetric, editorial, intentional. Sections are designed to feel like magazine spreads, not web templates.</p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Max Widths</p>
+              <div class="space-y-2 text-sm text-slate-600 font-mono">
+                <p>max-w-7xl (1280px) — primary page container</p>
+                <p>max-w-5xl (1024px) — text-heavy content</p>
+                <p>max-w-2xl — body copy columns</p>
+              </div>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Section Spacing</p>
+              <div class="space-y-2 text-sm text-slate-600 font-mono">
+                <p>py-32 / py-40 — hero and major sections</p>
+                <p>py-24 — standard content sections</p>
+                <p>py-16 — tighter utility sections</p>
+                <p>px-6 — mobile horizontal padding</p>
+              </div>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Grid Asymmetry</p>
+              <div class="space-y-2 text-sm text-slate-600 font-mono">
+                <p>md:grid-cols-12 with col-span-5 / col-span-7</p>
+                <p>Offset text blocks (col-start-2, col-start-3)</p>
+                <p>Mirror Art of the Fox mural framing</p>
+              </div>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Section Break</p>
+              <div class="space-y-2 text-sm text-slate-600 font-mono">
+                <p>.diagonal — clip-path polygon</p>
+                <p>polygon(0 0, 100% 4%, 100% 100%, 0 96%)</p>
+                <p>Creates flowing transitions between sections</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 p-6">
+            <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Texture — Limestone Grain</p>
+            <div class="grain relative h-24 bg-slate-950 flex items-center justify-center mb-3">
+              <p class="text-white/40 font-mono text-xs uppercase tracking-widest">Grain overlay visible on dark sections</p>
+            </div>
+            <p class="text-sm text-slate-500">Apply the <code>.grain</code> class to any dark section for a subtle noise texture that references the limestone building's character. Opacity: 0.04 — enough to add depth without distraction.</p>
+          </div>
+        </section>
+
+        <!-- ===== PHOTOGRAPHY ===== -->
+        <section id="photography" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">09</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">Photography</h2>
+          <p class="text-slate-500 mb-8 leading-relaxed">Photography is the emotional core of this site. Every image should feel like it was taken by someone who cared about the moment — not staged for a brochure.</p>
+
+          <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <div class="do bg-white border border-slate-200 p-5">
+              <p class="font-mono text-xs text-emerald-600 uppercase tracking-widest mb-3">Do</p>
+              <ul class="text-sm text-slate-600 space-y-2 leading-relaxed">
+                <li>— Real community members in candid moments</li>
+                <li>— High-res mural photography, full frame</li>
+                <li>— Wide establishing shots showing scale</li>
+                <li>— Natural light, outdoor on-site</li>
+                <li>— Architecture and texture: limestone, brick, Fox River</li>
+                <li>— Paint-day action: hands, brushes, ladders</li>
+              </ul>
+            </div>
+            <div class="dont bg-white border border-slate-200 p-5">
+              <p class="font-mono text-xs text-red-500 uppercase tracking-widest mb-3">Don't</p>
+              <ul class="text-sm text-slate-600 space-y-2 leading-relaxed">
+                <li>— Stock photography of "generic artist" types</li>
+                <li>— People pointing at screens or clipboards</li>
+                <li>— Cropped murals that lose context</li>
+                <li>— Heavily filtered or over-edited images</li>
+                <li>— Low-resolution images (minimum 1200px wide for hero)</li>
+                <li>— Anything that doesn't feel like Batavia</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 p-6">
+            <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-4">Image Hosting</p>
+            <p class="text-sm text-slate-600 leading-relaxed mb-3">All images are hosted on <strong>Cloudinary</strong> with automatic format optimization (<code>f_auto</code>) and quality compression (<code>q_auto</code>). Always use the CDN URL pattern:</p>
+            <div class="code-block">https://res.cloudinary.com/dsbllwpbh/image/upload/<span class="str">f_auto,q_auto</span>/v{version}/{filename}</div>
+            <p class="text-xs text-slate-500 mt-3">Generated placeholder images (nano-banana) must be uploaded to Cloudinary before any public deployment. Replace local file references with CDN URLs.</p>
+          </div>
+        </section>
+
+        <!-- ===== NAMING ===== -->
+        <section id="naming" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">10</p>
+          <h2 class="text-3xl font-black tracking-tight mb-8">Naming &amp; Terminology</h2>
+
+          <div class="bg-white border border-slate-200 overflow-hidden">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-950 text-white">
+                <tr>
+                  <th class="text-left p-4 font-mono text-xs uppercase tracking-widest font-normal">Use This</th>
+                  <th class="text-left p-4 font-mono text-xs uppercase tracking-widest font-normal">Not This</th>
+                  <th class="text-left p-4 font-mono text-xs uppercase tracking-widest font-normal">Context</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">Water Street Studios Public Art Initiative</td>
+                  <td class="p-4 text-red-500 line-through">BPAI, Batavia Public Art Initiative</td>
+                  <td class="p-4 text-slate-500">First reference in any content</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">the public art initiative / the initiative</td>
+                  <td class="p-4 text-red-500 line-through">BPAI, the program</td>
+                  <td class="p-4 text-slate-500">Subsequent references in running text</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">Request for Proposals (RFP)</td>
+                  <td class="p-4 text-red-500 line-through">Request for Qualifications (RFQ)</td>
+                  <td class="p-4 text-slate-500">Open calls for artist projects</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">Submit a Proposal / We are seeking proposals</td>
+                  <td class="p-4 text-red-500 line-through">Apply Now (with dollar amount)</td>
+                  <td class="p-4 text-slate-500">Call-to-action on artist sections</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">4 Mural Sites</td>
+                  <td class="p-4 text-red-500 line-through">4+ Public Murals</td>
+                  <td class="p-4 text-slate-500">Hero stat counter</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">12 Local Artists</td>
+                  <td class="p-4 text-red-500 line-through">35+ Local Artists</td>
+                  <td class="p-4 text-slate-500">Hero stat counter</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">76+ Community Volunteers</td>
+                  <td class="p-4 text-red-500 line-through">5+ Pop-Up Galleries</td>
+                  <td class="p-4 text-slate-500">Hero stat counter</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">community members, volunteers</td>
+                  <td class="p-4 text-red-500 line-through">committee members (as installers)</td>
+                  <td class="p-4 text-slate-500">Describing who participates in painting</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">property stakeholders</td>
+                  <td class="p-4 text-red-500 line-through">property owners (alone)</td>
+                  <td class="p-4 text-slate-500">Describing jury composition for Step 2</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">10 local artist murals / 10 framed murals</td>
+                  <td class="p-4 text-red-500 line-through">8 window murals</td>
+                  <td class="p-4 text-slate-500">Art of the Fox project description</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">Amy Henkle (winning artist)</td>
+                  <td class="p-4 text-red-500 line-through">(unnamed)</td>
+                  <td class="p-4 text-slate-500">Good Energy Gateway mural credit</td>
+                </tr>
+                <tr class="bg-slate-50">
+                  <td class="p-4 font-semibold text-slate-900">Amy Decker (project manager)</td>
+                  <td class="p-4 text-red-500 line-through">(unnamed)</td>
+                  <td class="p-4 text-slate-500">Good Energy Gateway project manager credit</td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-semibold text-slate-900">publicart@waterstreetstudios.org</td>
+                  <td class="p-4 text-red-500 line-through">info@... or phone in form hints</td>
+                  <td class="p-4 text-slate-500">All form contact info and hints</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===== WHAT TO AVOID ===== -->
+        <section id="dont" class="anchor">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-400 mb-3">11</p>
+          <h2 class="text-3xl font-black tracking-tight mb-2">What to Avoid</h2>
+          <p class="text-slate-500 mb-8 leading-relaxed">Patterns that signal "AI-generated website" or "nonprofit template" — everything we are not.</p>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-red-500 mb-4">Design Anti-Patterns</p>
+              <ul class="text-sm text-slate-600 space-y-2 leading-relaxed">
+                <li>❌ Centered hero with purple-to-blue gradient blob background</li>
+                <li>❌ Three-column feature grids with generic line icons</li>
+                <li>❌ Rounded corners on everything (cards, buttons, images)</li>
+                <li>❌ Symmetrical, predictable section layouts</li>
+                <li>❌ "AI startup" visual clichés (neural networks, sparkle icons, robot imagery)</li>
+                <li>❌ Thin light-gray text on white backgrounds</li>
+                <li>❌ Modal-heavy UX with long walls of small text</li>
+                <li>❌ Generic sans-serif at uniform weight throughout</li>
+              </ul>
+            </div>
+            <div class="bg-white border border-slate-200 p-6">
+              <p class="font-mono text-xs uppercase tracking-widest text-red-500 mb-4">Content Anti-Patterns</p>
+              <ul class="text-sm text-slate-600 space-y-2 leading-relaxed">
+                <li>❌ "We are passionate about fostering vibrant creativity"</li>
+                <li>❌ Dollar amounts as the primary lede in artist calls</li>
+                <li>❌ "BPAI" in any form — deprecated brand, creates confusion</li>
+                <li>❌ "Apply Now" on RFP calls — too transactional for artist recruitment</li>
+                <li>❌ "1 business day response time" — sets a promise we may not keep</li>
+                <li>❌ Past project stats presented as current (8 murals → was 10)</li>
+                <li>❌ Pop-up gallery mentions — program is on indefinite pause</li>
+                <li>❌ Crediting only unnamed "artists" — name Amy Henkle, Amy Decker</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- BACK LINK -->
+        <div class="pt-4 border-t border-slate-200 flex gap-8">
+          <a href="index-8apr2026.html" class="font-mono text-xs uppercase tracking-widest text-slate-400 hover:text-wss-blue-accessible transition-colors">&larr; Site Preview</a>
+          <a href="review-status.html" class="font-mono text-xs uppercase tracking-widest text-slate-400 hover:text-wss-blue-accessible transition-colors">Version: 9APR2026 &rarr;</a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-white py-10 lg:pl-64">
+    <div class="max-w-4xl mx-auto px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <p class="font-mono text-xs text-white/30">&copy; 2026 Water Street Studios Public Art Initiative &mdash; Internal Document</p>
+      <div class="flex items-center gap-6">
+        <a href="index-8apr2026.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Site Preview &rarr;</a>
+        <a href="review-status.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Version: 9APR2026</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
