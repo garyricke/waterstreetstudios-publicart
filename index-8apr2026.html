@@ -474,7 +474,7 @@
     /* Play/pause toggle */
     .ab-toggle {
       width: 52px; height: 52px; border-radius: 50%;
-      background: #009BC7; border: none;
+      background: #006B8F; border: none;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; flex-shrink: 0;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -494,14 +494,14 @@
     .ab-text .ab-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em;
-      color: #009BC7;
+      color: #33B5D6;
     }
     .ab-text .ab-title {
       font-size: 1.35rem; font-weight: 900; letter-spacing: -0.025em;
       margin-top: 4px; line-height: 1.2;
     }
     .ab-text .ab-sub {
-      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+      font-size: 0.8rem; color: rgba(255,255,255,0.65);
       margin-top: 4px;
     }
 
@@ -1645,9 +1645,9 @@
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm text-slate-500">
           <span class="font-mono text-[10px] uppercase tracking-widest text-slate-400">Visit</span>
           <span>160 S. Water St, Batavia, IL 60510</span>
-          <span class="hidden sm:block text-stone-300">&mdash;</span>
+          <span class="hidden sm:block text-stone-300" aria-hidden="true">&mdash;</span>
           <span>Fri &ndash; Sun &nbsp; 12 &ndash; 4 PM</span>
-          <span class="hidden sm:block text-stone-300">&mdash;</span>
+          <span class="hidden sm:block text-stone-300" aria-hidden="true">&mdash;</span>
           <span>630-761-9777</span>
         </div>
         <a href="https://waterstreetstudios.org" target="_blank" rel="noopener" class="bg-slate-950 text-white px-6 py-3 text-xs font-mono uppercase tracking-widest hover:bg-wss-green transition-colors self-start md:self-auto whitespace-nowrap">
@@ -1721,7 +1721,7 @@
   <div class="modal-overlay" id="modalOverlay"></div>
   <div class="modal-panel" id="modalPanel">
     <div class="modal-close">
-      <span class="font-mono text-xs uppercase tracking-widest text-slate-400" id="modalLabel"></span>
+      <span class="font-mono text-xs uppercase tracking-widest text-slate-600" id="modalLabel"></span>
       <button onclick="closeModal()" aria-label="Close" class="w-8 h-8 flex items-center justify-center hover:bg-stone-200 rounded transition-colors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -1735,7 +1735,7 @@
 
       <!-- Header -->
       <div class="sponsor-header">
-        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Get in Touch</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600">Get in Touch</span>
         <button onclick="closeInquiryForm()" class="sponsor-close" aria-label="Close form">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -1748,7 +1748,7 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg" alt="Art of the Fox murals, Batavia" style="width:100%;display:block;height:260px;object-fit:cover;object-position:center;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.5) 55%, rgba(2,6,23,0.1) 100%);"></div>
           <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;">
-            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#009BC7;margin-bottom:10px;">Water Street Studios Public Art Initiative</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#006B8F;margin-bottom:10px;">Water Street Studios Public Art Initiative</p>
             <h2 style="font-size:1.85rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">Say Hello.</h2>
             <p style="font-size:0.78rem;line-height:1.65;color:rgba(255,255,255,0.7);margin:0;">Questions, ideas, partnerships, or just a note — we'd love to hear from you.</p>
           </div>
@@ -1816,7 +1816,7 @@
       <div id="inquiryThankYou" style="display:none;" class="sponsor-body">
         <div style="text-align:center;padding:48px 24px;">
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Message Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">We'll be<br>in touch.</h2>
@@ -1834,7 +1834,7 @@
 
       <!-- Header -->
       <div class="sponsor-header">
-        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Artist Application</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600">Artist Application</span>
         <button onclick="closeArtistApp()" class="sponsor-close" aria-label="Close form">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -1847,7 +1847,7 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png" alt="Batavia City Hall — America 250 mural site" style="width:100%;display:block;height:300px;object-fit:cover;object-position:center;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.55) 55%, rgba(2,6,23,0.15) 100%);"></div>
           <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;">
-            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#009BC7;margin-bottom:10px;">Open Call &mdash; Illinois Artists</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#006B8F;margin-bottom:10px;">Open Call &mdash; Illinois Artists</p>
             <h2 style="font-size:1.85rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">America 250<br>City Hall Mural</h2>
             <p style="font-size:0.78rem;line-height:1.65;color:rgba(255,255,255,0.7);margin:0;">No application fee &mdash; Open Call launching April 17 &mdash; Summer 2026 installation</p>
           </div>
@@ -2054,7 +2054,7 @@
       <div id="artistAppConfirm" class="sponsor-body" style="display:none">
         <div style="padding:40px 0 24px;text-align:center;">
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Application Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">Your work is<br>in front of the jury.</h2>
@@ -2073,7 +2073,7 @@
 
       <!-- Header -->
       <div class="sponsor-header">
-        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Artist Application</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600">Artist Application</span>
         <button onclick="closeBenchApp()" class="sponsor-close" aria-label="Close form">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -2265,7 +2265,7 @@
       <div id="benchAppConfirm" class="sponsor-body" style="display:none">
         <div style="padding:40px 0 24px;text-align:center;">
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Interest Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">We'll be in<br>touch April 17.</h2>
@@ -2284,7 +2284,7 @@
 
       <!-- Header -->
       <div class="sponsor-header">
-        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Volunteer Interest</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600">Volunteer Interest</span>
         <button onclick="closeVolunteerForm()" class="sponsor-close" aria-label="Close form">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -2297,7 +2297,7 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451702/bpai-good-energy-mural-30_hw6hkv.jpg" alt="Community volunteers painting a mural in Batavia" style="width:100%;display:block;height:300px;object-fit:cover;object-position:center top;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(2,6,23,0.88) 0%, rgba(2,6,23,0.45) 60%, rgba(2,6,23,0.1) 100%);"></div>
           <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;">
-            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#009BC7;margin-bottom:10px;">Get Involved</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#006B8F;margin-bottom:10px;">Get Involved</p>
             <h2 style="font-size:2rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">Be part of<br>the story.</h2>
             <p style="font-size:0.8rem;line-height:1.65;color:rgba(255,255,255,0.7);margin:0;">Tell us how you'd like to get involved. A Water Street Studios representative will be in touch soon.</p>
           </div>
@@ -2432,7 +2432,7 @@
       <div id="volunteerThankYou" class="sponsor-body" style="display:none">
         <div style="padding:40px 0 24px;text-align:center;">
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Thank You</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">You're on<br>the list.</h2>
@@ -2451,7 +2451,7 @@
 
       <!-- Header -->
       <div class="sponsor-header">
-        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Sponsorship Inquiry</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-600">Sponsorship Inquiry</span>
         <button onclick="closeSponsorForm()" class="sponsor-close" aria-label="Close form">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -2464,7 +2464,7 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg" alt="Good Energy Gateway mural, Batavia" style="width:100%;display:block;height:320px;object-fit:cover;object-position:center;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.45) 60%, rgba(2,6,23,0.15) 100%);"></div>
           <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;">
-            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#009BC7;margin-bottom:10px;">Become a Sponsor</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#006B8F;margin-bottom:10px;">Become a Sponsor</p>
             <h2 style="font-size:2rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">Let's make<br>art happen.</h2>
             <p style="font-size:0.8rem;line-height:1.65;color:rgba(255,255,255,0.7);margin:0;">Tell us about yourself and your interest in supporting public art in Batavia. A Water Street Studios representative will be in touch within 1 business day.</p>
           </div>
@@ -2558,7 +2558,7 @@
       <div id="sponsorThankYou" class="sponsor-body" style="display:none">
         <div style="padding:40px 0 24px;text-align:center;">
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Thank You</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">Your inquiry<br>is on its way.</h2>
@@ -2588,7 +2588,7 @@
     ],
     html: `
       <h2>Art of the Fox</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">100 N Island Ave &mdash; Jeffrey D. Schielke Government Center</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">100 N Island Ave &mdash; Jeffrey D. Schielke Government Center</p>
       <div class="modal-divider"></div>
       <p>A landmark partnership between <strong>Water Street Studios' Public Art Initiative</strong> and <strong>The Conservation Foundation</strong>, Art of the Fox transformed ten boarded east-facing windows on Batavia City Hall into framed murals overlooking the Fox River and Riverwalk.</p>
       <p>Each 7' &times; 5'4" window space became a canvas for a local artist to celebrate the beauty, diversity, and ecological importance of the Fox River.</p>
@@ -2650,7 +2650,7 @@
     ],
     html: `
       <h2>Good Energy Gateway Mural</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">18 E Wilson St &mdash; Downtown Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">18 E Wilson St &mdash; Downtown Batavia</p>
       <div class="modal-divider"></div>
       <p>The Good Energy Gateway is a <strong>24' &times; 20'</strong> mural &mdash; a playful twist on Batavia's historical tagline, "The City of Good Energy" &mdash; celebrating the community's vibrant, active spirit on the Fox River.</p>
 
@@ -2700,7 +2700,7 @@
     ],
     html: `
       <h2>Wave Petunia Mural</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">State Street &amp; North River Street &mdash; Downtown Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">State Street &amp; North River Street &mdash; Downtown Batavia</p>
       <div class="modal-divider"></div>
       <p>In an effort to inspire flower enthusiasts everywhere, the larger-than-life <strong>Wave Petunia mural</strong> is dedicated to the idea that Wave Petunias go far <strong>#BeyondTheBloom</strong>. Wave Petunias are more than a single plant in a pot &mdash; they spark smiles, happy moments, and human connections. This mural does the same.</p>
       <p>This intentionally energetic collage of pink paint comes with a variety of interactive, photo-worthy features. The #BeyondTheBloom mural depicts how we are all surrounded by vibrant, overflowing blooms every day, and they certainly should be celebrated.</p>
@@ -2737,7 +2737,7 @@
     ],
     html: `
       <h2>America 250 Mural</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Batavia City Hall &mdash; West-Facing Limestone Bays</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Batavia City Hall &mdash; West-Facing Limestone Bays</p>
       <div class="modal-divider"></div>
       <p>A permanent outdoor mural funded by an <strong>Illinois Arts Council</strong> America's 250th Anniversary Public Art Grant. Six horizontal arched limestone bays will become civic "story frames" celebrating how Batavia residents live the ideals of the Declaration of Independence.</p>
 
@@ -2783,7 +2783,7 @@
     label: 'Pop-Up Exhibition',
     html: `
       <h2>Small Wonders</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
       <div class="modal-divider"></div>
       <p>A juried pop-up gallery celebrating original artwork at accessible price points. All works priced under $1,000, with a suggested price ceiling to encourage broad participation and community purchasing.</p>
 
@@ -2816,7 +2816,7 @@
     label: 'Pop-Up Exhibition',
     html: `
       <h2>Gratitude</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
       <div class="modal-divider"></div>
       <p>A themed exhibition exploring thankfulness, appreciation, and the things that ground us. Local artists were invited to interpret "gratitude" through any medium &mdash; painting, photography, mixed media, and more.</p>
 
@@ -2842,7 +2842,7 @@
     label: 'Pop-Up Exhibition',
     html: `
       <h2>Rebirth</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
       <div class="modal-divider"></div>
       <p>A juried exhibition themed around renewal, transformation, and new beginnings. Artists explored concepts of rebirth through painting, photography, collage, mixed media, and sculptural work.</p>
 
@@ -2878,7 +2878,7 @@
     label: 'Pop-Up Exhibition',
     html: `
       <h2>Beyond The Bloom</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Bar Evolution &mdash; 27 N River St, Batavia</p>
       <div class="modal-divider"></div>
       <p>A curated exhibition celebrating floral and botanical artwork. Artists were invited to look beyond the obvious beauty of flowers and explore deeper themes of growth, fragility, permanence, and the natural world.</p>
 
@@ -2913,7 +2913,7 @@
     ],
     html: `
       <h2>America 250 &mdash; City Hall Mural</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Open &amp; Competitive &mdash; No Cost to Apply</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Open &amp; Competitive &mdash; No Cost to Apply</p>
       <div class="modal-divider"></div>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0;">
@@ -2961,7 +2961,7 @@
     label: 'Past Project',
     html: `
       <h2>Pop-Up Gallery Exhibitions</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">A Past Project &mdash; Bar Evolution, 27 N River St, Batavia</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">A Past Project &mdash; Bar Evolution, 27 N River St, Batavia</p>
       <div class="modal-divider"></div>
       <p>The public art initiative partnered with <strong>Bar Evolution</strong> to host rotating themed pop-up exhibitions, bringing original art into an everyday social space and making it accessible to the whole Batavia community. The program ran multiple successful exhibitions before Bar Evolution closed.</p>
 
@@ -3413,7 +3413,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459251/profile-bonnie-baumgartner-topaz-enhance-4x-faceai_kvugkp.jpg" alt="Bonnie Baumgartner" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Bonnie Baumgartner</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Organization</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Organization</p>
       <div class="modal-divider"></div>
       <p>Bonnie co-leads the Water Street Studios Public Art Initiative alongside Sabrina Martin, driving the committee's vision from concept to completion. She is the organizational backbone of the initiative, managing communications, coordinating project workplans, and keeping every initiative on track.</p>
 
@@ -3427,7 +3427,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770460081/profile-sabrina-martin_ja60ob.jpg" alt="Sabrina Martin" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Sabrina Martin</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Logistics</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Co-Chair &middot; Communications & Logistics</p>
       <div class="modal-divider"></div>
       <p>Sabrina brings a deep history with Water Street Studios and extensive experience in logistics, grant writing, and community coordination to her role as co-chair. Her background in adult education and writing curriculum makes her a natural storyteller for the initiative.</p>
 
@@ -3441,7 +3441,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459271/profile-rebecca-allen-gemini_wsmriz.png" alt="Rebecca Allen" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Rebecca Allen</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Community Outreach</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Community Outreach</p>
       <div class="modal-divider"></div>
       <p>Rebecca leads community outreach for the public art initiative. Her extensive experience in community engagement has been instrumental in bringing art directly to the people of Batavia.</p>
     `
@@ -3454,7 +3454,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459236/profile-Abby-Beck-Smaller_yorwvd.jpg" alt="Abby Beck" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Abby Beck</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Budget & Civic Liaison</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Budget & Civic Liaison</p>
       <div class="modal-divider"></div>
       <p>Abby serves as VP of Advancement at The Conservation Foundation and brings vital civic connections to the committee. As an Alderwoman, she bridges the gap between the public art initiative and Batavia's city government, ensuring public art projects move smoothly through municipal processes.</p>
     `
@@ -3467,7 +3467,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459264/profile-lori-botterman_svfo1x.jpg" alt="Lori Botterman" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Lori Botterman</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Fundraising & Press</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Fundraising & Press</p>
       <div class="modal-divider"></div>
       <p>Lori leads the initiative's fundraising strategy and press communications. Her writing skills and media connections help tell the story of Batavia's public art movement to the wider community.</p>
     `
@@ -3480,7 +3480,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770459244/profile-Bill_headshot_1_copy_auqgaa.jpg" alt="Bill McGrath" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Bill McGrath</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Strategy & Logistics</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Strategy & Logistics</p>
       <div class="modal-divider"></div>
       <p>Bill brings strategic thinking and hands-on logistics expertise to the committee. He handles the critical behind-the-scenes work that makes large-scale mural projects possible &mdash; from property agreements to scaffolding coordination.</p>
 
@@ -3494,7 +3494,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495382/profile-Joshua-Schultz-gemini-crop_neecud.png" alt="Josh Schultz" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Josh Schultz</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Project Manager & Installation</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Project Manager & Installation</p>
       <div class="modal-divider"></div>
       <p>Josh joined the committee in early 2024 and quickly became essential as project manager for the initiative's mural installations. He volunteered to donate his time for the Good Energy Gateway project and introduced the committee to the Walldogs mural painting tradition.</p>
     `
@@ -3507,7 +3507,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770567526/ellyn-expand-blur-back_auwxd8.png" alt="Ellyn Theis" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Ellyn Theis</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Marketing & Brand Development</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Marketing & Brand Development</p>
       <div class="modal-divider"></div>
       <p>Ellyn is the creative force behind the initiative's visual identity and marketing presence. She manages social media, designs event materials, and ensures the initiative's brand is cohesive and compelling across all touchpoints.</p>
     `
@@ -3520,7 +3520,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770495375/profile-anita-wolff-gemini_tbynbg.png" alt="Anita Wolff" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Anita Wolff</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Committee Member</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Committee Member</p>
       <div class="modal-divider"></div>
       <p>Anita contributes to the initiative's budgeting efforts and project management, helping keep initiatives moving forward. She plays an active role in merchandise and community engagement projects.</p>
     `
@@ -3533,7 +3533,7 @@
         <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770494167/profile-gary-ricke-bw-black-bkgrd-29aug2025-crop_e15t91.jpg" alt="Gary Ricke" style="width:200px;height:200px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
       </div>
       <h2 style="text-align:center;margin-top:20px;">Gary Ricke</h2>
-      <p style="text-align:center;color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Content Architect</p>
+      <p style="text-align:center;color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">Content Architect</p>
       <div class="modal-divider"></div>
       <p>A 19-year Batavia resident, Gary brings 27 years of digital marketing expertise to the initiative as Content Architect. He specializes in short-format storytelling and AI marketing strategies, with a deep commitment to what he calls <strong>Human AI Marketing</strong> &mdash; authenticity above all.</p>
 
@@ -3564,7 +3564,7 @@
     ],
     html: `
       <h2>Visit the Gallery</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">160 S. Water St, Batavia &mdash; Fri&ndash;Sun, 12&ndash;4 PM &mdash; Always Free</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">160 S. Water St, Batavia &mdash; Fri&ndash;Sun, 12&ndash;4 PM &mdash; Always Free</p>
       <div class="modal-divider"></div>
       <p>Named <strong>Best Gallery</strong> by West Suburban Living Magazine and Kane County Chronicle in 2019, Water Street Studios draws nearly <strong>10,000 visitors annually</strong> to its three distinct gallery spaces in the heart of downtown Batavia. Admission is always free.</p>
 
@@ -3605,7 +3605,7 @@
     ],
     html: `
       <h2>Take a Class</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">The School of Art at Water Street Studios &mdash; Ages 5 &amp; Up</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">The School of Art at Water Street Studios &mdash; Ages 5 &amp; Up</p>
       <div class="modal-divider"></div>
       <p>The School of Art is the Fox Valley's premier destination for arts education — serving <strong>340+ students from 35 surrounding municipalities</strong>, taught by <strong>30+ professional instructors</strong> drawn from 10 towns across the region. About 66% of enrolled students come from outside Batavia, making WSS a true regional magnet for creative learning.</p>
 
@@ -3643,7 +3643,7 @@
     ],
     html: `
       <h2>Community Events</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Year-Round Programming at Water Street Studios</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Year-Round Programming at Water Street Studios</p>
       <div class="modal-divider"></div>
       <p>Beyond galleries and classes, Water Street Studios is the cultural heartbeat of downtown Batavia — hosting events that draw nearly <strong>10,000 visitors a year</strong> and create ripple effects throughout the entire downtown corridor.</p>
 
@@ -3681,7 +3681,7 @@
     ],
     html: `
       <h2>Support the Mission</h2>
-      <p style="color:#009BC7;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">501(c)(3) Nonprofit &mdash; All Contributions Tax Deductible</p>
+      <p style="color:#006B8F;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">501(c)(3) Nonprofit &mdash; All Contributions Tax Deductible</p>
       <div class="modal-divider"></div>
       <p>Water Street Studios generates <strong>$457,708 in annual revenue</strong> (FY2024) — 64% from earned program services and 26% from donations and grants. That philanthropic 26% is not optional: it's the engine that subsidizes subsidized studios, free outreach sessions, and the Ripple Effect STEAM program. Without it, class costs would double and free community programming would end.</p>
 
@@ -3705,7 +3705,7 @@
       </ul>
 
       <div style="margin-top:24px;">
-        <a href="https://givebutter.com/wssartpatron" target="_blank" rel="noopener" style="display:block;width:100%;background:#95C322;color:white;padding:14px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;text-align:center;">Donate Now &rarr;</a>
+        <a href="https://givebutter.com/wssartpatron" target="_blank" rel="noopener" style="display:block;width:100%;background:#95C322;color:#020617;padding:14px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;text-align:center;">Donate Now &rarr;</a>
       </div>
       <p style="margin-top:12px;color:#64748b;font-size:0.75rem;line-height:1.6;">Batavia Artists Association NFP Inc (dba Water Street Studios) &mdash; registered Illinois not-for-profit. Tax deductible per IRS guidelines.</p>
     `
