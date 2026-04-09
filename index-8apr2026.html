@@ -281,7 +281,7 @@
     }
     .modal-panel .modal-stat { text-align: center; padding: 1rem; background: #f5f5f4; }
     .modal-panel .modal-stat .val { font-size: 1.75rem; font-weight: 900; color: #009BC7; }
-    .modal-panel .modal-stat .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #94a3b8; margin-top: 4px; }
+    .modal-panel .modal-stat .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #475569; margin-top: 4px; }
     /* Quote carousel */
     .quote-carousel {
       position: relative;
@@ -326,7 +326,7 @@
     .qc-role {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.12em; color: #94a3b8;
+      letter-spacing: 0.12em; color: #475569;
       margin-top: 4px;
     }
     .qc-controls {
@@ -352,7 +352,7 @@
     /* Committee member "more" link */
     .member-more {
       font-family: 'Inter', sans-serif;
-      font-size: 11px; color: rgba(255,255,255,0.35);
+      font-size: 11px; color: rgba(255,255,255,0.6);
       text-decoration: underline;
       text-underline-offset: 3px;
       margin-top: 6px; cursor: pointer;
@@ -609,8 +609,8 @@
       display: flex; align-items: center; gap: 6px;
     }
     .sf-optional {
-      font-family: 'JetBrains Mono', monospace; font-size: 9px;
-      background: #f1f5f9; color: #94a3b8; padding: 2px 6px; letter-spacing: 0.05em;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      background: #f1f5f9; color: #475569; padding: 2px 6px; letter-spacing: 0.05em;
     }
     .sf-input {
       border: 1.5px solid #d6d3d1; background: white;
@@ -638,13 +638,13 @@
     .sf-checkbox-label:has(input:checked) { border-color: #95C322; background: rgba(149,195,34,0.04); }
     .sf-checkbox-label input[type="checkbox"] { width: 15px; height: 15px; margin-top: 2px; accent-color: #95C322; flex-shrink: 0; cursor: pointer; }
     .sf-checkbox-text { font-size: 0.82rem; color: #020617; line-height: 1.4; }
-    .sf-checkbox-sub { font-size: 0.72rem; color: #94a3b8; display: block; margin-top: 1px; }
-    .sf-section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+    .sf-checkbox-sub { font-size: 0.75rem; color: #64748b; display: block; margin-top: 1px; }
+    .sf-section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
     .sf-group-error { font-size: 0.75rem; color: #ef4444; margin-top: 6px; display: none; }
     .sf-section-divider { border: none; border-top: 1px solid #e7e5e4; margin: 28px 0 24px; }
     .sf-section-heading { font-size: 1rem; font-weight: 900; letter-spacing: -0.02em; color: #020617; margin-bottom: 4px; }
-    .sf-section-desc { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 20px; }
-    .sf-char-hint { font-size: 0.72rem; color: #94a3b8; margin-top: 4px; text-align: right; }
+    .sf-section-desc { font-size: 0.8rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; }
+    .sf-char-hint { font-size: 0.75rem; color: #64748b; margin-top: 4px; text-align: right; }
   </style>
 </head>
 <body class="bg-stone-50 text-slate-950 overflow-x-hidden unlocked">
@@ -754,10 +754,10 @@
         <a href="#artists" class="font-mono text-xs uppercase tracking-widest text-slate-700 hover:text-wss-blue-accessible transition-colors">Artists</a>
         <a href="#volunteer" class="font-mono text-xs uppercase tracking-widest text-slate-700 hover:text-wss-blue-accessible transition-colors">Volunteer</a>
         <a href="#invest" class="font-mono text-xs uppercase tracking-widest text-slate-700 hover:text-wss-blue-accessible transition-colors">Support Us</a>
-        <a href="https://givebutter.com/wssartpatron" target="_blank" rel="noopener" class="bg-wss-green text-white px-5 py-2.5 text-xs font-mono uppercase tracking-widest hover:bg-wss-green-dark transition-colors">Donate</a>
+        <a href="https://givebutter.com/wssartpatron" target="_blank" rel="noopener" class="bg-wss-green text-slate-950 px-5 py-2.5 text-xs font-mono uppercase tracking-widest hover:bg-wss-green-dark transition-colors">Donate</a>
       </div>
       <!-- Mobile menu button -->
-      <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5">
+      <button id="menuBtn" aria-label="Open navigation menu" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5">
         <span class="w-6 h-[2px] bg-slate-950 transition-all"></span>
         <span class="w-6 h-[2px] bg-slate-950 transition-all"></span>
       </button>
@@ -788,7 +788,7 @@
     </div>
     <div class="max-w-7xl mx-auto px-6 w-full relative z-10">
       <div class="pt-32 md:pt-40">
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue mb-6">Batavia, Illinois &mdash; Est. 2023</p>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible mb-6">Batavia, Illinois &mdash; Est. 2023</p>
         <h1 class="text-5xl sm:text-7xl lg:text-[6.5rem] font-black tracking-tighter leading-[0.9] max-w-5xl">
           The City of<br>
           <span class="text-wss-blue">Good Energy</span>
@@ -812,19 +812,19 @@
       <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 backdrop-blur-sm">
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="4">0</p>
-          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Mural Sites</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-600 mt-1">Mural Sites</p>
         </div>
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="12">0</p>
-          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Local Artists</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-600 mt-1">Local Artists</p>
         </div>
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="76">0</p>
-          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Community Volunteers</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-600 mt-1">Community Volunteers</p>
         </div>
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="46">0</p>
-          <p class="font-mono text-xs uppercase tracking-widest text-slate-500 mt-1">Potential Sites</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-600 mt-1">Potential Sites</p>
         </div>
       </div>
     </div>
@@ -868,7 +868,7 @@
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
         <div class="lg:col-span-5">
           <div class="river-line reveal mb-8"></div>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">About the Initiative</p>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">About the Initiative</p>
           <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
             Art beyond the gallery walls
           </h2>
@@ -879,19 +879,19 @@
           </p>
           <div class="grid sm:grid-cols-2 gap-8 mt-12 stagger">
             <div class="reveal">
-              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Community Connection</h3>
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Community Connection</h3>
               <p class="text-sm leading-relaxed text-slate-600">Establish a sense of community in Batavia and the greater Fox Valley through outdoor art installations that celebrate diverse local voices.</p>
             </div>
             <div class="reveal">
-              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Public Awareness</h3>
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Public Awareness</h3>
               <p class="text-sm leading-relaxed text-slate-600">Increase public awareness, appreciation, and contribution of public art &mdash; making creativity accessible and visible to everyone.</p>
             </div>
             <div class="reveal">
-              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Place & Nature</h3>
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Place & Nature</h3>
               <p class="text-sm leading-relaxed text-slate-600">Connect people to the beauty, diversity, and importance of the Fox River through art that celebrates our natural surroundings.</p>
             </div>
             <div class="reveal">
-              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Civic Identity</h3>
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Civic Identity</h3>
               <p class="text-sm leading-relaxed text-slate-600">Build community pride, honor Batavia's past, and inspire a shared sense of belonging and responsibility for the future.</p>
             </div>
           </div>
@@ -997,7 +997,7 @@
             <p class="click-hint">MORE</p>
           </div>
           <div class="lg:col-span-4 lg:text-right">
-            <button onclick="event.stopPropagation();openArtistApp()" class="inline-block bg-wss-blue text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-light transition-colors">
+            <button onclick="event.stopPropagation();openArtistApp()" class="inline-block bg-wss-blue-accessible text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue transition-colors">
               Apply Now
             </button>
           </div>
@@ -1036,7 +1036,7 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center max-w-3xl mx-auto mb-20">
         <div class="river-line reveal mx-auto mb-8"></div>
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">See It Come to Life</p>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">See It Come to Life</p>
         <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
           Watch the<br>murals unfold
         </h2>
@@ -1080,7 +1080,7 @@
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
         <div class="lg:col-span-7">
           <div class="river-line reveal mb-8"></div>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">For Artists</p>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">For Artists</p>
           <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
             Your next canvas awaits
           </h2>
@@ -1144,7 +1144,7 @@
                   </div>
                 </div>
               </div>
-              <button onclick="openInquiryForm()" class="block mt-8 bg-wss-blue text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-light transition-colors text-center w-full">
+              <button onclick="openInquiryForm()" class="block mt-8 bg-wss-blue-accessible text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue transition-colors text-center w-full">
                 Get in Touch
               </button>
             </div>
@@ -1217,7 +1217,7 @@
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
         <div class="lg:col-span-6">
           <div class="river-line reveal mb-8"></div>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Invest in Public Art</p>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">Invest in Public Art</p>
           <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
             Every wall is an opportunity
           </h2>
@@ -1297,7 +1297,7 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center max-w-3xl mx-auto mb-20">
         <div class="river-line reveal mx-auto mb-8"></div>
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Made Possible By</p>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">Made Possible By</p>
         <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
           Our Sponsors &<br>Donors
         </h2>
@@ -1459,14 +1459,14 @@
   <!-- ===================== PRESS & QUOTES ===================== -->
   <section class="relative bg-stone-100 py-32 md:py-40 overflow-hidden grain" id="pressSection">
     <div class="max-w-5xl mx-auto px-6 text-center">
-      <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue mb-12 reveal">Voices & Press</p>
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible mb-12 reveal">Voices & Press</p>
 
       <!-- Quote Carousel -->
       <div class="quote-carousel reveal" id="quoteCarousel">
         <div class="qc-track" id="qcTrack">
 
           <div class="qc-slide active">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">This mural represents everything we love about Batavia &mdash; its energy, its creativity, and its strong sense of community. Public art has the power to bring people together.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">Bonnie Baumgartner</p>
@@ -1475,7 +1475,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">This wall has been part of my family's story for decades, and I can't think of a better way to honor my father and our community than by turning it into a symbol of Batavia's spirit.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">Michael Marconi</p>
@@ -1484,7 +1484,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">Vibrant 'City of Good Energy' mural coming to Batavia</blockquote>
             <div class="qc-attr">
               <p class="qc-name">The Voice</p>
@@ -1493,7 +1493,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">A creative and colorful gateway into Batavia's thriving downtown &mdash; celebrating the community's spirit of inclusion, energy, and civic pride.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">Batavia Patch</p>
@@ -1502,7 +1502,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">Batavia seeking artists to design community mural project &mdash; vibrant, colorful and celebrating the city's spirit of inclusion, energy and civic pride.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">Shaw Local &middot; Kane County Chronicle</p>
@@ -1511,7 +1511,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">I love the energy &mdash; I could see something referencing wind, river, bike paths &mdash; all Batavia things. Art that captures who we are.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">Rebecca Allen</p>
@@ -1520,7 +1520,7 @@
           </div>
 
           <div class="qc-slide">
-            <div class="qc-mark">&ldquo;</div>
+            <div class="qc-mark" aria-hidden="true">&ldquo;</div>
             <blockquote class="qc-quote">A friendly, active, and creative community &mdash; home to multigenerational families, vibrant nature, and a thriving culture of artists and makers.</blockquote>
             <div class="qc-attr">
               <p class="qc-name">The Voice</p>
@@ -1552,7 +1552,7 @@
       <div class="grid lg:grid-cols-12 gap-12 items-end mb-20">
         <div class="lg:col-span-6">
           <div class="river-line reveal mb-8"></div>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue reveal">Powered By</p>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">Powered By</p>
           <div class="mt-4 reveal">
             <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883217/water-street-studios-logo-trace_fyqe2n.svg" alt="Water Street Studios" class="w-auto" style="max-height:270px;max-width:100%;">
           </div>
@@ -1587,7 +1587,7 @@
           <div class="w-10 h-10 bg-slate-950 flex items-center justify-center mb-5">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
-          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue mb-2">Best Gallery &rsquo;19</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-2">Best Gallery &rsquo;19</p>
           <h3 class="text-xl font-bold leading-tight">Visit the Gallery</h3>
           <p class="text-slate-500 text-sm leading-relaxed mt-2">Three distinct exhibition spaces with rotating monthly shows. Free Second Fridays every month — 6 to 9 PM.</p>
           <p class="click-hint">MORE</p>
@@ -1597,7 +1597,7 @@
           <div class="w-10 h-10 bg-slate-950 flex items-center justify-center mb-5">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           </div>
-          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue mb-2">Ages 5 &amp; Up</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-2">Ages 5 &amp; Up</p>
           <h3 class="text-xl font-bold leading-tight">Take a Class</h3>
           <p class="text-slate-500 text-sm leading-relaxed mt-2">Ceramics, painting, printmaking, jewelry-making, and more. 340+ students from 35 communities — year-round programs for all ages.</p>
           <a href="https://app.amilia.com/store/en/water-street-studios/shop/programs" target="_blank" rel="noopener" class="click-hint" style="text-decoration:none;display:inline-block;margin-top:12px;">Browse Classes &rarr;</a>
@@ -1607,7 +1607,7 @@
           <div class="w-10 h-10 bg-slate-950 flex items-center justify-center mb-5">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue mb-2">Year-Round</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-2">Year-Round</p>
           <h3 class="text-xl font-bold leading-tight">Community Events</h3>
           <p class="text-slate-500 text-sm leading-relaxed mt-2">Writers series, Community Days (funded by Batavia United Way), and seasonal events. Something for everyone, every season.</p>
           <a href="https://waterstreetstudios.org/studio-events" target="_blank" rel="noopener" class="click-hint" style="text-decoration:none;display:inline-block;margin-top:12px;">See Events &rarr;</a>
@@ -1617,7 +1617,7 @@
           <div class="w-10 h-10 bg-wss-green flex items-center justify-center mb-5">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
-          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue mb-2">501(c)(3) Nonprofit</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-2">501(c)(3) Nonprofit</p>
           <h3 class="text-xl font-bold leading-tight">Support the Mission</h3>
           <p class="text-slate-500 text-sm leading-relaxed mt-2">Your donation sustains 26 resident artists, free community programming, and the public art transforming Batavia's streets.</p>
           <p class="click-hint">MORE</p>
@@ -1672,7 +1672,7 @@
         </div>
 
         <div class="md:col-span-3 md:col-start-7">
-          <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-4">Contact</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-white/50 mb-4">Contact</p>
           <div class="space-y-2 text-sm text-white/60">
             <button onclick="openInquiryForm()" class="bg-transparent border-0 cursor-pointer p-0 text-left text-wss-blue-light hover:text-white transition-colors font-mono text-xs uppercase tracking-widest">Send a Message &rarr;</button>
             <p>630-761-9777</p>
@@ -1681,7 +1681,7 @@
         </div>
 
         <div class="md:col-span-2">
-          <p class="font-mono text-xs uppercase tracking-widest text-white/30 mb-4">Navigate</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-white/50 mb-4">Navigate</p>
           <div class="space-y-2 text-sm">
             <a href="#about" class="block text-white/60 hover:text-wss-blue-light transition-colors">About</a>
             <a href="#projects" class="block text-white/60 hover:text-wss-blue-light transition-colors">Projects</a>
@@ -1694,12 +1694,12 @@
       </div>
 
       <div class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <p class="font-mono text-xs text-white/30">&copy; 2026 Water Street Studios Public Art Initiative. All rights reserved.</p>
+        <p class="font-mono text-xs text-white/50">&copy; 2026 Water Street Studios Public Art Initiative. All rights reserved.</p>
         <div class="flex items-center gap-6">
-          <a href="waterstreet-studios-public-art-privacy-policy.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Privacy Policy</a>
-          <p class="font-mono text-xs text-white/20">Batavia Artists Association NFP Inc &mdash; dba Water Street Studios</p>
-          <a href="review-status.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Version: 9APR2026</a>
-          <a href="brand-guide.html" class="font-mono text-xs text-white/30 hover:text-white/60 transition-colors">Brand Guide</a>
+          <a href="waterstreet-studios-public-art-privacy-policy.html" class="font-mono text-xs text-white/50 hover:text-white/60 transition-colors">Privacy Policy</a>
+          <p class="font-mono text-xs text-white/40">Batavia Artists Association NFP Inc &mdash; dba Water Street Studios</p>
+          <a href="review-status.html" class="font-mono text-xs text-white/50 hover:text-white/60 transition-colors">Version: 9APR2026</a>
+          <a href="brand-guide.html" class="font-mono text-xs text-white/50 hover:text-white/60 transition-colors">Brand Guide</a>
         </div>
       </div>
     </div>
@@ -1708,13 +1708,13 @@
   <!-- ===================== MODAL CONTAINER ===================== -->
   <!-- Video Lightbox -->
   <div class="video-lightbox" id="videoLightbox">
-    <button class="vl-close" onclick="closeVideoLightbox()">&times;</button>
+    <button class="vl-close" onclick="closeVideoLightbox()" aria-label="Close video">&times;</button>
     <video id="lightboxVideo" controls playsinline></video>
   </div>
 
   <!-- Image Fullscreen Lightbox -->
   <div class="img-lightbox" id="imgLightbox">
-    <button class="il-close" id="imgLightboxClose">&times;</button>
+    <button class="il-close" id="imgLightboxClose" aria-label="Close image">&times;</button>
     <img id="imgLightboxImg" src="" alt="Full size view">
   </div>
 
@@ -1722,7 +1722,7 @@
   <div class="modal-panel" id="modalPanel">
     <div class="modal-close">
       <span class="font-mono text-xs uppercase tracking-widest text-slate-400" id="modalLabel"></span>
-      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-stone-200 rounded transition-colors">
+      <button onclick="closeModal()" aria-label="Close" class="w-8 h-8 flex items-center justify-center hover:bg-stone-200 rounded transition-colors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -1761,18 +1761,18 @@
 
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="iqFirst">First Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="iqFirst">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="iqFirst" name="first-name" class="sf-input" required autocomplete="given-name">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="iqLast">Last Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="iqLast">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="iqLast" name="last-name" class="sf-input" required autocomplete="family-name">
               </div>
             </div>
             <div style="margin-bottom:20px"></div>
 
             <div class="sf-field">
-              <label class="sf-label" for="iqEmail">Email Address <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="iqEmail">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="email" id="iqEmail" name="email" class="sf-input" required autocomplete="email">
             </div>
 
@@ -1782,7 +1782,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="iqSubject">Subject <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="iqSubject">Subject <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="iqSubject" name="subject" class="sf-input" required>
                 <option value="">Select a topic&hellip;</option>
                 <option value="General Question">General Question</option>
@@ -1796,7 +1796,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="iqMessage">Message <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="iqMessage">Message <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="iqMessage" name="message" class="sf-input" rows="5" required placeholder="Tell us what's on your mind&hellip;" style="resize:vertical;min-height:120px;"></textarea>
             </div>
 
@@ -1807,7 +1807,7 @@
               <span id="iqSubmitSpinner" style="display:none">Sending&hellip;</span>
             </button>
 
-            <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">We'll be in touch soon. You can also reach us at publicart@waterstreetstudios.org.</p>
+            <p style="color:#64748b;font-size:0.75rem;margin-top:14px;line-height:1.6;">We'll be in touch soon. You can also reach us at publicart@waterstreetstudios.org.</p>
           </form>
         </div>
       </div>
@@ -1818,7 +1818,7 @@
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Message Received</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Message Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">We'll be<br>in touch.</h2>
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:320px;margin-left:auto;margin-right:auto">Thanks for reaching out. A member of our team will be in touch soon.</p>
           <button onclick="closeInquiryForm()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
@@ -1864,18 +1864,18 @@
 
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="afFirst">First Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="afFirst">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="afFirst" name="first-name" class="sf-input" required autocomplete="given-name">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="afLast">Last Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="afLast">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="afLast" name="last-name" class="sf-input" required autocomplete="family-name">
               </div>
             </div>
             <div style="margin-bottom:20px"></div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afEmail">Email Address <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afEmail">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="email" id="afEmail" name="email" class="sf-input" required autocomplete="email">
             </div>
 
@@ -1886,15 +1886,15 @@
 
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="afCity">City <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="afCity">City <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="afCity" name="city" class="sf-input" required autocomplete="address-level2">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="afState">State <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="afState">State <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="afState" name="state" class="sf-input" required placeholder="Must be Illinois" autocomplete="address-level1">
               </div>
             </div>
-            <p style="font-size:0.72rem;color:#94a3b8;margin:6px 0 20px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists only.</p>
+            <p style="font-size:0.75rem;color:#64748b;margin:6px 0 20px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists only.</p>
 
             <div class="sf-field">
               <label class="sf-label" for="afWebsite">Website / Online Portfolio <span class="sf-optional">Strongly Recommended</span></label>
@@ -1907,7 +1907,7 @@
             <p class="sf-section-desc">Help us understand your background and primary artistic discipline.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="afDiscipline">Primary Artistic Discipline <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afDiscipline">Primary Artistic Discipline <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afDiscipline" name="primary-discipline" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Muralism / Large-scale painting">Muralism / Large-scale painting</option>
@@ -1920,7 +1920,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afExperience">Years of Professional Experience <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afExperience">Years of Professional Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afExperience" name="years-experience" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Less than 2 years">Less than 2 years</option>
@@ -1937,7 +1937,7 @@
             <p class="sf-section-desc">This project requires a proven track record with large-scale outdoor work. Be as specific as possible — this section carries significant weight with the selection jury.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="afMuralCount">Completed Public Murals or Large-Scale Installations <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afMuralCount">Completed Public Murals or Large-Scale Installations <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afMuralCount" name="mural-count" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="None">None</option>
@@ -1954,7 +1954,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afCommunityExp">Community Engagement Experience <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afCommunityExp">Community Engagement Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afCommunityExp" name="community-engagement" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Extensive — multiple projects with public input and revision cycles">Extensive — multiple projects with public input and revision cycles</option>
@@ -1965,7 +1965,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afPortfolioLinks">Links to 2–3 Relevant Past Works <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afPortfolioLinks">Links to 2–3 Relevant Past Works <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="afPortfolioLinks" name="portfolio-links" class="sf-input" rows="4" required placeholder="One URL per line&#10;Direct links to murals or large-scale work preferred&#10;Google Drive, Dropbox, or personal site all accepted"></textarea>
               <p class="sf-char-hint">Include work that best demonstrates your public / large-scale experience</p>
             </div>
@@ -1976,12 +1976,12 @@
             <p class="sf-section-desc">These responses are read by the full selection jury. Write clearly and specifically — generic answers will not stand out.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="afStatement">Statement of Interest <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afStatement">Statement of Interest <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="afStatement" name="statement-of-interest" class="sf-input" rows="5" required placeholder="Why are you applying for this project? What draws you to this site, this community, and this moment in history? (~300 words)"></textarea>
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afApproach">Design Approach <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afApproach">Design Approach <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="afApproach" name="design-approach" class="sf-input" rows="5" required placeholder="How would you translate Batavia's civic values and the ideals of the Declaration of Independence into a compelling visual narrative across 6 arched limestone bays? (~300 words)"></textarea>
             </div>
 
@@ -1996,7 +1996,7 @@
             <p class="sf-section-desc">Practical feasibility is part of the selection criteria. Please answer honestly.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="afAvailability">Available for the Full June–August 2026 Installation Period? <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afAvailability">Available for the Full June–August 2026 Installation Period? <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afAvailability" name="availability-2026" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Yes — fully available">Yes — fully available</option>
@@ -2007,7 +2007,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="afInsurance">General Liability Insurance <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="afInsurance">General Liability Insurance <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="afInsurance" name="insurance" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Yes — currently insured">Yes — currently insured</option>
@@ -2045,7 +2045,7 @@
               <span id="afSubmitSpinner" style="display:none">Submitting&hellip;</span>
             </button>
 
-            <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">No application fee. Selection by jury of City of Batavia representatives, property stakeholders, committee members, and arts professionals. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
+            <p style="color:#64748b;font-size:0.75rem;margin-top:14px;line-height:1.6;">No application fee. Selection by jury of City of Batavia representatives, property stakeholders, committee members, and arts professionals. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
           </form>
         </div>
       </div><!-- /artistAppFormState -->
@@ -2056,10 +2056,10 @@
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Application Received</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Application Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">Your work is<br>in front of the jury.</h2>
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:320px;margin-left:auto;margin-right:auto">Thank you for applying to the America 250 City Hall Mural project. The selection committee will review all submissions and be in touch to confirm receipt.</p>
-          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
+          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#475569;">publicart@waterstreetstudios.org</strong></p>
           <button onclick="closeArtistApp()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
         </div>
       </div>
@@ -2103,18 +2103,18 @@
 
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="baFirst">First Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="baFirst">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="baFirst" name="first-name" class="sf-input" required autocomplete="given-name">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="baLast">Last Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="baLast">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="baLast" name="last-name" class="sf-input" required autocomplete="family-name">
               </div>
             </div>
             <div style="margin-bottom:20px"></div>
 
             <div class="sf-field">
-              <label class="sf-label" for="baEmail">Email Address <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baEmail">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="email" id="baEmail" name="email" class="sf-input" required autocomplete="email">
             </div>
 
@@ -2125,15 +2125,15 @@
 
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="baCity">City <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="baCity">City <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="baCity" name="city" class="sf-input" required autocomplete="address-level2">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="baState">State <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="baState">State <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="baState" name="state" class="sf-input" required placeholder="Must be Illinois" autocomplete="address-level1">
               </div>
             </div>
-            <p style="font-size:0.72rem;color:#94a3b8;margin:6px 0 20px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists only.</p>
+            <p style="font-size:0.75rem;color:#64748b;margin:6px 0 20px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists only.</p>
 
             <div class="sf-field">
               <label class="sf-label" for="baWebsite">Website / Online Portfolio <span class="sf-optional">Strongly Recommended</span></label>
@@ -2146,7 +2146,7 @@
             <p class="sf-section-desc">This project involves designing functional public art — benches that are both usable and visually compelling in a riverfront plaza setting.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="baDiscipline">Primary Artistic Discipline <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baDiscipline">Primary Artistic Discipline <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="baDiscipline" name="primary-discipline" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Sculpture / 3D installation">Sculpture / 3D installation</option>
@@ -2159,7 +2159,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="baExperience">Years of Professional Experience <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baExperience">Years of Professional Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="baExperience" name="years-experience" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Less than 2 years">Less than 2 years</option>
@@ -2176,7 +2176,7 @@
             <p class="sf-section-desc">Describe your experience with permanent, outdoor, publicly sited work. Prior functional art — benches, gates, railings, paving, signage — is especially relevant.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="baPublicCount">Completed Permanent Public Art Installations <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baPublicCount">Completed Permanent Public Art Installations <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="baPublicCount" name="public-art-count" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="None">None</option>
@@ -2193,7 +2193,7 @@
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="baPortfolio">Links to 2–3 Relevant Past Works <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baPortfolio">Links to 2–3 Relevant Past Works <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="baPortfolio" name="portfolio-links" class="sf-input" rows="4" required placeholder="One URL per line&#10;Permanent, outdoor, or functional work preferred&#10;Google Drive, Dropbox, or personal site all accepted"></textarea>
               <p class="sf-char-hint">Prioritize work that is permanent, weatherproof, and publicly sited</p>
             </div>
@@ -2204,12 +2204,12 @@
             <p class="sf-section-desc">Full call details will be released April 17. These initial responses help us understand your approach — you'll have the opportunity to develop a formal proposal after the call launches.</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="baStatement">Statement of Interest <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baStatement">Statement of Interest <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="baStatement" name="statement-of-interest" class="sf-input" rows="5" required placeholder="Why are you interested in this project? What draws you to public, functional art in a riverfront community setting? (~200 words)"></textarea>
             </div>
 
             <div class="sf-field">
-              <label class="sf-label" for="baApproach">Preliminary Design Thinking <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baApproach">Preliminary Design Thinking <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <textarea id="baApproach" name="preliminary-approach" class="sf-input" rows="5" required placeholder="What themes, materials, or design directions would you explore for public seating along Batavia's River Street Plaza? Consider durability, community identity, and the riverfront context. (~200 words)"></textarea>
             </div>
 
@@ -2218,7 +2218,7 @@
             <p class="sf-section-heading">05 &mdash; Availability &amp; Logistics</p>
 
             <div class="sf-field">
-              <label class="sf-label" for="baInsurance">General Liability Insurance <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="baInsurance">General Liability Insurance <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <select id="baInsurance" name="insurance" class="sf-input" required>
                 <option value="">Select...</option>
                 <option value="Yes — currently insured">Yes — currently insured</option>
@@ -2256,7 +2256,7 @@
               <span id="baSubmitSpinner" style="display:none">Submitting&hellip;</span>
             </button>
 
-            <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">No application fee. Full call details release April 17, 2026. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
+            <p style="color:#64748b;font-size:0.75rem;margin-top:14px;line-height:1.6;">No application fee. Full call details release April 17, 2026. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
           </form>
         </div>
       </div><!-- /benchAppFormState -->
@@ -2267,10 +2267,10 @@
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Interest Received</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Interest Received</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">We'll be in<br>touch April 17.</h2>
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:320px;margin-left:auto;margin-right:auto">Thank you for your interest in the River Street Plaza Benches project. Full call details will be sent when the RFP launches on April 17, 2026.</p>
-          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
+          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#475569;">publicart@waterstreetstudios.org</strong></p>
           <button onclick="closeBenchApp()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
         </div>
       </div>
@@ -2311,11 +2311,11 @@
             <!-- Name Row -->
             <div class="sf-row">
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="vfFirst">First Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="vfFirst">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="vfFirst" name="first-name" class="sf-input" required autocomplete="given-name">
               </div>
               <div class="sf-field" style="margin-bottom:0">
-                <label class="sf-label" for="vfLast">Last Name <span style="color:#ef4444">*</span></label>
+                <label class="sf-label" for="vfLast">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
                 <input type="text" id="vfLast" name="last-name" class="sf-input" required autocomplete="family-name">
               </div>
             </div>
@@ -2323,7 +2323,7 @@
 
             <!-- Email -->
             <div class="sf-field">
-              <label class="sf-label" for="vfEmail">Email Address <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="vfEmail">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="email" id="vfEmail" name="email" class="sf-input" required autocomplete="email">
             </div>
 
@@ -2335,8 +2335,8 @@
 
             <!-- Areas of Interest -->
             <div class="sf-field">
-              <p class="sf-section-label">Areas of Interest <span style="color:#ef4444">*</span></p>
-              <p style="font-size:0.75rem;color:#94a3b8;margin-bottom:4px;">Select all that apply</p>
+              <p class="sf-section-label">Areas of Interest <span style="color:#b91c1c" aria-hidden="true">*</span></p>
+              <p style="font-size:0.75rem;color:#64748b;margin-bottom:4px;">Select all that apply</p>
               <div class="sf-checkbox-group" id="vfInterestGroup">
 
                 <label class="sf-checkbox-label">
@@ -2423,7 +2423,7 @@
               <span id="vfSubmitSpinner" style="display:none">Sending&hellip;</span>
             </button>
 
-            <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">All volunteers complete a Hold Harmless waiver via DocuSign prior to participating in paint days.</p>
+            <p style="color:#64748b;font-size:0.75rem;margin-top:14px;line-height:1.6;">All volunteers complete a Hold Harmless waiver via DocuSign prior to participating in paint days.</p>
           </form>
         </div><!-- /sponsor-body -->
       </div><!-- /volunteerFormState -->
@@ -2434,10 +2434,10 @@
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Thank You</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Thank You</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">You're on<br>the list.</h2>
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:300px;margin-left:auto;margin-right:auto">A Water Street Studios representative will be in touch soon with next steps.</p>
-          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
+          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#475569;">publicart@waterstreetstudios.org</strong></p>
           <button onclick="closeVolunteerForm()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
         </div>
       </div>
@@ -2478,7 +2478,7 @@
 
           <!-- Sponsorship Level -->
           <div class="sf-field">
-            <label class="sf-label" for="sfLevel">Sponsorship Level <span style="color:#ef4444">*</span></label>
+            <label class="sf-label" for="sfLevel">Sponsorship Level <span style="color:#b91c1c" aria-hidden="true">*</span></label>
             <select id="sfLevel" name="sponsorship-level" class="sf-input" required>
               <option value="">Select a level...</option>
               <option value="Premier Sponsor ($5,000+)">Premier Sponsor — $5,000+</option>
@@ -2492,11 +2492,11 @@
           <!-- Name Row -->
           <div class="sf-row">
             <div class="sf-field" style="margin-bottom:0">
-              <label class="sf-label" for="sfFirst">First Name <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="sfFirst">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="text" id="sfFirst" name="first-name" class="sf-input" required autocomplete="given-name">
             </div>
             <div class="sf-field" style="margin-bottom:0">
-              <label class="sf-label" for="sfLast">Last Name <span style="color:#ef4444">*</span></label>
+              <label class="sf-label" for="sfLast">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
               <input type="text" id="sfLast" name="last-name" class="sf-input" required autocomplete="family-name">
             </div>
           </div>
@@ -2510,7 +2510,7 @@
 
           <!-- Email -->
           <div class="sf-field">
-            <label class="sf-label" for="sfEmail">Email Address <span style="color:#ef4444">*</span></label>
+            <label class="sf-label" for="sfEmail">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
             <input type="email" id="sfEmail" name="email" class="sf-input" required autocomplete="email">
           </div>
 
@@ -2549,7 +2549,7 @@
             <span id="sfSubmitSpinner" style="display:none">Sending&hellip;</span>
           </button>
 
-          <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit. All contributions are tax deductible.</p>
+          <p style="color:#64748b;font-size:0.75rem;margin-top:14px;line-height:1.6;">Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit. All contributions are tax deductible.</p>
         </form>
         </div><!-- /sponsor-body -->
       </div><!-- /sponsorFormState -->
@@ -2560,10 +2560,10 @@
           <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Thank You</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Thank You</p>
           <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">Your inquiry<br>is on its way.</h2>
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:300px;margin-left:auto;margin-right:auto">A Water Street Studios representative will be in contact to discuss your sponsorship.</p>
-          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
+          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#475569;">publicart@waterstreetstudios.org</strong></p>
           <button onclick="closeSponsorForm()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
         </div>
       </div>
@@ -3306,7 +3306,7 @@
       <div style="margin-top:24px;">
         <button onclick="closeModal();openSponsorForm('Individual Supporter (Any amount)')" style="display:block;width:100%;background:#020617;color:white;padding:14px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;border:none;cursor:pointer;text-align:center;transition:background 0.2s;" onmouseover="this.style.background='#95C322'" onmouseout="this.style.background='#020617'">Support the Initiative &rarr;</button>
       </div>
-      <p style="margin-top:16px;color:#94a3b8;font-size:0.8rem;"><strong style="color:#475569;">Phone:</strong> 630-761-9777</p>
+      <p style="margin-top:16px;color:#64748b;font-size:0.8rem;"><strong style="color:#475569;">Phone:</strong> 630-761-9777</p>
     `
   },
 
@@ -3707,7 +3707,7 @@
       <div style="margin-top:24px;">
         <a href="https://givebutter.com/wssartpatron" target="_blank" rel="noopener" style="display:block;width:100%;background:#95C322;color:white;padding:14px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;text-align:center;">Donate Now &rarr;</a>
       </div>
-      <p style="margin-top:12px;color:#94a3b8;font-size:0.72rem;line-height:1.6;">Batavia Artists Association NFP Inc (dba Water Street Studios) &mdash; registered Illinois not-for-profit. Tax deductible per IRS guidelines.</p>
+      <p style="margin-top:12px;color:#64748b;font-size:0.75rem;line-height:1.6;">Batavia Artists Association NFP Inc (dba Water Street Studios) &mdash; registered Illinois not-for-profit. Tax deductible per IRS guidelines.</p>
     `
   }
 
