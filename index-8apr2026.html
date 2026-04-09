@@ -647,7 +647,7 @@
     .sf-char-hint { font-size: 0.72rem; color: #94a3b8; margin-top: 4px; text-align: right; }
   </style>
 </head>
-<body class="bg-stone-50 text-slate-950 overflow-x-hidden">
+<body class="bg-stone-50 text-slate-950 overflow-x-hidden unlocked">
 
   <!-- ===================== PASSWORD GATE ===================== -->
   <div id="passwordGate">
@@ -1022,7 +1022,7 @@
             </div>
           </div>
           <div class="lg:col-span-3 lg:text-right">
-            <button onclick="openInquiryForm()" class="inline-block border border-wss-gold/50 text-wss-gold px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-gold hover:text-slate-950 transition-colors">
+            <button onclick="openBenchApp()" class="inline-block border border-wss-gold/50 text-wss-gold px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-gold hover:text-slate-950 transition-colors">
               Get Notified
             </button>
           </div>
@@ -2061,6 +2061,217 @@
           <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:320px;margin-left:auto;margin-right:auto">Thank you for applying to the America 250 City Hall Mural project. The selection committee will review all submissions and be in touch to confirm receipt.</p>
           <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
           <button onclick="closeArtistApp()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== RIVER STREET BENCHES APPLICATION ===================== -->
+  <div id="benchAppOverlay" class="sponsor-overlay" role="dialog" aria-modal="true" aria-label="River Street Plaza Benches — Artist Application">
+    <div class="sponsor-panel" id="benchAppPanel">
+
+      <!-- Header -->
+      <div class="sponsor-header">
+        <span class="font-mono text-xs uppercase tracking-widest text-slate-400">Artist Application</span>
+        <button onclick="closeBenchApp()" class="sponsor-close" aria-label="Close form">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Form State -->
+      <div id="benchAppFormState">
+        <!-- Hero -->
+        <div style="position:relative;overflow:hidden;">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775740299/wss-river-street-plaza-benches-concept-2026.jpg" alt="River Street Plaza Benches — concept imagery" style="width:100%;display:block;height:300px;object-fit:cover;object-position:center;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(2,6,23,0.90) 0%, rgba(2,6,23,0.45) 60%, rgba(2,6,23,0.05) 100%);"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#FDC400;margin-bottom:10px;">Open Call &mdash; Launching April 17, 2026</p>
+            <h2 style="font-size:2rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">River Street<br>Plaza Benches</h2>
+            <p style="font-size:0.8rem;line-height:1.65;color:rgba(255,255,255,0.7);margin:0;">Express interest in this upcoming public art opportunity. Full call details release April 17, 2026.</p>
+          </div>
+        </div>
+
+        <div class="sponsor-body" style="padding-top:28px;">
+          <form name="river-street-benches-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="benchAppForm" novalidate>
+            <input type="hidden" name="form-name" value="river-street-benches-application">
+            <p style="display:none"><label>Do not fill: <input name="bot-field" tabindex="-1"></label></p>
+
+            <!-- ── SECTION 1: CONTACT ── -->
+            <p class="sf-section-heading">01 &mdash; Contact Information</p>
+            <p class="sf-section-desc">All fields marked with an asterisk are required.</p>
+
+            <div class="sf-row">
+              <div class="sf-field" style="margin-bottom:0">
+                <label class="sf-label" for="baFirst">First Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="baFirst" name="first-name" class="sf-input" required autocomplete="given-name">
+              </div>
+              <div class="sf-field" style="margin-bottom:0">
+                <label class="sf-label" for="baLast">Last Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="baLast" name="last-name" class="sf-input" required autocomplete="family-name">
+              </div>
+            </div>
+            <div style="margin-bottom:20px"></div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baEmail">Email Address <span style="color:#ef4444">*</span></label>
+              <input type="email" id="baEmail" name="email" class="sf-input" required autocomplete="email">
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baPhone">Phone Number <span class="sf-optional">Optional</span></label>
+              <input type="tel" id="baPhone" name="phone" class="sf-input" autocomplete="tel">
+            </div>
+
+            <div class="sf-row">
+              <div class="sf-field" style="margin-bottom:0">
+                <label class="sf-label" for="baCity">City <span style="color:#ef4444">*</span></label>
+                <input type="text" id="baCity" name="city" class="sf-input" required autocomplete="address-level2">
+              </div>
+              <div class="sf-field" style="margin-bottom:0">
+                <label class="sf-label" for="baState">State <span style="color:#ef4444">*</span></label>
+                <input type="text" id="baState" name="state" class="sf-input" required placeholder="Must be Illinois" autocomplete="address-level1">
+              </div>
+            </div>
+            <p style="font-size:0.72rem;color:#94a3b8;margin:6px 0 20px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists only.</p>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baWebsite">Website / Online Portfolio <span class="sf-optional">Strongly Recommended</span></label>
+              <input type="url" id="baWebsite" name="website" class="sf-input" placeholder="https://">
+            </div>
+
+            <!-- ── SECTION 2: YOUR PRACTICE ── -->
+            <hr class="sf-section-divider">
+            <p class="sf-section-heading">02 &mdash; Your Practice</p>
+            <p class="sf-section-desc">This project involves designing functional public art — benches that are both usable and visually compelling in a riverfront plaza setting.</p>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baDiscipline">Primary Artistic Discipline <span style="color:#ef4444">*</span></label>
+              <select id="baDiscipline" name="primary-discipline" class="sf-input" required>
+                <option value="">Select...</option>
+                <option value="Sculpture / 3D installation">Sculpture / 3D installation</option>
+                <option value="Functional / industrial design with artistic direction">Functional / industrial design with artistic direction</option>
+                <option value="Mosaic / ceramic arts">Mosaic / ceramic arts</option>
+                <option value="Muralism / large-scale painting">Muralism / large-scale painting</option>
+                <option value="Mixed media">Mixed media</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baExperience">Years of Professional Experience <span style="color:#ef4444">*</span></label>
+              <select id="baExperience" name="years-experience" class="sf-input" required>
+                <option value="">Select...</option>
+                <option value="Less than 2 years">Less than 2 years</option>
+                <option value="2–5 years">2–5 years</option>
+                <option value="5–10 years">5–10 years</option>
+                <option value="10–20 years">10–20 years</option>
+                <option value="20+ years">20+ years</option>
+              </select>
+            </div>
+
+            <!-- ── SECTION 3: PUBLIC ART EXPERIENCE ── -->
+            <hr class="sf-section-divider">
+            <p class="sf-section-heading">03 &mdash; Public Art &amp; Functional Design Experience</p>
+            <p class="sf-section-desc">Describe your experience with permanent, outdoor, publicly sited work. Prior functional art — benches, gates, railings, paving, signage — is especially relevant.</p>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baPublicCount">Completed Permanent Public Art Installations <span style="color:#ef4444">*</span></label>
+              <select id="baPublicCount" name="public-art-count" class="sf-input" required>
+                <option value="">Select...</option>
+                <option value="None">None</option>
+                <option value="1–2">1–2</option>
+                <option value="3–5">3–5</option>
+                <option value="6–10">6–10</option>
+                <option value="10+">10+</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baFunctional">Experience with Functional / Structural Public Art <span class="sf-optional">Optional</span></label>
+              <textarea id="baFunctional" name="functional-art-experience" class="sf-input" rows="3" placeholder="Describe any experience with benches, seating, railings, site furnishings, or other functional public art — including materials, fabrication methods, and durability considerations..."></textarea>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baPortfolio">Links to 2–3 Relevant Past Works <span style="color:#ef4444">*</span></label>
+              <textarea id="baPortfolio" name="portfolio-links" class="sf-input" rows="4" required placeholder="One URL per line&#10;Permanent, outdoor, or functional work preferred&#10;Google Drive, Dropbox, or personal site all accepted"></textarea>
+              <p class="sf-char-hint">Prioritize work that is permanent, weatherproof, and publicly sited</p>
+            </div>
+
+            <!-- ── SECTION 4: YOUR PROPOSAL ── -->
+            <hr class="sf-section-divider">
+            <p class="sf-section-heading">04 &mdash; Initial Concept</p>
+            <p class="sf-section-desc">Full call details will be released April 17. These initial responses help us understand your approach — you'll have the opportunity to develop a formal proposal after the call launches.</p>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baStatement">Statement of Interest <span style="color:#ef4444">*</span></label>
+              <textarea id="baStatement" name="statement-of-interest" class="sf-input" rows="5" required placeholder="Why are you interested in this project? What draws you to public, functional art in a riverfront community setting? (~200 words)"></textarea>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baApproach">Preliminary Design Thinking <span style="color:#ef4444">*</span></label>
+              <textarea id="baApproach" name="preliminary-approach" class="sf-input" rows="5" required placeholder="What themes, materials, or design directions would you explore for public seating along Batavia's River Street Plaza? Consider durability, community identity, and the riverfront context. (~200 words)"></textarea>
+            </div>
+
+            <!-- ── SECTION 5: LOGISTICS ── -->
+            <hr class="sf-section-divider">
+            <p class="sf-section-heading">05 &mdash; Availability &amp; Logistics</p>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baInsurance">General Liability Insurance <span style="color:#ef4444">*</span></label>
+              <select id="baInsurance" name="insurance" class="sf-input" required>
+                <option value="">Select...</option>
+                <option value="Yes — currently insured">Yes — currently insured</option>
+                <option value="I can obtain coverage for the project">I can obtain coverage for the project</option>
+                <option value="Unsure — need more information">Unsure — need more information</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baSource">How Did You Hear About This Opportunity? <span class="sf-optional">Optional</span></label>
+              <select id="baSource" name="referral-source" class="sf-input">
+                <option value="">Select...</option>
+                <option value="Water Street Studios">Water Street Studios</option>
+                <option value="Word of mouth / colleague">Word of mouth / colleague</option>
+                <option value="Social media">Social media</option>
+                <option value="City of Batavia / local news">City of Batavia / local news</option>
+                <option value="Illinois Arts Council">Illinois Arts Council</option>
+                <option value="Public art job board">Public art job board</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <label class="sf-label" for="baNotes">Additional Notes or Questions <span class="sf-optional">Optional</span></label>
+              <textarea id="baNotes" name="additional-notes" class="sf-input" rows="3" placeholder="Anything else you'd like the committee to know, or questions about the project..."></textarea>
+            </div>
+
+            <!-- Error -->
+            <p id="baError" style="display:none;color:#ef4444;font-size:0.8rem;margin-bottom:16px;line-height:1.6;">Something went wrong. Please try again or email us at <strong>publicart@waterstreetstudios.org</strong>.</p>
+
+            <!-- Submit -->
+            <button type="submit" id="baSubmit" class="sf-submit">
+              <span id="baSubmitText">Submit Interest</span>
+              <span id="baSubmitSpinner" style="display:none">Submitting&hellip;</span>
+            </button>
+
+            <p style="color:#94a3b8;font-size:0.72rem;margin-top:14px;line-height:1.6;">No application fee. Full call details release April 17, 2026. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
+          </form>
+        </div>
+      </div><!-- /benchAppFormState -->
+
+      <!-- Confirmation State -->
+      <div id="benchAppConfirm" class="sponsor-body" style="display:none">
+        <div style="padding:40px 0 24px;text-align:center;">
+          <div style="width:56px;height:56px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue mb-3">Interest Received</p>
+          <h2 class="text-3xl font-black tracking-tight" style="line-height:1.15">We'll be in<br>touch April 17.</h2>
+          <p class="text-slate-500 text-sm leading-relaxed mt-4" style="max-width:320px;margin-left:auto;margin-right:auto">Thank you for your interest in the River Street Plaza Benches project. Full call details will be sent when the RFP launches on April 17, 2026.</p>
+          <p class="text-slate-400 text-sm mt-6">Questions? Email us at <strong style="color:#64748b;">publicart@waterstreetstudios.org</strong></p>
+          <button onclick="closeBenchApp()" class="sf-submit" style="margin-top:32px;max-width:220px;margin-left:auto;margin-right:auto">Close</button>
         </div>
       </div>
 
@@ -3840,6 +4051,62 @@
 
     artistAppOverlay.addEventListener('click', function(e) {
       if (e.target === this) closeArtistApp();
+    });
+
+    // ─── RIVER STREET BENCHES APPLICATION ───
+    const benchAppOverlay = document.getElementById('benchAppOverlay');
+    const benchAppPanel   = document.getElementById('benchAppPanel');
+
+    function openBenchApp() {
+      benchAppOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('benchAppFormState').style.display = '';
+      document.getElementById('benchAppConfirm').style.display = 'none';
+      document.getElementById('baError').style.display = 'none';
+      document.getElementById('baSubmit').disabled = false;
+      document.getElementById('baSubmitText').style.display = '';
+      document.getElementById('baSubmitSpinner').style.display = 'none';
+      benchAppPanel.scrollTop = 0;
+    }
+
+    function closeBenchApp() {
+      benchAppOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    benchAppOverlay.addEventListener('click', function(e) {
+      if (e.target === this) closeBenchApp();
+    });
+
+    document.getElementById('benchAppForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form    = this;
+      const btn     = document.getElementById('baSubmit');
+      const txt     = document.getElementById('baSubmitText');
+      const spinner = document.getElementById('baSubmitSpinner');
+      const errEl   = document.getElementById('baError');
+
+      btn.disabled = true;
+      txt.style.display = 'none';
+      spinner.style.display = '';
+      errEl.style.display = 'none';
+
+      try {
+        const data = new FormData(form);
+        const res  = await fetch('/', { method: 'POST', headers: { 'Accept': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+        if (res.ok) {
+          document.getElementById('benchAppFormState').style.display = 'none';
+          document.getElementById('benchAppConfirm').style.display = '';
+          benchAppPanel.scrollTop = 0;
+        } else {
+          throw new Error('Network response not OK');
+        }
+      } catch(err) {
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        txt.style.display = '';
+        spinner.style.display = 'none';
+      }
     });
 
     document.getElementById('artistAppForm').addEventListener('submit', async function(e) {
