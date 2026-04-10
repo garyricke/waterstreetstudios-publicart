@@ -1074,6 +1074,126 @@
     </div>
   </section>
 
+  <!-- ===================== FEATURED NEWS ===================== -->
+  <section id="news" class="relative bg-slate-950 py-32 md:py-40 overflow-hidden grain">
+    <!-- Faint background image -->
+    <div class="absolute inset-0 opacity-[0.07]" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png');background-size:cover;background-position:center;"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6">
+
+      <!-- Top label row -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-16 reveal">
+        <div class="flex items-center gap-4">
+          <span class="inline-block w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-teal-500">State News &mdash; April 10, 2026</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-white/30 hidden sm:block">Grant Partner</p>
+          <div class="bg-white px-3 py-2" style="line-height:0;">
+            <img src="image%20assets/illinois-art-council-logo.jpg" alt="Illinois Arts Council" style="height:36px;width:auto;display:block;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Main editorial grid -->
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: Text -->
+        <div class="lg:col-span-5">
+          <!-- Giant background numeral -->
+          <div class="font-black text-white leading-none tracking-tighter select-none pointer-events-none reveal" style="font-size:clamp(72px,12vw,140px);color:rgba(255,255,255,0.04);margin-bottom:-0.35em;">$15K</div>
+
+          <h2 class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.9] text-white reveal">
+            Batavia<br>
+            <span class="text-teal-400">Awarded.</span>
+          </h2>
+
+          <div class="w-12 h-px bg-teal-600 my-8 reveal"></div>
+
+          <p class="text-lg text-white/65 font-light leading-relaxed reveal">
+            Governor JB Pritzker and the Illinois Arts Council awarded <strong class="text-white font-semibold">$15,000 to the Batavia Artists Association NFP Inc.</strong> as part of a statewide $325,000+ investment in 22 America 250 public art projects.
+          </p>
+
+          <p class="text-base text-white/40 font-light leading-relaxed mt-5 reveal">
+            The grant funds our upcoming <strong class="text-white/60">America 250 City Hall Mural</strong> — an open call for artists to transform Batavia's historic limestone City Hall into a landmark for the nation's 250th anniversary.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 mt-10 reveal">
+            <button onclick="openNewsModal()" class="bg-white text-slate-950 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-teal-400 transition-colors">
+              Full Press Release
+            </button>
+            <button onclick="openModal('america250')" class="border border-white/20 text-white/70 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:border-teal-500 hover:text-teal-400 transition-colors text-center">
+              View the Project &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Image + floating stat cards -->
+        <div class="lg:col-span-7 reveal">
+          <div class="relative">
+
+            <!-- Primary image: City Hall mock-up -->
+            <div class="overflow-hidden" style="aspect-ratio:16/10;">
+              <img
+                src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png"
+                alt="Batavia City Hall — America 250 mural site"
+                style="width:100%;height:100%;object-fit:cover;transition:transform 0.8s ease;"
+                onmouseover="this.style.transform='scale(1.03)'"
+                onmouseout="this.style.transform='scale(1)'">
+            </div>
+
+            <!-- Floating: grant stat -->
+            <div class="absolute top-5 right-5 bg-slate-950/90 backdrop-blur-md border border-white/10 px-5 py-4 text-right" style="min-width:160px;">
+              <p class="font-mono text-[10px] uppercase tracking-widest text-teal-500 mb-1">Statewide Total</p>
+              <p class="text-3xl font-black text-white leading-none">$325K+</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/35 mt-1">22 Projects</p>
+            </div>
+
+            <!-- Floating: Batavia badge -->
+            <div class="absolute bottom-5 left-5 bg-teal-600 px-5 py-4" style="max-width:220px;">
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/70 mb-1">Batavia Recipient</p>
+              <p class="text-sm font-bold text-white leading-tight">Batavia Artists Association NFP Inc.</p>
+            </div>
+
+            <!-- Second image: City Hall window dimensions -->
+            <div class="absolute -bottom-8 -right-6 hidden xl:block shadow-2xl overflow-hidden border-2 border-slate-900" style="width:200px;height:140px;">
+              <img
+                src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771870822/City-Hall-Window-Openings-w-dims_uvpl3f.png"
+                alt="City Hall window opening dimensions"
+                style="width:100%;height:100%;object-fit:cover;object-position:center;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom: Quote strip -->
+      <div class="mt-24 pt-12 border-t border-white/10 grid md:grid-cols-2 gap-10 reveal">
+        <blockquote>
+          <p class="text-xl md:text-2xl font-light leading-relaxed text-white/75 italic">&ldquo;Illinois is proud to support new public art projects in communities across the state as we celebrate our unique place in the story of America.&rdquo;</p>
+          <footer class="mt-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-teal-500">Governor JB Pritzker</p>
+          </footer>
+        </blockquote>
+        <blockquote>
+          <p class="text-xl md:text-2xl font-light leading-relaxed text-white/75 italic">&ldquo;These projects show how art can energize local economies and deepen our sense of place across Illinois.&rdquo;</p>
+          <footer class="mt-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-teal-500">Nora Daley &mdash; IAC Board Chair</p>
+          </footer>
+        </blockquote>
+      </div>
+
+      <!-- CTA strip -->
+      <div class="mt-14 reveal">
+        <button onclick="openNewsModal()" class="group flex items-center gap-4 text-white/40 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest">
+          <span class="w-10 h-px bg-white/20 group-hover:bg-teal-500 group-hover:w-16 transition-all duration-300"></span>
+          Read the full Illinois Arts Council press release &rarr;
+        </button>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ===================== ARTISTS ===================== -->
   <section id="artists" class="relative py-32 md:py-40">
     <div class="max-w-7xl mx-auto px-6">
@@ -1688,6 +1808,7 @@
             <a href="#artists" class="block text-white/60 hover:text-wss-blue-light transition-colors">Artists</a>
             <a href="#volunteer" class="block text-white/60 hover:text-wss-blue-light transition-colors">Volunteer</a>
             <a href="#invest" class="block text-white/60 hover:text-wss-blue-light transition-colors">Support</a>
+            <a href="#news" class="block text-white/60 hover:text-wss-blue-light transition-colors">News</a>
             <a href="#waterstreet" class="block text-white/60 hover:text-wss-blue-light transition-colors">Water Street Studios</a>
           </div>
         </div>
@@ -4408,6 +4529,140 @@
 
       resetInterval();
     }
+  </script>
+
+  <!-- ===================== NEWS MODAL ===================== -->
+  <div id="newsModalOverlay" role="dialog" aria-modal="true" aria-label="Illinois Arts Council Press Release" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(2,6,23,0.92);backdrop-filter:blur(12px);overflow-y:auto;padding:24px;">
+    <div style="max-width:780px;margin:40px auto;background:#0f172a;border:1px solid rgba(255,255,255,0.08);position:relative;">
+
+      <!-- Close -->
+      <button onclick="closeNewsModal()" aria-label="Close press release" style="position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);font-size:22px;line-height:1;z-index:10;">&#10005;</button>
+
+      <!-- Header image -->
+      <div style="position:relative;overflow:hidden;height:280px;">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png" alt="Batavia City Hall" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(15,23,42,1) 0%,rgba(15,23,42,0.4) 60%,transparent 100%);"></div>
+        <!-- Label over image -->
+        <div style="position:absolute;bottom:24px;left:28px;right:28px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+          <div>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(45,212,191,0.8);margin-bottom:6px;">For Immediate Release &mdash; April 10, 2026</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:rgba(255,255,255,0.4);">Illinois Arts Council &middot; Office of the Governor</p>
+          </div>
+          <div style="background:white;padding:6px 10px;flex-shrink:0;line-height:0;">
+            <img src="image%20assets/illinois-art-council-logo.jpg" alt="Illinois Arts Council" style="height:40px;width:auto;display:block;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:36px 36px 48px;">
+
+        <!-- Headline -->
+        <h2 style="font-size:clamp(1.5rem,4vw,2.2rem);font-weight:900;letter-spacing:-0.03em;line-height:1.1;color:white;margin:0 0 10px;">Gov. JB Pritzker and Illinois Arts Council Announce Public Art Projects</h2>
+        <p style="font-size:1rem;color:rgba(255,255,255,0.5);font-style:italic;margin:0 0 28px;line-height:1.5;">Twenty-two projects for Illinois&rsquo; America 250 celebration will reflect diverse narratives and cultural heritage across the state.</p>
+
+        <!-- Batavia callout box -->
+        <div style="background:linear-gradient(135deg,rgba(20,184,166,0.12),rgba(20,184,166,0.04));border:1px solid rgba(20,184,166,0.3);padding:20px 24px;margin-bottom:28px;">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgb(45,212,191);margin-bottom:8px;">Batavia Recipient</p>
+          <p style="color:white;font-size:1.05rem;font-weight:600;margin:0 0 4px;">Batavia Artists Association NFP Inc. &mdash; <span style="color:rgb(45,212,191);">$15,000</span></p>
+          <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin:0;">Supporting the America 250 City Hall Mural &mdash; open call launching April 17, 2026</p>
+        </div>
+
+        <!-- Body copy -->
+        <div style="color:rgba(255,255,255,0.65);font-size:0.95rem;line-height:1.8;margin-bottom:28px;">
+          <p style="margin-bottom:16px;"><strong style="color:white;">CHICAGO</strong> &mdash; The Illinois Arts Council (IAC) in partnership with the Office of Governor JB Pritzker and Illinois Humanities awarded more than <strong style="color:white;">$325,000</strong> to twenty-two public art projects throughout Illinois to commemorate the 250th anniversary of the Declaration of Independence. These grants are part of a broader statewide effort led by the Illinois America 250 Commission.</p>
+          <p style="margin-bottom:16px;">&ldquo;Illinois is proud to support new public art projects in communities across the state as we celebrate our unique place in the story of America,&rdquo; <strong style="color:white;">said Governor JB Pritzker</strong>. &ldquo;Thanks to these IAC grants, we&rsquo;re helping Illinois&rsquo; talented creatives bring vibrance to our public spaces, celebrate our local history, and energize our cultural communities.&rdquo;</p>
+          <p style="margin-bottom:16px;">&ldquo;Art connects and inspires, uplifting voices, histories, and communities whose stories may not otherwise be told,&rdquo; <strong style="color:white;">said Lieutenant Governor Juliana Stratton</strong>. &ldquo;Their work helps us better understand the American story and the world around us.&rdquo;</p>
+          <p>&ldquo;These projects show how art can energize local economies and deepen our sense of place across Illinois,&rdquo; <strong style="color:white;">said IAC Board Chair Nora Daley</strong>. &ldquo;Through this investment, we are not only enhancing our public spaces but also fueling economic growth and fostering a vibrant cultural economy that benefits all Illinoisans.&rdquo;</p>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:rgba(255,255,255,0.08);margin:32px 0;"></div>
+
+        <!-- Grantee table -->
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.35);margin-bottom:16px;">All 22 Illinois America 250 Public Art Recipients</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.12);">
+                <th style="text-align:left;padding:8px 10px;color:rgba(255,255,255,0.35);font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.15em;font-weight:400;">Grantee</th>
+                <th style="text-align:left;padding:8px 10px;color:rgba(255,255,255,0.35);font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.15em;font-weight:400;">Location</th>
+                <th style="text-align:right;padding:8px 10px;color:rgba(255,255,255,0.35);font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.15em;font-weight:400;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:rgba(20,184,166,0.08);border-bottom:1px solid rgba(20,184,166,0.2);">
+                <td style="padding:10px 10px;color:white;font-weight:700;">Batavia Artists Association NFP Inc.</td>
+                <td style="padding:10px 10px;color:rgb(45,212,191);">Batavia</td>
+                <td style="padding:10px 10px;color:rgb(45,212,191);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;">$15,000</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Arts Connection of Central IL</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Effingham</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">ArtsPartners of Central Illinois, Inc.</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Peoria</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Chicago Public Art Group</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Chicago</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">City of Decatur dba Decatur Public Library Fndn</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Decatur</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">City of Macomb</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Macomb</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$12,130</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">City of Pontiac</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Pontiac</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">DeKalb County History Center</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Sycamore</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">East St. Louis Historical Society</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">East St. Louis</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Freeport Arts Center</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Freeport</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Jacksonville Main Street</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Jacksonville</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Marshall Public Library</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Marshall</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Old Town School of Folk Music</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Chicago</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Olney Arts Council of Illinois</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Olney</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Quad City Arts</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Rock Island</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Quincy Society of Fine Arts</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Quincy</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Rockford Area Convention and Visitors Bureau Fndn</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Rockford</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Shawnee Hills Arts Council</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Anna</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Side Street Studio Arts NFP</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Elgin</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Village of Equality</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Equality</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Visit Champaign County Foundation</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Champaign</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+              <tr><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Waukegan Park District</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Waukegan</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:rgba(255,255,255,0.08);margin:32px 0;"></div>
+
+        <!-- City Hall window openings reference -->
+        <div style="overflow:hidden;margin-bottom:28px;">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771870822/City-Hall-Window-Openings-w-dims_uvpl3f.png" alt="Batavia City Hall window opening dimensions — America 250 mural site" style="width:100%;display:block;">
+        </div>
+
+        <!-- Source & contact -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:20px 24px;">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.3);margin-bottom:10px;">Source</p>
+          <p style="color:rgba(255,255,255,0.5);font-size:0.82rem;line-height:1.6;margin:0;">Illinois Arts Council official press release. Contact: <span style="color:rgba(255,255,255,0.65);">George.Tarasuk@illinois.gov</span> &middot; For more information visit <span style="color:rgba(45,212,191,0.8);">www.arts.illinois.gov</span></p>
+        </div>
+
+        <!-- Close button -->
+        <div style="margin-top:32px;text-align:center;">
+          <button onclick="closeNewsModal()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;padding:14px 32px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(45,212,191,0.6)';this.style.color='rgb(45,212,191)';" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.5)';">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openNewsModal() {
+      const overlay = document.getElementById('newsModalOverlay');
+      overlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      overlay.scrollTop = 0;
+    }
+    function closeNewsModal() {
+      document.getElementById('newsModalOverlay').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.getElementById('newsModalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeNewsModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeNewsModal();
+    });
   </script>
 
 </body>
