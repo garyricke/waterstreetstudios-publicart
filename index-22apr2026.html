@@ -182,10 +182,12 @@
       opacity: 0;
       transform: scale(1.05);
       transition: opacity 1.2s ease, transform 6s ease;
+      pointer-events: none;
     }
     .hero-slide.active {
       opacity: 1;
       transform: scale(1);
+      pointer-events: auto;
     }
     .carousel-pip {
       width: 24px; height: 3px;
@@ -196,6 +198,68 @@
     .carousel-pip.active {
       background: #fff;
       width: 36px;
+    }
+    /* Open Call badge overlay on bench slide */
+    .hero-open-call-badge {
+      position: absolute;
+      top: 14rem;
+      left: 2.5rem;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px 18px 20px;
+      background: #0a0f14;
+      border-left: 4px solid #FDC400;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 20px 50px -12px rgba(0,0,0,0.6);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .hero-open-call-badge:hover {
+      background: #1a1f24;
+      transform: translateX(2px);
+    }
+    .hero-open-call-badge .hocb-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #FDC400;
+      box-shadow: 0 0 0 0 rgba(253, 196, 0, 0.7);
+      animation: hocbPulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes hocbPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(253, 196, 0, 0.7); }
+      50%      { box-shadow: 0 0 0 10px rgba(253, 196, 0, 0); }
+    }
+    .hero-open-call-badge .hocb-new {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #FDC400;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .hero-open-call-badge .hocb-title {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .hero-open-call-badge .hocb-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      display: block;
+    }
+    .hero-open-call-badge .hocb-sub em {
+      color: #FDC400;
+      font-style: normal;
     }
 
     /* Modal carousels */
@@ -841,7 +905,17 @@
     <!-- Hero Carousel -->
     <div class="absolute top-0 right-0 w-1/2 h-full hidden lg:block overflow-hidden">
       <div class="hero-carousel absolute inset-0">
-        <div class="hero-slide active" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-5_kktqv1.jpg')"></div>
+        <div class="hero-slide active" style="background-color:#0f1a23;background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776903906/wss-noblewins-arch-bench.png');background-size:contain;background-repeat:no-repeat;background-position:center">
+          <a href="#unwind-benches" class="hero-open-call-badge" aria-label="New open call: unWIND Benches — apply by May 11, 2026">
+            <span class="hocb-dot" aria-hidden="true"></span>
+            <span>
+              <span class="hocb-new">New &middot; Open Call</span>
+              <span class="hocb-title">un<span style="color:#FDC400">WIND</span> Benches</span>
+              <span class="hocb-sub">Apply by <em>May 11, 2026</em></span>
+            </span>
+          </a>
+        </div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-5_kktqv1.jpg')"></div>
         <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg')"></div>
         <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg')"></div>
         <!-- HC Storm mural removed — not a WSS Public Art Initiative project -->
@@ -962,89 +1036,98 @@
     </div>
   </section>
 
+  <!-- ===================== ARTISTS ===================== -->
+  <section id="artists" class="relative py-32 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div class="lg:col-span-7">
+          <div class="river-line reveal mb-8"></div>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">For Artists</p>
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+            Your next canvas awaits
+          </h2>
+          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 mt-8 reveal">
+            We believe in open, competitive selection processes with no cost barriers to apply. Whether you're an emerging voice or an established muralist, Batavia wants to see your vision on our walls.
+          </p>
+
+          <!-- Opportunity Cards -->
+          <div class="mt-12 space-y-6 stagger">
+            <div data-modal="opencall" class="p-6 md:p-8 reveal text-white overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.88) 30%, rgba(2,6,23,0.4) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-2 h-2 rounded-full bg-wss-green animate-pulse"></span>
+                <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Open Call</span>
+              </div>
+              <h3 class="text-xl font-bold">America 250 &mdash; City Hall Mural</h3>
+              <p class="text-white/60 text-base leading-relaxed mt-2">
+                Permanent outdoor mural across six arched limestone bays on Batavia City Hall. Illinois-based artists with experience in large-scale public artworks. Translate historical and civic themes into compelling contemporary visual narratives.
+              </p>
+              <div class="flex flex-wrap gap-3 mt-4">
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">We Are Seeking Proposals</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Summer 2026</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Illinois Artists</span>
+              </div>
+              <p class="click-hint">MORE</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selection Process -->
+        <div class="lg:col-span-5 lg:pt-20">
+          <div class="sticky top-32">
+            <div class="bg-slate-950 text-white p-8 md:p-10 reveal">
+              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-light mb-6">How Selection Works</h3>
+              <div class="space-y-6">
+                <div data-modal="step01" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">01</span>
+                  <div>
+                    <p class="font-bold text-base">Open Call Published</p>
+                    <p class="text-white/50 text-base mt-1">Request for Proposals distributed with no cost to apply</p>
+                  </div>
+                </div>
+                <div data-modal="step02" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">02</span>
+                  <div>
+                    <p class="font-bold text-base">Jury Review</p>
+                    <p class="text-white/50 text-base mt-1">Selection committee of city reps, property stakeholders, and arts professionals</p>
+                  </div>
+                </div>
+                <div data-modal="step03" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">03</span>
+                  <div>
+                    <p class="font-bold text-base">Community Engagement</p>
+                    <p class="text-white/50 text-base mt-1">Finalist designs shared at Community of the Whole meetings and City Council</p>
+                  </div>
+                </div>
+                <div data-modal="step04" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
+                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">04</span>
+                  <div>
+                    <p class="font-bold text-base">Installation</p>
+                    <p class="text-white/50 text-base mt-1">Artist-led process: site prep, design transfer, painting, UV &amp; anti-graffiti sealing</p>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openInquiryForm()" class="block mt-8 bg-wss-blue-accessible text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue transition-colors text-center w-full">
+                Get in Touch
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== PROJECTS ===================== -->
   <section id="projects" class="relative bg-slate-950 text-white py-32 md:py-40 diagonal grain">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center max-w-3xl mx-auto mb-20">
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-light reveal">Completed & Upcoming</p>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-gold reveal">Now Accepting Applications</p>
         <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
-          Walls that tell<br>our story
+          Current open calls
         </h2>
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-6 lg:gap-8">
-        <!-- Art of the Fox -->
-        <div data-modal="artofthefox" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-4_efghxw.jpg') center/cover no-repeat">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
-            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2024</span>
-          </div>
-          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Art of the Fox</h3>
-          <p class="text-white/60 leading-relaxed mt-4">
-            Ten framed murals on City Hall's east-facing windows overlooking the Fox River and Riverwalk. A partnership with The Conservation Foundation celebrating the beauty and diversity of the Fox River through the eyes of local artists.
-          </p>
-          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
-            <div>
-              <p class="text-2xl font-black">10</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Local Artist Murals</p>
-            </div>
-            <div>
-              <p class="text-2xl font-black">35+</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Applications</p>
-            </div>
-          </div>
-          <p class="click-hint">MORE</p>
-        </div>
-
-        <!-- Good Energy Gateway Mural -->
-        <div data-modal="goodenergy" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451699/bpai-good-energy-mural-7_e3xyni.jpg') center/cover no-repeat">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
-            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2025</span>
-          </div>
-          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Good Energy Gateway</h3>
-          <p class="text-white/60 leading-relaxed mt-4">
-            A 24' &times; 20' mural &mdash; a playful twist on Batavia's "City of Good Energy" tagline &mdash; featuring people biking, walking, and gathering along the river. Designed by Amy Decker and painted by over 75 community volunteers, with Josh Schultz serving as project manager.
-          </p>
-          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
-            <div>
-              <p class="text-2xl font-black">24&times;20</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Feet of Mural</p>
-            </div>
-            <div>
-              <p class="text-2xl font-black">76+</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Community Volunteers</p>
-            </div>
-          </div>
-          <p class="click-hint">MORE</p>
-        </div>
-
-        <!-- Wave Petunia Mural -->
-        <div data-modal="wavepetunia" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-4_vd99pa.webp') center/cover no-repeat">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
-            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; 2023</span>
-          </div>
-          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Wave Petunia Mural</h3>
-          <p class="text-white/60 leading-relaxed mt-4">
-            A larger-than-life celebration of color and nature &mdash; an energetic collage of pink Wave Petunias with interactive, photo-worthy features. Going #BeyondTheBloom in the heart of downtown Batavia.
-          </p>
-          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
-            <div>
-              <p class="text-2xl font-black">1</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Lead Artist</p>
-            </div>
-            <div>
-              <p class="text-2xl font-black">2023</p>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Unveiled</p>
-            </div>
-          </div>
-          <p class="click-hint">MORE</p>
-        </div>
-      </div>
-
       <!-- Upcoming: America 250 -->
-      <div data-modal="america250" class="mt-12 border border-wss-blue/20 p-8 md:p-12 reveal overflow-hidden" style="background:linear-gradient(to right, rgba(0,56,71,0.88) 0%, rgba(0,85,112,0.75) 50%, rgba(0,85,112,0.5) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
+      <div data-modal="america250" class="border border-wss-blue/20 p-8 md:p-12 reveal overflow-hidden" style="background:linear-gradient(to right, rgba(0,56,71,0.88) 0%, rgba(0,85,112,0.75) 50%, rgba(0,85,112,0.5) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
         <div class="grid lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-8">
             <div class="flex items-center gap-3 mb-4">
@@ -1066,7 +1149,7 @@
       </div>
 
       <!-- unWIND Benches — Open Call -->
-      <div class="mt-12 border border-wss-gold/30 p-8 md:p-12 reveal overflow-hidden relative" style="background:linear-gradient(to right, rgba(0,40,60,0.96) 0%, rgba(0,65,90,0.88) 50%, rgba(0,65,90,0.70) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775740299/wss-river-street-plaza-benches-concept-2026.jpg') center/cover no-repeat">
+      <div id="unwind-benches" class="mt-12 border border-wss-gold/30 p-8 md:p-12 reveal overflow-hidden relative scroll-mt-32" style="background:linear-gradient(to right, rgba(0,40,60,0.96) 0%, rgba(0,65,90,0.88) 50%, rgba(0,65,90,0.70) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775740299/wss-river-street-plaza-benches-concept-2026.jpg') center/cover no-repeat">
 
         <!-- Header -->
         <div class="flex items-center gap-3 mb-6">
@@ -1140,6 +1223,86 @@
           <button onclick="openModal('unwind_project')" class="border border-white/20 text-white/80 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:border-white hover:text-white transition-colors text-center">
             Read Project Details
           </button>
+        </div>
+      </div>
+
+      <!-- Completed Projects -->
+      <div class="text-center max-w-3xl mx-auto mt-32 md:mt-40 mb-20">
+        <div class="w-px h-16 bg-white/20 mx-auto mb-10" aria-hidden="true"></div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-light reveal">Completed Work</p>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
+          Walls that tell<br>our story
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Art of the Fox -->
+        <div data-modal="artofthefox" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-4_efghxw.jpg') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2024</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Art of the Fox</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            Ten framed murals on City Hall's east-facing windows overlooking the Fox River and Riverwalk. A partnership with The Conservation Foundation celebrating the beauty and diversity of the Fox River through the eyes of local artists.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">10</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Local Artist Murals</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">35+</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Applications</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <!-- Good Energy Gateway Mural -->
+        <div data-modal="goodenergy" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451699/bpai-good-energy-mural-7_e3xyni.jpg') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; October 2025</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Good Energy Gateway</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            A 24' &times; 20' mural &mdash; a playful twist on Batavia's "City of Good Energy" tagline &mdash; featuring people biking, walking, and gathering along the river. Designed by Amy Decker and painted by over 75 community volunteers, with Josh Schultz serving as project manager.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">24&times;20</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Feet of Mural</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">76+</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Community Volunteers</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
+        </div>
+
+        <!-- Wave Petunia Mural -->
+        <div data-modal="wavepetunia" class="project-card relative bg-white/[0.06] backdrop-blur border border-white/10 p-8 md:p-10 reveal overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.85) 30%, rgba(2,6,23,0.25) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-4_vd99pa.webp') center/cover no-repeat">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 rounded-full bg-wss-blue-light"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Completed &mdash; 2023</span>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Wave Petunia Mural</h3>
+          <p class="text-white/60 leading-relaxed mt-4">
+            A larger-than-life celebration of color and nature &mdash; an energetic collage of pink Wave Petunias with interactive, photo-worthy features. Going #BeyondTheBloom in the heart of downtown Batavia.
+          </p>
+          <div class="mt-8 border-t border-white/10 pt-6 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-2xl font-black">1</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Lead Artist</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black">2023</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Unveiled</p>
+            </div>
+          </div>
+          <p class="click-hint">MORE</p>
         </div>
       </div>
     </div>
@@ -1225,8 +1388,8 @@
       <!-- Top label row -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-16 reveal">
         <div class="flex items-center gap-4">
-          <span class="inline-block w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-teal-500">State News &mdash; April 10, 2026</p>
+          <span class="inline-block w-2 h-2 rounded-full bg-wss-blue-light animate-pulse"></span>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-light">State News &mdash; April 10, 2026</p>
         </div>
         <div class="flex items-center gap-4">
           <p class="font-mono text-[10px] uppercase tracking-widest text-white/30 hidden sm:block">Grant Partner</p>
@@ -1246,10 +1409,10 @@
 
           <h2 class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.9] text-white reveal">
             Batavia<br>
-            <span class="text-teal-400">Awarded.</span>
+            <span class="text-wss-blue">Awarded.</span>
           </h2>
 
-          <div class="w-12 h-px bg-teal-600 my-8 reveal"></div>
+          <div class="w-12 h-px bg-wss-blue my-8 reveal"></div>
 
           <p class="text-lg text-white/65 font-light leading-relaxed reveal">
             Governor JB Pritzker and the Illinois Arts Council awarded <strong class="text-white font-semibold">$15,000 to the Batavia Artists Association NFP Inc.</strong> as part of a statewide $325,000+ investment in 22 America 250 public art projects.
@@ -1260,10 +1423,10 @@
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 mt-10 reveal">
-            <button onclick="openNewsModal()" class="bg-white text-slate-950 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-teal-400 transition-colors">
+            <button onclick="openNewsModal()" class="bg-white text-slate-950 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-light transition-colors">
               Full Press Release
             </button>
-            <button onclick="openModal('america250')" class="border border-white/20 text-white/70 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:border-teal-500 hover:text-teal-400 transition-colors text-center">
+            <button onclick="openModal('america250')" class="border border-white/20 text-white/70 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:border-wss-blue hover:text-wss-blue transition-colors text-center">
               View the Project &rarr;
             </button>
           </div>
@@ -1285,13 +1448,13 @@
 
             <!-- Floating: grant stat -->
             <div class="absolute top-5 right-5 bg-slate-950/90 backdrop-blur-md border border-white/10 px-5 py-4 text-right" style="min-width:160px;">
-              <p class="font-mono text-[10px] uppercase tracking-widest text-teal-500 mb-1">Statewide Total</p>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-light mb-1">Statewide Total</p>
               <p class="text-3xl font-black text-white leading-none">$325K+</p>
               <p class="font-mono text-[10px] uppercase tracking-widest text-white/35 mt-1">22 Projects</p>
             </div>
 
             <!-- Floating: Batavia badge -->
-            <div class="absolute bottom-5 left-5 bg-teal-600 px-5 py-4" style="max-width:220px;">
+            <div class="absolute bottom-5 left-5 bg-wss-blue px-5 py-4" style="max-width:220px;">
               <p class="font-mono text-[10px] uppercase tracking-widest text-white/70 mb-1">Batavia Recipient</p>
               <p class="text-sm font-bold text-white leading-tight">Batavia Artists Association NFP Inc.</p>
             </div>
@@ -1313,13 +1476,13 @@
         <blockquote>
           <p class="text-xl md:text-2xl font-light leading-relaxed text-white/75 italic">&ldquo;Illinois is proud to support new public art projects in communities across the state as we celebrate our unique place in the story of America.&rdquo;</p>
           <footer class="mt-5">
-            <p class="font-mono text-xs uppercase tracking-widest text-teal-500">Governor JB Pritzker</p>
+            <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Governor JB Pritzker</p>
           </footer>
         </blockquote>
         <blockquote>
           <p class="text-xl md:text-2xl font-light leading-relaxed text-white/75 italic">&ldquo;These projects show how art can energize local economies and deepen our sense of place across Illinois.&rdquo;</p>
           <footer class="mt-5">
-            <p class="font-mono text-xs uppercase tracking-widest text-teal-500">Nora Daley &mdash; IAC Board Chair</p>
+            <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Nora Daley &mdash; IAC Board Chair</p>
           </footer>
         </blockquote>
       </div>
@@ -1327,91 +1490,11 @@
       <!-- CTA strip -->
       <div class="mt-14 reveal">
         <button onclick="openNewsModal()" class="group flex items-center gap-4 text-white/40 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest">
-          <span class="w-10 h-px bg-white/20 group-hover:bg-teal-500 group-hover:w-16 transition-all duration-300"></span>
+          <span class="w-10 h-px bg-white/20 group-hover:bg-wss-blue-light group-hover:w-16 transition-all duration-300"></span>
           Read the full Illinois Arts Council press release &rarr;
         </button>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ===================== ARTISTS ===================== -->
-  <section id="artists" class="relative py-32 md:py-40">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
-        <div class="lg:col-span-7">
-          <div class="river-line reveal mb-8"></div>
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible reveal">For Artists</p>
-          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mt-4 reveal">
-            Your next canvas awaits
-          </h2>
-          <p class="text-lg md:text-xl font-light leading-relaxed text-slate-700 mt-8 reveal">
-            We believe in open, competitive selection processes with no cost barriers to apply. Whether you're an emerging voice or an established muralist, Batavia wants to see your vision on our walls.
-          </p>
-
-          <!-- Opportunity Cards -->
-          <div class="mt-12 space-y-6 stagger">
-            <div data-modal="opencall" class="p-6 md:p-8 reveal text-white overflow-hidden" style="background:linear-gradient(to top, rgba(2,6,23,0.88) 30%, rgba(2,6,23,0.4) 100%), url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png') center/cover no-repeat">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="w-2 h-2 rounded-full bg-wss-green animate-pulse"></span>
-                <span class="font-mono text-xs uppercase tracking-widest text-wss-blue-light">Open Call</span>
-              </div>
-              <h3 class="text-xl font-bold">America 250 &mdash; City Hall Mural</h3>
-              <p class="text-white/60 text-base leading-relaxed mt-2">
-                Permanent outdoor mural across six arched limestone bays on Batavia City Hall. Illinois-based artists with experience in large-scale public artworks. Translate historical and civic themes into compelling contemporary visual narratives.
-              </p>
-              <div class="flex flex-wrap gap-3 mt-4">
-                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">We Are Seeking Proposals</span>
-                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Summer 2026</span>
-                <span class="font-mono text-[10px] uppercase tracking-widest bg-white/10 px-3 py-1.5">Illinois Artists</span>
-              </div>
-              <p class="click-hint">MORE</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Selection Process -->
-        <div class="lg:col-span-5 lg:pt-20">
-          <div class="sticky top-32">
-            <div class="bg-slate-950 text-white p-8 md:p-10 reveal">
-              <h3 class="font-mono text-xs uppercase tracking-widest text-wss-blue-light mb-6">How Selection Works</h3>
-              <div class="space-y-6">
-                <div data-modal="step01" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
-                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">01</span>
-                  <div>
-                    <p class="font-bold text-base">Open Call Published</p>
-                    <p class="text-white/50 text-base mt-1">Request for Proposals distributed with no cost to apply</p>
-                  </div>
-                </div>
-                <div data-modal="step02" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
-                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">02</span>
-                  <div>
-                    <p class="font-bold text-base">Jury Review</p>
-                    <p class="text-white/50 text-base mt-1">Selection committee of city reps, property stakeholders, and arts professionals</p>
-                  </div>
-                </div>
-                <div data-modal="step03" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
-                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">03</span>
-                  <div>
-                    <p class="font-bold text-base">Community Engagement</p>
-                    <p class="text-white/50 text-base mt-1">Finalist designs shared at Community of the Whole meetings and City Council</p>
-                  </div>
-                </div>
-                <div data-modal="step04" class="flex gap-4 p-2 -m-2 rounded hover:bg-white/5 transition-colors">
-                  <span class="text-2xl font-black text-wss-green shrink-0 w-8">04</span>
-                  <div>
-                    <p class="font-bold text-base">Installation</p>
-                    <p class="text-white/50 text-base mt-1">Artist-led process: site prep, design transfer, painting, UV &amp; anti-graffiti sealing</p>
-                  </div>
-                </div>
-              </div>
-              <button onclick="openInquiryForm()" class="block mt-8 bg-wss-blue-accessible text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue transition-colors text-center w-full">
-                Get in Touch
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -4764,11 +4847,13 @@
     let carouselInterval;
 
     if (slides.length && pipsContainer) {
+      let carouselStarted = false;
+
       // Build pips
       slides.forEach((_, i) => {
         const pip = document.createElement('div');
         pip.className = 'carousel-pip' + (i === 0 ? ' active' : '');
-        pip.addEventListener('click', () => goToSlide(i));
+        pip.addEventListener('click', () => { startCarousel(); goToSlide(i); });
         pipsContainer.appendChild(pip);
       });
 
@@ -4786,11 +4871,19 @@
       }
 
       function resetInterval() {
+        if (!carouselStarted) return;
         clearInterval(carouselInterval);
         carouselInterval = setInterval(nextSlide, 5000);
       }
 
-      resetInterval();
+      function startCarousel() {
+        if (carouselStarted) return;
+        carouselStarted = true;
+        resetInterval();
+      }
+
+      // Hold on the first slide until the user starts engaging with the page
+      window.addEventListener('scroll', startCarousel, { once: true, passive: true });
     }
 
     // ─── PORTFOLIO (completed work) ───
@@ -4915,8 +5008,8 @@
 
         <!-- Batavia callout box -->
         <div style="background:linear-gradient(135deg,rgba(20,184,166,0.12),rgba(20,184,166,0.04));border:1px solid rgba(20,184,166,0.3);padding:20px 24px;margin-bottom:28px;">
-          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgb(45,212,191);margin-bottom:8px;">Batavia Recipient</p>
-          <p style="color:white;font-size:1.05rem;font-weight:600;margin:0 0 4px;">Batavia Artists Association NFP Inc. &mdash; <span style="color:rgb(45,212,191);">$15,000</span></p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgb(51,181,214);margin-bottom:8px;">Batavia Recipient</p>
+          <p style="color:white;font-size:1.05rem;font-weight:600;margin:0 0 4px;">Batavia Artists Association NFP Inc. &mdash; <span style="color:rgb(51,181,214);">$15,000</span></p>
           <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin:0;">Supporting the America 250 City Hall Mural &mdash; open call launching April 17, 2026</p>
         </div>
 
@@ -4945,8 +5038,8 @@
             <tbody>
               <tr style="background:rgba(20,184,166,0.08);border-bottom:1px solid rgba(20,184,166,0.2);">
                 <td style="padding:10px 10px;color:white;font-weight:700;">Batavia Artists Association NFP Inc.</td>
-                <td style="padding:10px 10px;color:rgb(45,212,191);">Batavia</td>
-                <td style="padding:10px 10px;color:rgb(45,212,191);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;">$15,000</td>
+                <td style="padding:10px 10px;color:rgb(51,181,214);">Batavia</td>
+                <td style="padding:10px 10px;color:rgb(51,181,214);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;">$15,000</td>
               </tr>
               <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">Arts Connection of Central IL</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Effingham</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
               <tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:9px 10px;color:rgba(255,255,255,0.65);">ArtsPartners of Central Illinois, Inc.</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);">Peoria</td><td style="padding:9px 10px;color:rgba(255,255,255,0.4);text-align:right;font-family:'JetBrains Mono',monospace;">$15,000</td></tr>
@@ -4989,7 +5082,7 @@
 
         <!-- Close button -->
         <div style="margin-top:32px;text-align:center;">
-          <button onclick="closeNewsModal()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;padding:14px 32px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(45,212,191,0.6)';this.style.color='rgb(45,212,191)';" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.5)';">
+          <button onclick="closeNewsModal()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;padding:14px 32px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(51,181,214,0.6)';this.style.color='rgb(51,181,214)';" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.5)';">
             Close
           </button>
         </div>
