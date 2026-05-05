@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply &mdash; Water Street Studios Public Art Initiative</title>
+  <meta name="description" content="Apply to the America 250 City Hall Mural or the unWIND River Street Plaza Benches. Your work auto-saves as you type.">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'wss-blue': '#009BC7',
+            'wss-blue-accessible': '#006B8F',
+            'wss-blue-light': '#33B5D6',
+            'wss-blue-dark': '#004C6B',
+            'wss-gold': '#C9A84C',
+            'wss-gold-dark': '#A38A35',
+            'wss-green': '#95C322',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-size: 16px; font-family: 'Inter', system-ui, sans-serif; }
+
+    /* Form field styles — match existing site */
+    .sf-field { margin-bottom: 22px; }
+    .sf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .sf-row { grid-template-columns: 1fr; } }
+    .sf-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 8px; }
+    .sf-optional { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 4px; }
+    .sf-input { width: 100%; background: white; border: 1px solid #cbd5e1; padding: 12px 14px; font-size: 1rem; line-height: 1.5; color: #0f172a; font-family: inherit; transition: border-color 0.15s, box-shadow 0.15s; }
+    .sf-input:focus { outline: none; border-color: #006B8F; box-shadow: 0 0 0 3px rgba(0, 107, 143, 0.15); }
+    .sf-input.error { border-color: #b91c1c; }
+    .sf-section-divider { border: none; border-top: 1px solid #e2e8f0; margin: 36px 0 28px; }
+    .sf-section-heading { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.15em; color: #0f172a; font-weight: 500; margin-bottom: 8px; }
+    .sf-section-desc { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 22px; }
+    .sf-char-hint { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #64748b; margin-top: 6px; line-height: 1.5; }
+    .sf-submit { display: block; width: 100%; background: #020617; color: white; padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; border: none; cursor: pointer; transition: background 0.2s; }
+    .sf-submit:hover:not(:disabled) { background: #006B8F; }
+    .sf-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    textarea.sf-input { resize: vertical; min-height: 96px; }
+
+    /* Save indicator */
+    .save-indicator { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #64748b; transition: color 0.3s; }
+    .save-indicator.saving { color: #006B8F; }
+    .save-indicator.saved { color: #15803d; }
+    .save-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    /* Email-self pill */
+    .email-self-btn { background: white; border: 1px solid #cbd5e1; color: #334155; padding: 9px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .email-self-btn:hover { border-color: #006B8F; color: #006B8F; }
+
+    /* Project picker pills */
+    .proj-pill { padding: 12px 22px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; border: 1px solid #cbd5e1; background: white; color: #334155; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-block; }
+    .proj-pill:hover { border-color: #006B8F; color: #006B8F; }
+    .proj-pill.active { background: #020617; color: white; border-color: #020617; }
+
+    /* Modal for resume link */
+    .resume-modal { position: fixed; inset: 0; background: rgba(2,6,23,0.7); display: none; align-items: center; justify-content: center; z-index: 60; padding: 24px; }
+    .resume-modal.open { display: flex; }
+    .resume-modal-panel { background: white; max-width: 520px; width: 100%; padding: 36px 32px; border-top: 4px solid #C9A84C; }
+
+    /* Subtle grain (matches site) */
+    .grain::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); pointer-events: none; opacity: 0.6; mix-blend-mode: multiply; }
+
+    /* Project details prose */
+    .pd-section { margin-bottom: 56px; }
+    .pd-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: #006B8F; margin-bottom: 8px; }
+    .pd-h3 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; color: #020617; margin: 32px 0 10px; }
+    .pd-h3:first-child { margin-top: 0; }
+    .pd-section p { color: #334155; line-height: 1.75; margin-bottom: 12px; font-size: 1.0625rem; }
+    .pd-section p strong { color: #020617; font-weight: 600; }
+    .pd-section ul { padding-left: 22px; margin-bottom: 12px; }
+    .pd-section ul li { color: #334155; line-height: 1.75; margin-bottom: 8px; font-size: 1.0625rem; }
+    .pd-section ul li strong { color: #020617; }
+    .pd-section a { color: #006B8F; text-decoration: underline; text-underline-offset: 2px; }
+    .pd-divider { height: 1px; background: linear-gradient(to right, transparent, #cbd5e1, transparent); margin: 64px 0 56px; }
+    .pd-apply-anchor { display: flex; align-items: center; gap: 14px; padding: 28px 0 0; }
+    .pd-apply-anchor::before { content: ''; flex: 0 0 32px; height: 1px; background: #020617; }
+    .pd-apply-anchor span { font-family: 'JetBrains Mono', monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #020617; font-weight: 600; }
+
+    /* Master plan diagram — breaks out of narrow text column */
+    .masterplan-figure { margin: 28px calc(50% - 50vw) 18px; max-width: 100vw; }
+    .masterplan-figure-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .masterplan-figure img { width: 100%; height: auto; display: block; border: 1px solid #e2e8f0; background: #fafaf7; }
+    .masterplan-figure figcaption { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #64748b; margin-top: 12px; text-align: center; }
+    @media (max-width: 768px) { .masterplan-figure { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); } .masterplan-figure-inner { padding: 0 16px; } }
+
+    /* Bench cards */
+    .bench-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0 8px; }
+    @media (max-width: 640px) { .bench-grid { grid-template-columns: 1fr; } }
+    .bench-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; }
+    .bench-card-img-wrap { aspect-ratio: 4/3; overflow: hidden; background: #e7e5e4; position: relative; margin-bottom: 14px; }
+    .bench-card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bench-card-tag { position: absolute; bottom: 8px; right: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: white; background: rgba(2,6,23,0.55); padding: 4px 8px; }
+    .bench-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .bench-card-name { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; color: #020617; }
+    .bench-card-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #006B8F; white-space: nowrap; font-weight: 600; }
+    .bench-card-desc { font-size: 0.95rem; line-height: 1.55; color: #475569; margin: 0; }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-950">
+
+  <!-- WSS Utility Bar -->
+  <div class="bg-slate-950 text-white">
+    <div class="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
+      <a href="https://waterstreetstudios.org/" class="bg-wss-blue hover:bg-wss-blue-dark text-white font-mono font-bold text-[11px] uppercase tracking-widest px-3 py-1 flex items-center gap-1.5 transition-colors">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Home
+      </a>
+      <a href="index-4may2026.html" class="font-mono font-semibold text-[11px] uppercase tracking-wider text-white/75 hover:text-white transition-colors">&larr; Public Art Initiative</a>
+    </div>
+  </div>
+
+  <!-- ========== AMERICA 250 — full-width landscape hero ========== -->
+  <section id="ctxAmerica250" class="hidden">
+    <div class="relative w-full overflow-hidden bg-slate-950">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png" alt="Batavia City Hall &mdash; west-facing limestone bays, the America 250 mural site" class="w-full h-[55vh] md:h-[68vh] max-h-[720px] object-cover object-center">
+      <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(2,6,23,0.94) 0%, rgba(2,6,23,0.55) 45%, rgba(2,6,23,0.05) 100%);"></div>
+      <div class="absolute bottom-0 left-0 right-0">
+        <div class="max-w-6xl mx-auto px-6 pb-10 md:pb-16">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-2 h-2 rounded-full bg-wss-green animate-pulse"></span>
+            <span class="font-mono text-[10px] md:text-xs uppercase tracking-[0.18em] text-wss-blue-light">$9,650 Artist Fee &middot; Illinois Artists &middot; Apply by May 8</span>
+          </div>
+          <h2 class="text-4xl md:text-7xl font-black tracking-tighter leading-[0.95] text-white">America 250<br>City Hall Mural</h2>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white border-b border-stone-200">
+      <div class="max-w-3xl mx-auto px-6 py-10">
+        <p class="text-slate-700 leading-relaxed text-lg">Theme: <em class="not-italic font-medium text-slate-950">"America at 250 &mdash; A Living Community Story."</em> A permanent outdoor mural across six arched limestone bays on the west-facing facade of Batavia City Hall, overlooking Depot Pond and the Flag Day Monument. Connect national ideals &mdash; life, liberty, and the pursuit of happiness &mdash; to the everyday experiences of Batavia residents.</p>
+        <p class="text-slate-500 text-sm mt-4">Funded by the Illinois Arts Council's America 250 Creative Accelerator Fund. Site preparation, supplies, and equipment are provided separately by the Public Art Initiative committee.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== unWIND — full-width landscape hero ========== -->
+  <section id="ctxUnwind" class="hidden">
+    <div class="relative w-full overflow-hidden bg-slate-950">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1777947363/wss-river-street-plaza-aerial-hero-2026.png" alt="River Street Plaza &mdash; aerial visualization showing painted Noblewins wind-turbine-blade benches, brick paving, native plantings, and the Fox River corridor" class="w-full h-[55vh] md:h-[72vh] max-h-[820px] object-cover object-center">
+      <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.45) 45%, rgba(2,6,23,0.0) 100%);"></div>
+      <div class="absolute bottom-0 left-0 right-0">
+        <div class="max-w-6xl mx-auto px-6 pb-10 md:pb-16">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-2 h-2 rounded-full bg-wss-gold animate-pulse"></span>
+            <span class="font-mono text-[10px] md:text-xs uppercase tracking-[0.18em] text-wss-gold">$3,200 Per Artist &middot; Three Commissions &middot; Apply by May 8</span>
+          </div>
+          <h2 class="text-4xl md:text-8xl font-black tracking-tighter leading-[0.9] text-white">un<span class="text-wss-gold">WIND</span><br>Benches</h2>
+        </div>
+      </div>
+      <span class="absolute top-3 right-3 md:top-5 md:right-5 font-mono text-[9px] uppercase tracking-widest text-white/60 bg-black/40 px-2 py-1">AI-rendered plaza visualization</span>
+    </div>
+    <div class="bg-slate-950 text-white border-b border-wss-gold/20">
+      <div class="max-w-3xl mx-auto px-6 py-10">
+        <p class="text-white/85 leading-relaxed text-lg">Three sculptural Noblewins benches &mdash; built from retired wind turbine blades upcycled into virtually indestructible public art &mdash; landing at Batavia's new River Street Plaza, 102 N. River Street. Each arrives primed; selected artists paint on-site June 5&ndash;15.</p>
+        <p class="text-white/60 text-sm mt-4">Two Arch benches and one Arcadia bench. Designs should be welcoming, community-focused, and complement the plaza's metal tree ironworks and copper-toned, leaf-patterned privacy fencing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project picker (sticky once scrolled past the hero) -->
+  <section class="bg-white border-b border-stone-200 sticky top-0 z-20" style="backdrop-filter: blur(10px);background:rgba(250,250,249,0.95);">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex flex-wrap gap-2">
+        <a href="apply.html?project=america250" class="proj-pill" id="pill-america250">America 250 Mural</a>
+        <a href="apply.html?project=unwind" class="proj-pill" id="pill-unwind">unWIND Benches</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="saveIndicator" class="save-indicator">
+          <span class="save-dot"></span>
+          <span id="saveIndicatorText">Auto-save ready</span>
+        </span>
+        <button class="email-self-btn" onclick="openEmailSelf()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 0l8 7 8-7"/></svg>
+          Email Me My Draft
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <main class="max-w-3xl mx-auto px-6 py-14 md:py-20">
+
+    <!-- Deadline / auto-save reminder -->
+    <div class="mb-12 border-l-2 border-wss-gold pl-5 py-1">
+      <p class="text-slate-700 leading-relaxed">Both calls close <strong class="text-slate-950">May 8, 2026</strong> at 11:59 PM CT. Selected artists notified by May 15. Your progress saves automatically as you write &mdash; use <strong>Email Me My Draft</strong> above to send yourself a resume link.</p>
+    </div>
+
+
+    <!-- ==========================================================
+         AMERICA 250 — PROJECT DETAILS
+         ========================================================== -->
+    <section id="detailsAmerica250" class="hidden pd-section">
+      <p class="pd-eyebrow">Project Details</p>
+      <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight mb-6">A permanent civic mural for Batavia City Hall.</h2>
+
+      <p>A permanent outdoor mural funded by an <strong>Illinois Arts Council</strong> America's 250th Anniversary Public Art Grant. Six horizontal arched limestone bays will become civic "story frames" celebrating how Batavia residents live the ideals of the Declaration of Independence.</p>
+
+      <h3 class="pd-h3">Theme &mdash; "America at 250: A Living Community Story"</h3>
+      <p>The mural links local Batavia stories to the nation's founding principles, positioning America's 250th as a living, community-centered reflection on democracy. People are placed at the center, with imagery reflecting:</p>
+      <ul>
+        <li>Learning and education</li>
+        <li>Environmental stewardship</li>
+        <li>Creativity and artistic expression</li>
+        <li>Civic engagement and shared governance</li>
+        <li>Everyday connection &mdash; life, liberty, and the pursuit of happiness as experienced in Batavia today</li>
+      </ul>
+
+      <h3 class="pd-h3">Site</h3>
+      <p>West-facing southern window wall along North Island Avenue, directly overlooking the Fox River corridor and the expanding Flag Day Monument grounds. The six recessed arched bays create naturally human-scale storytelling moments, with strong afternoon light ideal for layered imagery. All <strong>6 window openings</strong> on the south-facing wall are confirmed for this project &mdash; including the larger opening on the left.</p>
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771870822/City-Hall-Window-Openings-w-dims_uvpl3f.png" alt="City Hall window opening dimensions" style="width:100%;margin:14px 0 18px;display:block;border:1px solid #e2e8f0;">
+
+      <h3 class="pd-h3">Compensation</h3>
+      <p><strong>$9,650 total artist fee</strong>, funded through the Illinois Arts Council's America 250 Creative Accelerator Fund. Site preparation, supplies, and equipment are provided separately by the public art initiative committee.</p>
+
+      <h3 class="pd-h3">Eligibility</h3>
+      <p>Open to Illinois-based artists or artist teams with experience in large-scale public artworks. Emerging and established artists welcome. Per grant requirements, artists must be Illinois-based.</p>
+
+      <h3 class="pd-h3">2026 Timeline</h3>
+      <ul>
+        <li><strong>Now &ndash; May 8:</strong> Open Call &mdash; applications accepted</li>
+        <li><strong>May 8, 2026:</strong> Application deadline (11:59 PM CT)</li>
+        <li><strong>May 9&ndash;15:</strong> Jury review &amp; artist selection</li>
+        <li><strong>Late May:</strong> Final design presentation and City Council approval</li>
+        <li><strong>Jun&ndash;Jul:</strong> Surface preparation and painting</li>
+        <li><strong>August:</strong> Painting completed</li>
+        <li><strong>Late Summer:</strong> Public unveiling with municipal leaders, Batavia Historic Society, and Batavia Community Band</li>
+      </ul>
+
+      <h3 class="pd-h3">Selection</h3>
+      <p>Submissions will be reviewed by a jury of City of Batavia representatives, property stakeholders, committee members, and arts professionals. No application fee. Questions? Email <a href="mailto:publicart@waterstreetstudios.org">publicart@waterstreetstudios.org</a>.</p>
+
+      <div class="pd-apply-anchor"><span>Apply below &darr;</span></div>
+      <div class="pd-divider"></div>
+    </section>
+
+
+    <!-- ==========================================================
+         unWIND — PROJECT DETAILS
+         ========================================================== -->
+    <section id="detailsUnwind" class="hidden pd-section">
+      <p class="pd-eyebrow">Project Details</p>
+      <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight mb-6">Three artists. Three benches. One plaza on the river.</h2>
+
+      <p>Three sculptural Noblewins benches &mdash; built from retired wind turbine blades upcycled into virtually indestructible public art &mdash; will be installed at the new River Street Plaza in downtown Batavia. Water Street Studios Public Art Initiative, in partnership with the City of Batavia, is commissioning three artists to paint them: <strong>two Arch benches and one Arcadia bench</strong>.</p>
+
+      <h3 class="pd-h3">Theme &mdash; Connection Through Community</h3>
+      <p>Each mural should reflect the beauty, diversity, and spirit of downtown Batavia while encouraging people to pause, gather, and connect. Designs should be community-focused and welcoming, incorporating graphic backgrounds and organic, flowing forms.</p>
+
+      <h3 class="pd-h3">Site</h3>
+      <p>River Street Plaza, <strong>102 N. River Street, Batavia, IL</strong> &mdash; a vibrant new public gathering space that supports community events including the Batavia Farmers Market. Designs should complement existing site features: metal tree ironworks and copper-toned, leaf-patterned privacy fencing.</p>
+
+      <figure class="masterplan-figure">
+        <div class="masterplan-figure-inner">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1777947364/wss-river-street-plaza-masterplan-2026.png" alt="River Street Restroom and Plaza master plan &mdash; top-down site diagram with callouts for landscape buffer, brick paver surfacing, native pollinator garden, raised planters, restroom building, limestone retaining wall, illuminated sculptures, and trellis wall">
+          <figcaption>River Street Plaza &middot; Master Plan &middot; uplandDesign for the City of Batavia</figcaption>
+        </div>
+      </figure>
+
+      <h3 class="pd-h3">About the Benches</h3>
+      <p>Noblewins crafts public-art benches from retired wind turbine blades &mdash; an industrial waste stream upcycled into permanent public art. Each bench arrives PRIMED with upcycled PVC board (mimics natural wood, won't warp or fade), an aluminum frame (rust- and saltwater-resistant), and 316 stainless steel fasteners. Backed by Noblewins' <strong>25-year warranty</strong>. Bench specifications: <a href="https://noblewins.com/pages/resources" target="_blank" rel="noopener">noblewins.com/pages/resources</a>.</p>
+
+      <div class="bench-grid">
+        <div class="bench-card">
+          <div class="bench-card-img-wrap">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1777947365/wss-noblewins-arch-bench-painted-example.png" alt="Painted Noblewins Arch bench &mdash; round arched portal, example by another muralist">
+            <span class="bench-card-tag">Example by another artist</span>
+          </div>
+          <div class="bench-card-head">
+            <span class="bench-card-name">Arch Bench</span>
+            <span class="bench-card-count">2 Commissions</span>
+          </div>
+          <p class="bench-card-desc">Round arched portal with a long bench seat threaded through it. Pictured here painted by a muralist for reference &mdash; yours arrives primed.</p>
+        </div>
+        <div class="bench-card">
+          <div class="bench-card-img-wrap">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1777947366/wss-noblewins-arcadia-bench-in-context.png" alt="Noblewins Arcadia bench &mdash; tall sweeping curved sail-form, two upcycled wind turbine blades meeting overhead with a bench threaded between">
+          </div>
+          <div class="bench-card-head">
+            <span class="bench-card-name">Arcadia Bench</span>
+            <span class="bench-card-count">1 Commission</span>
+          </div>
+          <p class="bench-card-desc">Tall sweeping sail-form &mdash; two upcycled wind turbine blades meeting overhead with a bench threaded between. The sculptural anchor of the plaza.</p>
+        </div>
+      </div>
+
+      <h3 class="pd-h3">Compensation</h3>
+      <p>Selected artists receive a paid contract of up to <strong>$3,200</strong> covering final design development and on-site painting at the plaza (June 5&ndash;15). Final compensation reflects submitted scope.</p>
+
+      <h3 class="pd-h3">Eligibility</h3>
+      <p>Open to individual Illinois-based artists or artist teams &mdash; emerging or established. Mural, public art, or large-scale design experience is preferred but not required.</p>
+
+      <h3 class="pd-h3">Timeline</h3>
+      <ul>
+        <li><strong>Application deadline:</strong> Friday, May 8, 2026 (11:59 PM CT)</li>
+        <li><strong>Artist notification:</strong> Friday, May 15, 2026</li>
+        <li><strong>Design finalization:</strong> June 1, 2026</li>
+        <li><strong>Painting on-site:</strong> June 5 &ndash; June 15, 2026</li>
+        <li><strong>Project completion:</strong> Prior to June 17, 2026</li>
+      </ul>
+
+      <h3 class="pd-h3">Submission Requirements</h3>
+      <ul>
+        <li>Artist statement (150&ndash;200 words)</li>
+        <li>Up to 3 design proposals &mdash; concept sketches or digital mock-ups, with brief written description and sample color palette</li>
+        <li>Portfolio &mdash; 3 to 5 examples of previous work</li>
+        <li>Proposed compensation &mdash; artist fee, plus any installation costs and materials</li>
+      </ul>
+
+      <h3 class="pd-h3">Selection Criteria</h3>
+      <p>Submissions will be blind-juried by the Water Street Studios Public Art Initiative committee.</p>
+      <ul>
+        <li>Artistic quality and originality</li>
+        <li>Alignment with the project theme</li>
+        <li>Feasibility and durability of design</li>
+        <li>Ability to complement the surrounding environment</li>
+      </ul>
+
+      <h3 class="pd-h3">Terms</h3>
+      <ul>
+        <li>Artists retain copyright of their designs; selected designs grant Water Street Studios and the City of Batavia usage rights for promotional and public display purposes.</li>
+        <li>Selected artists must provide proof of General Liability Insurance prior to project start.</li>
+        <li>The Public Art Initiative reserves the right to reject any or all proposals.</li>
+      </ul>
+
+      <p style="margin-top:18px;font-size:0.95rem;color:#64748b;">Questions? Email <a href="mailto:publicart@waterstreetstudios.org">publicart@waterstreetstudios.org</a>.</p>
+
+      <div class="pd-apply-anchor"><span>Apply below &darr;</span></div>
+      <div class="pd-divider"></div>
+    </section>
+
+
+    <!-- ==========================================================
+         AMERICA 250 FORM
+         ========================================================== -->
+    <form id="formAmerica250" class="hidden" name="america250-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="america250-application">
+      <p style="display:none"><label>Do not fill: <input name="bot-field" tabindex="-1"></label></p>
+
+      <p class="sf-section-heading">01 &mdash; Contact Information</p>
+      <p class="sf-section-desc">All fields marked with an asterisk are required.</p>
+
+      <div class="sf-row">
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="a_first">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="a_first" name="first-name" class="sf-input" required autocomplete="given-name">
+        </div>
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="a_last">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="a_last" name="last-name" class="sf-input" required autocomplete="family-name">
+        </div>
+      </div>
+      <div style="margin-bottom:20px"></div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_email">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <input type="email" id="a_email" name="email" class="sf-input" required autocomplete="email">
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_phone">Phone Number <span class="sf-optional">Optional</span></label>
+        <input type="tel" id="a_phone" name="phone" class="sf-input" autocomplete="tel">
+      </div>
+
+      <div class="sf-row">
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="a_city">City <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="a_city" name="city" class="sf-input" required autocomplete="address-level2">
+        </div>
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="a_state">State <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="a_state" name="state" class="sf-input" required placeholder="Must be Illinois" autocomplete="address-level1">
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:#64748b;margin:6px 0 22px;line-height:1.5;">Per grant requirements, this opportunity is open to Illinois-based artists or artist teams.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_website">Website / Online Portfolio <span class="sf-optional">Strongly recommended</span></label>
+        <input type="url" id="a_website" name="website" class="sf-input" placeholder="https://">
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">02 &mdash; Your Practice</p>
+      <p class="sf-section-desc">Help us understand your background and primary artistic discipline.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_discipline">Primary Artistic Discipline <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_discipline" name="primary-discipline" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Muralism / Large-scale painting</option>
+          <option>Illustration &amp; design</option>
+          <option>Fine art (studio/gallery)</option>
+          <option>Photography</option>
+          <option>Mixed media</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_experience">Years of Professional Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_experience" name="years-experience" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Less than 2 years</option>
+          <option>2&ndash;5 years</option>
+          <option>5&ndash;10 years</option>
+          <option>10&ndash;20 years</option>
+          <option>20+ years</option>
+        </select>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">03 &mdash; Public Art Experience</p>
+      <p class="sf-section-desc">This project requires a proven track record with large-scale outdoor work. Be specific &mdash; this section carries significant weight with the jury.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_muralCount">Completed Public Murals or Large-Scale Installations <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_muralCount" name="mural-count" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>None</option>
+          <option>1&ndash;2</option>
+          <option>3&ndash;5</option>
+          <option>6&ndash;10</option>
+          <option>10+</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_largest">Dimensions of Your Largest Completed Outdoor Work <span class="sf-optional">Optional</span></label>
+        <input type="text" id="a_largest" name="largest-work-dimensions" class="sf-input" placeholder="e.g. 20' &times; 40' &mdash; location and year welcome">
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_communityExp">Community Engagement Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_communityExp" name="community-engagement" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Extensive &mdash; multiple projects with public input and revision cycles</option>
+          <option>Moderate &mdash; participated in community feedback on at least one project</option>
+          <option>Limited &mdash; familiar with the process but limited hands-on experience</option>
+          <option>None</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_portfolio">Links to 2&ndash;3 Relevant Past Works <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="a_portfolio" name="portfolio-links" class="sf-input" rows="4" required placeholder="One URL per line&#10;Direct links to murals or large-scale work preferred&#10;Google Drive, Dropbox, or personal site all accepted"></textarea>
+        <p class="sf-char-hint">Include work that best demonstrates your public / large-scale experience.</p>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">04 &mdash; Your Application</p>
+      <p class="sf-section-desc">These responses are read by the full selection jury. Write clearly and specifically.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_statement">Statement of Interest <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="a_statement" name="statement-of-interest" class="sf-input" rows="6" required placeholder="Why are you applying for this project? What draws you to this site, this community, and this moment in history? (~300 words)"></textarea>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_approach">Design Approach <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="a_approach" name="design-approach" class="sf-input" rows="6" required placeholder="How would you translate Batavia's civic values and the ideals of the Declaration of Independence into a compelling visual narrative across 6 arched limestone bays? (~300 words)"></textarea>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_outdoor">Outdoor Surface &amp; Materials Experience <span class="sf-optional">Recommended</span></label>
+        <textarea id="a_outdoor" name="outdoor-experience" class="sf-input" rows="4" placeholder="Experience with exterior surfaces, UV-resistant paints, weather durability&hellip;"></textarea>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">05 &mdash; Availability &amp; Logistics</p>
+      <p class="sf-section-desc">Practical feasibility is part of the selection criteria.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_availability">Available for the Full June&ndash;August 2026 Installation Period? <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_availability" name="availability-2026" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Yes &mdash; fully available</option>
+          <option>Mostly &mdash; minor scheduling constraints (willing to discuss)</option>
+          <option>Partial &mdash; significant constraints but want to discuss options</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_insurance">General Liability Insurance <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="a_insurance" name="insurance" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Yes &mdash; currently insured</option>
+          <option>I can obtain coverage for the project</option>
+          <option>Unsure &mdash; need more information</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_source">How Did You Hear About This Opportunity? <span class="sf-optional">Optional</span></label>
+        <select id="a_source" name="referral-source" class="sf-input">
+          <option value="">Select&hellip;</option>
+          <option>Water Street Studios</option>
+          <option>Word of mouth / colleague</option>
+          <option>Social media</option>
+          <option>City of Batavia / local news</option>
+          <option>Illinois Arts Council</option>
+          <option>Public art job board</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="a_notes">Additional Notes or Questions <span class="sf-optional">Optional</span></label>
+        <textarea id="a_notes" name="additional-notes" class="sf-input" rows="3" placeholder="Anything else the jury should know, or questions about the project&hellip;"></textarea>
+      </div>
+
+      <p id="errA" style="display:none;color:#b91c1c;font-size:0.95rem;margin-bottom:14px;line-height:1.6;">Something went wrong. Please try again or email <strong>publicart@waterstreetstudios.org</strong>.</p>
+
+      <button type="submit" class="sf-submit" id="submitA">
+        <span data-text="default">Submit Application</span>
+        <span data-text="loading" style="display:none">Submitting&hellip;</span>
+      </button>
+
+      <p style="color:#64748b;font-size:0.9rem;margin-top:18px;line-height:1.6;">No application fee. Selection by jury of City of Batavia representatives, property stakeholders, committee members, and arts professionals. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
+    </form>
+
+
+    <!-- ==========================================================
+         unWIND BENCHES FORM
+         ========================================================== -->
+    <form id="formUnwind" class="hidden" name="river-street-benches-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="river-street-benches-application">
+      <p style="display:none"><label>Do not fill: <input name="bot-field" tabindex="-1"></label></p>
+
+      <p class="sf-section-heading">01 &mdash; Contact Information</p>
+      <p class="sf-section-desc">All fields marked with an asterisk are required.</p>
+
+      <div class="sf-row">
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="b_first">First Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="b_first" name="first-name" class="sf-input" required autocomplete="given-name">
+        </div>
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="b_last">Last Name <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="b_last" name="last-name" class="sf-input" required autocomplete="family-name">
+        </div>
+      </div>
+      <div style="margin-bottom:20px"></div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_email">Email Address <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <input type="email" id="b_email" name="email" class="sf-input" required autocomplete="email">
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_phone">Phone Number <span class="sf-optional">Optional</span></label>
+        <input type="tel" id="b_phone" name="phone" class="sf-input" autocomplete="tel">
+      </div>
+
+      <div class="sf-row">
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="b_city">City <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="b_city" name="city" class="sf-input" required autocomplete="address-level2">
+        </div>
+        <div class="sf-field" style="margin-bottom:0">
+          <label class="sf-label" for="b_state">State <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+          <input type="text" id="b_state" name="state" class="sf-input" required placeholder="Must be Illinois" autocomplete="address-level1">
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:#64748b;margin:6px 0 22px;line-height:1.5;">Open to Illinois-based artists or artist teams, including emerging and established artists.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_website">Website / Online Portfolio <span class="sf-optional">Strongly recommended</span></label>
+        <input type="url" id="b_website" name="website" class="sf-input" placeholder="https://">
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">02 &mdash; Your Practice</p>
+      <p class="sf-section-desc">This project involves designing functional public art &mdash; benches that are both usable and visually compelling in a riverfront plaza setting.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_discipline">Primary Artistic Discipline <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="b_discipline" name="primary-discipline" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Sculpture / 3D installation</option>
+          <option>Functional / industrial design with artistic direction</option>
+          <option>Mosaic / ceramic arts</option>
+          <option>Muralism / large-scale painting</option>
+          <option>Mixed media</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_experience">Years of Professional Experience <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="b_experience" name="years-experience" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Less than 2 years</option>
+          <option>2&ndash;5 years</option>
+          <option>5&ndash;10 years</option>
+          <option>10&ndash;20 years</option>
+          <option>20+ years</option>
+        </select>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">03 &mdash; Public Art &amp; Functional Design Experience</p>
+      <p class="sf-section-desc">Describe your experience with permanent, outdoor, publicly sited work. Functional art (benches, gates, railings, paving, signage) is especially relevant.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_publicCount">Completed Permanent Public Art Installations <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="b_publicCount" name="public-art-count" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>None</option>
+          <option>1&ndash;2</option>
+          <option>3&ndash;5</option>
+          <option>6&ndash;10</option>
+          <option>10+</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_functional">Experience with Functional / Structural Public Art <span class="sf-optional">Optional</span></label>
+        <textarea id="b_functional" name="functional-art-experience" class="sf-input" rows="4" placeholder="Benches, seating, railings, site furnishings, materials, fabrication methods, durability&hellip;"></textarea>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_portfolio">Links to 2&ndash;3 Relevant Past Works <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="b_portfolio" name="portfolio-links" class="sf-input" rows="4" required placeholder="One URL per line&#10;Permanent, outdoor, or functional work preferred&#10;Google Drive, Dropbox, or personal site all accepted"></textarea>
+        <p class="sf-char-hint">Prioritize work that is permanent, weatherproof, and publicly sited.</p>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">04 &mdash; Your Proposal</p>
+      <p class="sf-section-desc">Up to three concept sketches or digital mock-ups may be submitted. Designs should be welcoming, community-focused, and complement the plaza's metal tree ironworks and copper-toned, leaf-patterned privacy fencing.</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_benchChoice">Which bench(es) would you design for? <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="b_benchChoice" name="bench-choice" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Arch only (2 commissions available)</option>
+          <option>Arcadia only (1 commission available)</option>
+          <option>Either / open to either bench type</option>
+          <option>All three benches as a unified set</option>
+        </select>
+        <p class="sf-char-hint">Two Arch benches and one Arcadia bench will be commissioned in total. <a href="https://noblewins.com/pages/resources" target="_blank" rel="noopener" style="color:#006B8F;">View bench specs &rarr;</a></p>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_statement">Artist Statement <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="b_statement" name="artist-statement" class="sf-input" rows="6" required placeholder="Tell us about your practice and what draws you to this project (150&ndash;200 words)."></textarea>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_approach">Design Approach &amp; Concept Direction <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="b_approach" name="design-approach" class="sf-input" rows="6" required placeholder="Describe the themes, color palette, and design directions you'd explore. Consider how the design will reflect the beauty, diversity, and spirit of Batavia. (~200 words)"></textarea>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_proposalLink">Link to Concept Sketches / Mock-ups <span class="sf-optional">Strongly recommended</span></label>
+        <input type="url" id="b_proposalLink" name="proposal-link" class="sf-input" placeholder="Google Drive, Dropbox, or personal site link to up to 3 designs">
+        <p class="sf-char-hint">Up to 3 concept sketches or digital mock-ups, plus a sample color palette for each.</p>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_compensation">Proposed Compensation Detail <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <textarea id="b_compensation" name="proposed-compensation" class="sf-input" rows="3" required placeholder="The selected contract is up to $3,200 per artist. Note your artist fee, any installation costs, and materials (e.g., paint) included in your budget."></textarea>
+      </div>
+
+      <hr class="sf-section-divider">
+      <p class="sf-section-heading">05 &mdash; Availability &amp; Logistics</p>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_insurance">General Liability Insurance <span style="color:#b91c1c" aria-hidden="true">*</span></label>
+        <select id="b_insurance" name="insurance" class="sf-input" required>
+          <option value="">Select&hellip;</option>
+          <option>Yes &mdash; currently insured</option>
+          <option>I can obtain coverage for the project</option>
+          <option>Unsure &mdash; need more information</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_source">How Did You Hear About This Opportunity? <span class="sf-optional">Optional</span></label>
+        <select id="b_source" name="referral-source" class="sf-input">
+          <option value="">Select&hellip;</option>
+          <option>Water Street Studios</option>
+          <option>Word of mouth / colleague</option>
+          <option>Social media</option>
+          <option>City of Batavia / local news</option>
+          <option>Illinois Arts Council</option>
+          <option>Public art job board</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="sf-field">
+        <label class="sf-label" for="b_notes">Additional Notes or Questions <span class="sf-optional">Optional</span></label>
+        <textarea id="b_notes" name="additional-notes" class="sf-input" rows="3" placeholder="Anything else the committee should know, or questions about the project&hellip;"></textarea>
+      </div>
+
+      <p id="errB" style="display:none;color:#b91c1c;font-size:0.95rem;margin-bottom:14px;line-height:1.6;">Something went wrong. Please try again or email <strong>publicart@waterstreetstudios.org</strong>.</p>
+
+      <button type="submit" class="sf-submit" id="submitB">
+        <span data-text="default">Submit Application</span>
+        <span data-text="loading" style="display:none">Submitting&hellip;</span>
+      </button>
+
+      <p style="color:#64748b;font-size:0.9rem;margin-top:18px;line-height:1.6;">No application fee. Application deadline: Friday, May 8, 2026. Artists notified by Friday, May 15, 2026. Batavia Artists Association NFP Inc (dba Water Street Studios) is a registered Illinois not-for-profit.</p>
+    </form>
+
+
+    <!-- Confirmation -->
+    <div id="confirm" class="hidden text-center py-16">
+      <div style="width:64px;height:64px;background:#95C322;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-3">Application Received</p>
+      <h2 class="text-3xl md:text-4xl font-black tracking-tight">Your work is in front<br>of the jury.</h2>
+      <p class="text-slate-600 leading-relaxed mt-5 max-w-md mx-auto">Thank you for applying. We'll be in touch by <strong>May 15, 2026</strong> to confirm receipt and share next steps.</p>
+      <p class="text-slate-500 text-base mt-5">Questions? Email <strong style="color:#475569;">publicart@waterstreetstudios.org</strong></p>
+      <a href="index-4may2026.html" class="sf-submit mt-10" style="max-width:260px;margin-left:auto;margin-right:auto;text-decoration:none;display:inline-block;">Back to Site</a>
+    </div>
+
+  </main>
+
+  <!-- Email-Self Modal -->
+  <div id="resumeModal" class="resume-modal" role="dialog" aria-modal="true" aria-label="Email me a saved draft">
+    <div class="resume-modal-panel">
+      <p class="font-mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">Save your progress</p>
+      <h3 class="text-2xl font-black tracking-tight mb-4">Email yourself a saved draft</h3>
+      <p class="text-slate-600 text-sm leading-relaxed mb-6">No account needed. We'll generate a private resume link with everything you've typed so far &mdash; you can come back to it from any device.</p>
+
+      <div id="emailStep1">
+        <label class="sf-label" for="resumeEmail">Where should we send the link?</label>
+        <input type="email" id="resumeEmail" class="sf-input" placeholder="you@example.com" autocomplete="email">
+        <div class="flex gap-3 mt-6">
+          <button id="resumeBtnGenerate" class="sf-submit" style="flex:1;">Generate Resume Link</button>
+          <button onclick="closeEmailSelf()" style="flex-basis:auto;background:transparent;border:1px solid #cbd5e1;color:#334155;padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">Cancel</button>
+        </div>
+      </div>
+
+      <div id="emailStep2" style="display:none">
+        <p class="text-slate-700 text-sm font-medium mb-2">Your resume link is ready.</p>
+        <textarea id="resumeLink" readonly rows="3" class="sf-input" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#475569;"></textarea>
+        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+          <a id="resumeMailto" href="#" class="sf-submit" style="flex:1;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;">Open Email Draft</a>
+          <button id="resumeCopy" style="flex-basis:auto;background:transparent;border:1px solid #cbd5e1;color:#334155;padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">Copy Link</button>
+        </div>
+        <p class="text-slate-500 text-xs mt-4 leading-relaxed">Tip: Bookmark this link so you can return to your draft from anywhere. The link contains all your typed answers &mdash; treat it like a draft document.</p>
+        <button onclick="closeEmailSelf()" style="margin-top:16px;width:100%;background:transparent;border:none;color:#64748b;padding:8px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 text-white py-10 mt-24">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <p class="font-mono text-xs text-white/50">&copy; 2026 Water Street Studios Public Art Initiative.</p>
+      <div class="flex gap-6">
+        <a href="index-4may2026.html" class="font-mono text-xs text-white/50 hover:text-white transition-colors">&larr; Back to Site</a>
+        <a href="mailto:publicart@waterstreetstudios.org" class="font-mono text-xs text-white/50 hover:text-white transition-colors">publicart@waterstreetstudios.org</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    'use strict';
+
+    // ─── Project routing ───
+    const params = new URLSearchParams(window.location.search);
+    let project = (params.get('project') || 'america250').toLowerCase();
+    if (project !== 'america250' && project !== 'unwind') project = 'america250';
+
+    const formA = document.getElementById('formAmerica250');
+    const formB = document.getElementById('formUnwind');
+    const ctxA = document.getElementById('ctxAmerica250');
+    const ctxB = document.getElementById('ctxUnwind');
+    const detailsA = document.getElementById('detailsAmerica250');
+    const detailsB = document.getElementById('detailsUnwind');
+    const pillA = document.getElementById('pill-america250');
+    const pillB = document.getElementById('pill-unwind');
+
+    function showProject(p) {
+      project = p;
+      formA.classList.toggle('hidden', p !== 'america250');
+      formB.classList.toggle('hidden', p !== 'unwind');
+      ctxA.classList.toggle('hidden', p !== 'america250');
+      ctxB.classList.toggle('hidden', p !== 'unwind');
+      detailsA.classList.toggle('hidden', p !== 'america250');
+      detailsB.classList.toggle('hidden', p !== 'unwind');
+      pillA.classList.toggle('active', p === 'america250');
+      pillB.classList.toggle('active', p === 'unwind');
+      document.title = (p === 'unwind' ? 'unWIND Benches' : 'America 250 Mural') + ' — Apply — Water Street Studios';
+    }
+    showProject(project);
+
+    // ─── Active form selector ───
+    function activeForm() { return project === 'unwind' ? formB : formA; }
+    function storageKey() { return 'wss-apply-draft-' + project; }
+
+    // ─── Resume from URL (?resume=BASE64URL) ───
+    function fromBase64Url(s) {
+      try {
+        s = s.replace(/-/g, '+').replace(/_/g, '/');
+        const pad = s.length % 4; if (pad) s += '='.repeat(4 - pad);
+        return decodeURIComponent(escape(atob(s)));
+      } catch (e) { return null; }
+    }
+    function toBase64Url(s) {
+      try {
+        return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      } catch (e) { return ''; }
+    }
+
+    function applyDataToForm(data, form) {
+      if (!data || typeof data !== 'object') return;
+      Object.keys(data).forEach(name => {
+        const el = form.querySelector('[name="' + CSS.escape(name) + '"]');
+        if (el && el.type !== 'hidden' && el.name !== 'bot-field') {
+          el.value = data[name];
+        }
+      });
+    }
+
+    function readForm(form) {
+      const out = {};
+      const fd = new FormData(form);
+      for (const [k, v] of fd.entries()) {
+        if (k === 'form-name' || k === 'bot-field') continue;
+        out[k] = v;
+      }
+      return out;
+    }
+
+    // Resume flow: ?resume=<b64>
+    const resumeParam = params.get('resume');
+    if (resumeParam) {
+      const json = fromBase64Url(resumeParam);
+      if (json) {
+        try {
+          const parsed = JSON.parse(json);
+          if (parsed && parsed.project) {
+            showProject(parsed.project);
+            applyDataToForm(parsed.data || {}, activeForm());
+            // Persist to localStorage so future visits without the param still resume
+            localStorage.setItem(storageKey(), JSON.stringify(parsed.data || {}));
+          }
+        } catch (e) {}
+      }
+    } else {
+      // Otherwise load any existing localStorage draft for this project
+      const stored = localStorage.getItem(storageKey());
+      if (stored) {
+        try { applyDataToForm(JSON.parse(stored), activeForm()); } catch(e){}
+      }
+    }
+
+    // ─── Auto-save (debounced) ───
+    const saveIndicator = document.getElementById('saveIndicator');
+    const saveText = document.getElementById('saveIndicatorText');
+    let saveTimer = null;
+    function scheduleSave() {
+      saveIndicator.classList.remove('saved');
+      saveIndicator.classList.add('saving');
+      saveText.textContent = 'Saving…';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        const data = readForm(activeForm());
+        try {
+          localStorage.setItem(storageKey(), JSON.stringify(data));
+          saveIndicator.classList.remove('saving');
+          saveIndicator.classList.add('saved');
+          const t = new Date();
+          saveText.textContent = 'Saved ' + t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+        } catch (e) {
+          saveIndicator.classList.remove('saving');
+          saveText.textContent = 'Save unavailable';
+        }
+      }, 500);
+    }
+    [formA, formB].forEach(f => {
+      f.addEventListener('input', scheduleSave);
+      f.addEventListener('change', scheduleSave);
+    });
+
+    // ─── Email-self modal ───
+    const modal = document.getElementById('resumeModal');
+    const emailInput = document.getElementById('resumeEmail');
+    const linkArea = document.getElementById('resumeLink');
+    const mailtoBtn = document.getElementById('resumeMailto');
+    const copyBtn = document.getElementById('resumeCopy');
+    const generateBtn = document.getElementById('resumeBtnGenerate');
+    const step1 = document.getElementById('emailStep1');
+    const step2 = document.getElementById('emailStep2');
+
+    window.openEmailSelf = function() {
+      step1.style.display = '';
+      step2.style.display = 'none';
+      // Pre-fill email if user has typed it on the form
+      const formEmail = activeForm().querySelector('[name="email"]');
+      if (formEmail && formEmail.value) emailInput.value = formEmail.value;
+      modal.classList.add('open');
+      setTimeout(() => emailInput.focus(), 50);
+    };
+    window.closeEmailSelf = function() { modal.classList.remove('open'); };
+
+    modal.addEventListener('click', function(e){ if (e.target === modal) closeEmailSelf(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) closeEmailSelf(); });
+
+    function buildResumeUrl() {
+      const data = readForm(activeForm());
+      const payload = JSON.stringify({ project: project, data: data, savedAt: new Date().toISOString() });
+      const b64 = toBase64Url(payload);
+      return location.origin + location.pathname + '?project=' + project + '&resume=' + b64;
+    }
+
+    generateBtn.addEventListener('click', function() {
+      const email = (emailInput.value || '').trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailInput.classList.add('error');
+        emailInput.focus();
+        return;
+      }
+      emailInput.classList.remove('error');
+
+      const url = buildResumeUrl();
+      linkArea.value = url;
+      const projectName = project === 'unwind' ? 'unWIND Benches' : 'America 250 Mural';
+      const subject = encodeURIComponent('Your saved ' + projectName + ' application — Water Street Studios');
+      const body = encodeURIComponent(
+        'Continue your application:\n\n' + url + '\n\n' +
+        'This link contains all the answers you\'ve typed so far. Open it on any device to keep working — no account needed.\n\n' +
+        '— Water Street Studios Public Art Initiative\npublicart@waterstreetstudios.org'
+      );
+      mailtoBtn.href = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
+      step1.style.display = 'none';
+      step2.style.display = '';
+    });
+
+    copyBtn.addEventListener('click', function() {
+      linkArea.select();
+      try {
+        navigator.clipboard.writeText(linkArea.value).then(() => {
+          copyBtn.textContent = 'Copied';
+          setTimeout(() => copyBtn.textContent = 'Copy Link', 1600);
+        });
+      } catch (e) {
+        document.execCommand('copy');
+      }
+    });
+
+    // ─── Final submit (Netlify Forms) ───
+    function encodeNetlify(form) {
+      const fd = new FormData(form);
+      return Array.from(fd.entries()).map(([k,v]) => encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
+    }
+    function wireSubmit(form, submitBtnId, errId) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById(submitBtnId);
+        const errEl = document.getElementById(errId);
+        errEl.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.querySelector('[data-text="default"]').style.display = 'none';
+        submitBtn.querySelector('[data-text="loading"]').style.display = '';
+        try {
+          const res = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: encodeNetlify(form)
+          });
+          if (!res.ok) throw new Error('Network');
+          // Clear draft for this project on successful submit
+          localStorage.removeItem(storageKey());
+          formA.classList.add('hidden');
+          formB.classList.add('hidden');
+          ctxA.classList.add('hidden');
+          ctxB.classList.add('hidden');
+          document.getElementById('confirm').classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+          errEl.style.display = '';
+          submitBtn.disabled = false;
+          submitBtn.querySelector('[data-text="default"]').style.display = '';
+          submitBtn.querySelector('[data-text="loading"]').style.display = 'none';
+        }
+      });
+    }
+    wireSubmit(formA, 'submitA', 'errA');
+    wireSubmit(formB, 'submitB', 'errB');
+
+    // Update save indicator initial state
+    if (localStorage.getItem(storageKey())) {
+      saveIndicator.classList.add('saved');
+      saveText.textContent = 'Draft restored';
+    }
+  })();
+  </script>
+</body>
+</html>
