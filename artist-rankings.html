@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artist Submission Rankings &mdash; WSS Public Art Initiative</title>
+  <meta name="description" content="Internal jury ranking for the America 250 City Hall Mural and unWIND River Street Plaza Bench submissions.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'wss-blue': '#009BC7',
+            'wss-blue-accessible': '#006B8F',
+            'wss-blue-dark': '#004C6B',
+            'wss-gold': '#C9A84C',
+            'wss-gold-dark': '#A38A35',
+            'wss-green': '#95C322',
+            'wss-teal': '#0d9488',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-size: 16px; font-family: 'Inter', system-ui, sans-serif; }
+
+    /* Password gate */
+    body:not(.unlocked) > *:not(#passwordGate) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    #passwordGate {
+      position: fixed;
+      inset: 0;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 24px;
+    }
+    body.unlocked #passwordGate { display: none; }
+    .pg-box { width: 100%; max-width: 360px; text-align: center; }
+    .pg-logo { height: 56px; width: auto; margin: 0 auto 28px; display: block; }
+    .pg-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+    .pg-input-wrap { display: flex; gap: 0; }
+    .pg-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-right: none;
+      color: white;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      outline: none;
+    }
+    .pg-input.error { border-color: #ef4444; }
+    .pg-btn {
+      background: #009BC7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pg-btn:hover { background: #006B8F; }
+    .pg-error { color: #f87171; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-top: 12px; display: none; }
+
+    /* Grain overlay */
+    .grain { position: relative; }
+    .grain::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); pointer-events: none; opacity: 0.6; mix-blend-mode: multiply; }
+
+    /* Rank card */
+    .rank-card {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 28px;
+      padding: 36px 0;
+      border-bottom: 1px solid #e7e5e4;
+      align-items: start;
+    }
+    .rank-card:last-child { border-bottom: none; }
+    @media (max-width: 720px) {
+      .rank-card { grid-template-columns: 1fr; gap: 14px; padding: 28px 0; }
+    }
+
+    /* Concept image figure */
+    .rank-figure {
+      display: block;
+      width: 100%;
+      margin: 0 0 22px 0;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+    .rank-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.4s ease;
+    }
+    .rank-figure:hover img { transform: scale(1.015); }
+    .rank-figcaption {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: white;
+      background: rgba(2, 6, 23, 0.72);
+      padding: 4px 9px;
+      backdrop-filter: blur(4px);
+    }
+
+    .rank-num {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      color: #020617;
+      font-feature-settings: "tnum";
+    }
+    .rank-num.gold { color: #C9A84C; }
+    .rank-num.silver { color: #94a3b8; }
+    .rank-num.bronze { color: #b8865a; }
+
+    .rank-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .rank-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: #020617;
+      margin-bottom: 10px;
+    }
+    .rank-concept {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #334155;
+      margin-bottom: 14px;
+    }
+    .rank-concept strong { color: #020617; font-weight: 600; }
+
+    .rank-pros, .rank-cons {
+      display: block;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 10px 14px;
+      margin-top: 8px;
+      border-left: 3px solid;
+    }
+    .rank-pros {
+      border-left-color: #15803d;
+      background: #f0fdf4;
+      color: #14532d;
+    }
+    .rank-cons {
+      border-left-color: #b45309;
+      background: #fffbeb;
+      color: #78350f;
+    }
+    .rank-pros::before, .rank-cons::before {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .rank-pros::before { content: 'In their favor'; color: #15803d; }
+    .rank-cons::before { content: 'Questions / concerns'; color: #b45309; }
+
+    .meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .meta-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 2px;
+    }
+    .meta-pill.illinois { background: #fef3c7; color: #92400e; }
+    .meta-pill.local { background: #dbeafe; color: #1e40af; }
+    .meta-pill.veteran { background: #f3e8ff; color: #6b21a8; }
+    .meta-pill.emerging { background: #f1f5f9; color: #475569; }
+    .meta-pill.warn { background: #fee2e2; color: #991b1b; }
+
+    /* Project section banners */
+    .proj-banner {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .proj-banner-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+    .proj-banner-veil {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .criteria-item {
+      padding: 16px 18px;
+      background: white;
+      border: 1px solid #e7e5e4;
+    }
+    .criteria-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #006B8F;
+      margin-bottom: 6px;
+    }
+    .criteria-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #020617;
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    @media print {
+      #passwordGate { display: none !important; }
+      body { background: white; }
+      .rank-card { break-inside: avoid; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-950">
+
+  <!-- ===================== PASSWORD GATE ===================== -->
+  <div id="passwordGate">
+    <div class="pg-box">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="Water Street Studios Public Art Initiative" class="pg-logo">
+      <p class="pg-label">Jury Access &middot; Internal</p>
+      <div class="pg-input-wrap">
+        <input type="password" id="pgInput" class="pg-input" placeholder="Enter password" autocomplete="current-password">
+        <button class="pg-btn">Enter</button>
+      </div>
+      <p class="pg-error" id="pgError">Incorrect password. Try again.</p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const SESSION_KEY = '_wss​pv_k1';
+      const HASH = 'd3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70';
+      const MAX_ATTEMPTS = 5;
+      const LOCKOUT_KEY = '_wss​pv_lk';
+
+      function unlock() {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.body.classList.add('unlocked');
+      }
+
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        document.body.classList.add('unlocked');
+      }
+
+      async function hashInput(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function checkPassword() {
+        const input = document.getElementById('pgInput');
+        const errEl = document.getElementById('pgError');
+        const btn   = document.querySelector('.pg-btn');
+
+        const lockData = JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0}');
+        if (lockData.attempts >= MAX_ATTEMPTS) {
+          errEl.textContent = 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          input.disabled = true;
+          btn.disabled = true;
+          return;
+        }
+
+        const hash = await hashInput(input.value.toLowerCase().trim());
+
+        if (hash === HASH) {
+          sessionStorage.removeItem(LOCKOUT_KEY);
+          unlock();
+        } else {
+          lockData.attempts = (lockData.attempts || 0) + 1;
+          sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(lockData));
+          const remaining = MAX_ATTEMPTS - lockData.attempts;
+          input.classList.add('error');
+          errEl.textContent = remaining > 0
+            ? `Incorrect password. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+            : 'Too many attempts. Please close and reopen this tab.';
+          errEl.style.display = 'block';
+          if (remaining <= 0) { input.disabled = true; btn.disabled = true; }
+          input.value = '';
+          input.focus();
+        }
+      }
+
+      window._pg_check = checkPassword;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('pgInput');
+        const btn   = document.querySelector('.pg-btn');
+        if (btn) btn.onclick = checkPassword;
+        if (input) {
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkPassword();
+            input.classList.remove('error');
+          });
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===================== UTILITY BAR ===================== -->
+  <div class="bg-slate-950 text-white">
+    <div class="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
+      <span class="font-mono text-[10px] uppercase tracking-widest text-white/40">Internal Jury Document &middot; Not for Distribution</span>
+      <a href="index-4may2026.html" class="font-mono font-semibold text-[11px] uppercase tracking-wider text-white/75 hover:text-white transition-colors">&larr; Public Art Initiative</a>
+    </div>
+  </div>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="bg-slate-950 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+      <div style="position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,#006B8F 0%,transparent 70%);"></div>
+      <div style="position:absolute;bottom:-150px;left:-50px;width:400px;height:400px;background:radial-gradient(circle,#C9A84C 0%,transparent 70%);opacity:0.4;"></div>
+    </div>
+    <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
+      <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-wss-gold mb-6">Artist Submission Review &middot; May 2026</p>
+      <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] mb-6">
+        Submission<br>Rankings.
+      </h1>
+      <p class="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl">
+        One reviewer's read of the seventeen artist applications received for the <strong class="text-white font-semibold">America 250 City Hall Mural</strong> and the <strong class="text-white font-semibold">unWIND River Street Plaza Benches</strong>. Ranked favorite to least favorite, intended as a starting point for committee discussion &mdash; not a final selection.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-8 md:gap-12 font-mono text-[11px] uppercase tracking-widest text-white/50">
+        <div><span class="block text-3xl font-black text-wss-gold leading-none mb-1">17</span>Total submissions</div>
+        <div><span class="block text-3xl font-black text-wss-blue leading-none mb-1">8</span>America 250</div>
+        <div><span class="block text-3xl font-black text-wss-gold leading-none mb-1">9</span>unWIND benches</div>
+        <div><span class="block text-3xl font-black text-emerald-400 leading-none mb-1">4</span>Total commissions</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== CRITERIA ===================== -->
+  <section class="bg-stone-100 border-y border-stone-200 grain">
+    <div class="max-w-6xl mx-auto px-6 py-14 relative">
+      <div class="flex items-baseline justify-between flex-wrap gap-3 mb-8">
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-widest text-wss-blue-accessible mb-2">Evaluation Framework</p>
+          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Six criteria, applied to every submission.</h2>
+        </div>
+      </div>
+      <div class="criteria-grid">
+        <div class="criteria-item">
+          <p class="criteria-num">01</p>
+          <p class="criteria-label">Artistic excellence and originality</p>
+        </div>
+        <div class="criteria-item">
+          <p class="criteria-num">02</p>
+          <p class="criteria-label">Demonstrated experience with public art or murals</p>
+        </div>
+        <div class="criteria-item">
+          <p class="criteria-num">03</p>
+          <p class="criteria-label">Concept strength and relevance to project theme</p>
+        </div>
+        <div class="criteria-item">
+          <p class="criteria-num">04</p>
+          <p class="criteria-label">Feasibility within timeline and site conditions</p>
+        </div>
+        <div class="criteria-item">
+          <p class="criteria-num">05</p>
+          <p class="criteria-label">Ability to engage community narratives</p>
+        </div>
+        <div class="criteria-item">
+          <p class="criteria-num">06</p>
+          <p class="criteria-label">Budget alignment and technical approach</p>
+        </div>
+      </div>
+      <p class="text-slate-500 text-sm mt-8 leading-relaxed max-w-3xl">
+        Submissions reviewed via the original PDFs in <code class="font-mono text-xs bg-white px-1.5 py-0.5 border border-stone-200">/assets/0-artist-submissions/</code>. Artist identities have been preserved as filed (Artist&nbsp;1, Artist&nbsp;2, &hellip;) so committee members can cross-reference each rank against the source application.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== AMERICA 250 SECTION ===================== -->
+  <section id="america250">
+    <!-- Banner -->
+    <div class="proj-banner relative bg-slate-950 text-white">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770496472/City-Hall_West-Facing-Southern-Windows-gemini-b_qykbyv.png" alt="Batavia City Hall west-facing limestone bays" class="proj-banner-img">
+      <div class="proj-banner-veil" style="background:linear-gradient(to right, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.80) 50%, rgba(2,6,23,0.55) 100%);"></div>
+      <div class="relative max-w-6xl mx-auto px-6 py-20">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-2 h-2 rounded-full bg-wss-green"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-wss-blue">Project One &middot; 8 Submissions &middot; 1 Selection</span>
+        </div>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] mb-4">America 250<br>City Hall Mural</h2>
+        <p class="text-white/70 max-w-xl leading-relaxed">
+          A permanent six-panel mural across the arched limestone bays of Batavia City Hall. $9,650 artist fee &middot; Illinois artists only &middot; Illinois Arts Council grant.
+        </p>
+      </div>
+    </div>
+
+    <!-- Rankings -->
+    <div class="max-w-5xl mx-auto px-6 py-16">
+
+      <!-- Rank 1 -->
+      <article class="rank-card">
+        <div class="rank-num gold">01</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297207/wss-america250-artist-2-concept.png" alt="Artist 2 concept rendering — Currents of America, six bold-linework panels on the City Hall facade" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 2 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 2 &middot; "Batavia: The Currents of America"</p>
+          <h3 class="rank-title">Six-panel bold-linework narrative tying Big Woods to Fermilab.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill local">Grew up in Geneva</span>
+            <span class="meta-pill veteran">Deep public-art portfolio</span>
+            <span class="meta-pill illinois">Illinois-based</span>
+          </div>
+          <p class="rank-concept">A right-to-left visual sequence: <strong>Emerging from The Big Woods</strong> (Judge Wilson, 1833) &rarr; <strong>The Westward Hub</strong> (covered-wagon manufacturing) &rarr; <strong>The Windmill City</strong> &rarr; <strong>The Social Fabric</strong> (Flag Day ceremony, Lincoln family) &rarr; <strong>Frontier of the Small</strong> (Fermilab) &rarr; <strong>The Living Current</strong> (today's Riverwalk). Painted in a vibrant, bold-linework illustrative style with the Fox River threading through every panel as a literal current.</p>
+          <div class="rank-pros">The single strongest balance across every criterion. Concept is editorial, original, and directly responsive to the "Living Community Story" prompt &mdash; each panel earns its place. Portfolio is the deepest of the eight: Wrigleyville "Bleacher Bums," Chicago Academy HS "Learner's Life" (with student-engagement process), the Illinois Art-in-Architecture finalist Monarch Youth Center "Transform," plus Illinois Dept. of Health editorial work on gun-violence healing. Has a defined production schedule (nighttime mapping, daylight execution, anti-graffiti seal) and the local connection &mdash; raised in Geneva &mdash; is real, not performed.</div>
+          <div class="rank-cons">Six fully illustrated panels in a 7&ndash;10 day cadence is ambitious. Worth confirming whether their schedule allows the longer June&ndash;August window we've reserved, and whether community-input touchpoints (Batavia Historical Society "Making of the Mural Day" they proposed) can be scheduled in May.</div>
+        </div>
+      </article>
+
+      <!-- Rank 2 -->
+      <article class="rank-card">
+        <div class="rank-num silver">02</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297207/wss-america250-artist-1-concept.png" alt="Artist 1 concept rendering — six bold-linework panel sketches with measured dimensions, flowing American flag motif unifying the six City Hall bays" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 1 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 1 &middot; Six-panel flowing-flag visual journey</p>
+          <h3 class="rank-title">Sepia-to-vibrant color progression unified by a Declaration-of-Independence flag motif.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Chicago-based</span>
+            <span class="meta-pill veteran">25+ regional murals</span>
+            <span class="meta-pill local">Painted "Art on the Fox" in Batavia, 2024</span>
+          </div>
+          <p class="rank-concept">Opens with a Bernard J. Cigrand portrait and a flowing American flag layered with handwritten Declaration text &mdash; that flag becomes the through-line tying all six panels together. Panels progress from sepia (windmills, railroad expansion) to fully saturated color (Boardwalk Shops, a child gazing forward, the Peace on Earth bridge with fireworks). Proposes QR codes alongside each panel for deeper Batavia Historical Society content.</p>
+          <div class="rank-pros">Genuinely original device &mdash; the flag-as-connective-tissue solves the "six separate frames" problem without making the panels feel repetitive. Portfolio is the most directly comparable to what we're commissioning: the Heartland (St. Charles), the Hive (St. Charles), Misfits Jiu Jitsu, and the Green Mill / Uptown Jazz mural in Chicago all show his ability to deliver large-scale exterior work at this fee. Provides dimensioned sketches and notes the BHS collaboration upfront.</div>
+          <div class="rank-cons">Style runs vibrant-pop &mdash; some jury members may prefer something more muted against limestone. Pop-art portraiture (Bowie/Basquiat) reads strongly on canvas but jury will want to see how a Cigrand portrait at this scale lands in the architectural context.</div>
+        </div>
+      </article>
+
+      <!-- Rank 3 -->
+      <article class="rank-card">
+        <div class="rank-num bronze">03</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297208/wss-america250-artist-3-concept.png" alt="Artist 3 concept rendering — photorealistic six-panel mural on City Hall facade depicting Cigrand with Fox River, windmill, folded-flag presentation, bison and prairie, young artist with Bulldog at Riverwalk bandshell, and children gazing at Fermilab at night" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 3 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 3 &middot; "Batavia at 250: A Living Community Story"</p>
+          <h3 class="rank-title">Photorealistic six-panel mural with hometown roots.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill local">Raised in Batavia &middot; Batavia schools</span>
+            <span class="meta-pill illinois">Bradley University BFA</span>
+            <span class="meta-pill veteran">Painted at Art of the Fox arched bay</span>
+          </div>
+          <p class="rank-concept">Cinematic, illustrative-realism panels: Cigrand by the Fox with native wildlife &rarr; the Windmill City &rarr; a folded-flag presentation honoring service &rarr; prairie/bison heritage &rarr; a young artist painting the Batavia Bulldog at the Riverwalk bandshell &rarr; children gazing across the river at Fermilab with the Vulpecula (Little Fox) constellation overhead. Civic navy / cream / gold palette.</p>
+          <div class="rank-pros">Strongest hometown-connection narrative of the eight: attended Batavia schools, names the teachers who influenced him, his Great Blue Heron mural for the Conservation Foundation already sits inside an arched limestone bay &mdash; he has literally painted this site condition before. The presentation document itself is the most polished. Cigrand+fox panel and the Vulpecula constellation closer are the most visually memorable single-panel ideas in the pool.</div>
+          <div class="rank-cons">The concept studies are clearly AI-rendered, which introduces an execution-risk gap between the polished proposal and what hand-painted realism actually delivers at site scale. Six photorealistic panels in the timeline we have is the heaviest lift of any proposal &mdash; worth a direct conversation about whether the final design will simplify, and what hand-painted reference work he can show at scale.</div>
+        </div>
+      </article>
+
+      <!-- Rank 4 -->
+      <article class="rank-card">
+        <div class="rank-num">04</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297209/wss-america250-artist-4-concept.png" alt="Artist 4 concept rendering — Community Hands Mural preliminary sketches placed in the six City Hall bays, with red-blue-green-yellow-cyan palette swatches" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 4 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 4 &middot; "Community Hands Mural"</p>
+          <h3 class="rank-title">Hands across history holding flags &mdash; designed as a companion to the Flag Day Monument.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Aurora-based</span>
+            <span class="meta-pill local">Brief WSS studio resident, 2021</span>
+            <span class="meta-pill veteran">Lead artist, "Love Aurora" (15&prime;&times;30&prime;)</span>
+          </div>
+          <p class="rank-concept">Six panels of hands holding flags: community hands holding the Batavia flag (sourced from resident photos), an American flag surrounded by native birds, Chief Shabbona's hand with a Potawatomi flag (pending tribal-government approval), John Ozier with a Civil-War-era flag, women's hands stitching a flag c.1818, and children's hands with America 250 ribbon flags. Bright blue-aqua background, realistic skin tones across panels.</p>
+          <div class="rank-pros">Most thoughtfully built community-engagement plan of the pool &mdash; she's explicit that she'll solicit hand-reference photos from Batavia residents and will pursue tribal-government approval for the Shabbona panel, which is the kind of cultural care this project genuinely needs. The "companion to the Flag Day Monument" framing is the cleanest theme-tie any applicant made. Detailed itemized $9,650 budget that lands exactly at our fee.</div>
+          <div class="rank-cons">The current preliminary sketch reads less ambitious than her own portfolio work &mdash; "Love Aurora" has more visual punch than the proposed grayscale sketch suggests. Jury will want to see a fuller color treatment of at least one panel before deciding.</div>
+        </div>
+      </article>
+
+      <!-- Rank 5 -->
+      <article class="rank-card">
+        <div class="rank-num">05</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297211/wss-america250-artist-8-concept.png" alt="Artist 8 concept rendering — Our Past Our Present Our Future Together, a seven-panel mural with Roots, Foundations, Industry, Community, Peace Bridge, Stewardship, and Our Future, tagline One River One Community One Nation" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 8 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 8 &middot; Single-image submission</p>
+          <h3 class="rank-title">"Our Past. Our Present. Our Future. Together."</h3>
+          <div class="meta-pills">
+            <span class="meta-pill warn">No portfolio, statement, or budget submitted</span>
+          </div>
+          <p class="rank-concept">A polished six-panel mural rendered in full color across the City Hall facade: Roots (Native American figure) &rarr; Foundations &rarr; Industry &rarr; Community &rarr; Peace Bridge (Peace on Earth signage) &rarr; Stewardship (Fox River). Anchored by the tagline "One River. One Community. One Nation." Editorial-grade composition; clearly the most thought-through single-image submission.</p>
+          <div class="rank-pros">If we ranked on the visual mockup alone, this would land in the top three &mdash; the panel titles, the tagline, the figure work, and the color cohesion are all strong. Hits every theme beat the brief asked for.</div>
+          <div class="rank-cons">Submitted as a single image with no artist statement, no portfolio, no budget, no community-engagement plan, no schedule, and no proof-of-Illinois-residency for the grant requirement. We can't evaluate feasibility or experience without that context. Worth reaching out to ask whether a full application is forthcoming before we close jurying.</div>
+        </div>
+      </article>
+
+      <!-- Rank 6 -->
+      <article class="rank-card">
+        <div class="rank-num">06</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297210/wss-america250-artist-6-concept.png" alt="Artist 6 concept rendering — line-drawing dimensioned panels with Boardwalk shops, kayakers on the Fox, Cigrand bust, windmill, train depot, and a Washington Crossing the Delaware reference panel" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 6 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 6 &middot; Late-19th-century-realism six-panel proposal</p>
+          <h3 class="rank-title">Forty-plus-year career, Washington-Crossing-the-Delaware reference palette.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill veteran">40+ years professional</span>
+            <span class="meta-pill veteran">37-mural Waves of DuPage commission</span>
+            <span class="meta-pill illinois">Currently commissioned by Cleve Carney for America 250</span>
+          </div>
+          <p class="rank-concept">Six panels reading right-to-left: a river crossing (courage / resilience) &rarr; the railroad &rarr; the Windmill City &rarr; Flag Day &amp; Cigrand &rarr; the Fox River &rarr; vibrant present-day Batavia. Stated style reference is Emanuel Leutze's <em>Washington Crossing the Delaware</em>.</p>
+          <div class="rank-pros">Easily the most credentialed applicant by r&eacute;sum&eacute;: the Cleve Carney Museum of Art has already commissioned this artist for five ten-foot sculptural heads opening June 2026 for America's 250th &mdash; meaning their current studio practice is literally on this exact theme. Chinese American Museum of Chicago mural, DuPage Children's Museum, Orvis stained-glass installations nationwide. Proven reliability at scale.</p>
+          <div class="rank-cons">The proposal text itself is the thinnest in the top half of the pool &mdash; one short paragraph per section, no preliminary panel sketches, just a stated style reference. For a $9,650 grant-funded civic mural, jury should expect more developed concept work. Also: the Washington-Crossing realist register may read as derivative of national symbolism rather than as a Batavia-specific story.</div>
+        </div>
+      </article>
+
+      <!-- Rank 7 -->
+      <article class="rank-card">
+        <div class="rank-num">07</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297211/wss-america250-artist-7-concept.png" alt="Artist 7 concept rendering — flat-color geometric six-panel timeline of Batavia, with simplified landscape, settlement and windmill, river, Flag Day Monument, Depot Museum, and Fermilab" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 7 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 7 &middot; Flat-color geometric six-panel timeline</p>
+          <h3 class="rank-title">Minimalist landscape-to-Fermilab narrative in muted earth tones.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Sycamore, IL &middot; NIU BA 2016</span>
+            <span class="meta-pill emerging">Limited large-scale public-art history</span>
+          </div>
+          <p class="rank-concept">Geometric, flat-color panels: open landscape &rarr; settlement (with windmill) &rarr; Fox River &rarr; Flag Day Monument &rarr; Depot Museum &rarr; Fermilab. Limited warm-earth / muted-neutral palette intended to complement the limestone.</p>
+          <div class="rank-pros">The most architecturally restrained proposal &mdash; if the committee wants something that defers to the limestone rather than competes with it, this is the candidate. Color palette is the most considered against the building. Concept is internally coherent.</div>
+          <div class="rank-cons">Demonstrated mural experience is one indoor floral mural in a Geneva private residence plus assistant work on the iFLY Skydiving mural in Schaumburg. That's a meaningful gap for a $9,650 six-panel civic exterior commission. Jury would be betting on capacity rather than confirming it.</div>
+        </div>
+      </article>
+
+      <!-- Rank 8 -->
+      <article class="rank-card">
+        <div class="rank-num">08</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297209/wss-america250-artist-5-concept.png" alt="Artist 5 concept rendering — two variants, native Illinois wildflowers overlapping the Batavia Public Library and church spires, plus an alternate with a translucent Flag Day star-and-stripes overlay" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 5 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 5 &middot; Native flowers + Batavia landmarks</p>
+          <h3 class="rank-title">Illinois-flora panels overlaid with translucent Batavia architecture.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill emerging">Three years muralist</span>
+            <span class="meta-pill illinois">Chicagoland nonprofit teaching artist</span>
+          </div>
+          <p class="rank-concept">Two concept variants: (a) 3D-textured Illinois native flowers (echinacea, coneflower, monarda) overlapping Batavia landmarks like the Public Library and church spires; (b) the same landmarks layered with a translucent Flag-Day-stars-and-stripes overlay. Itemized $3,488 budget with Nova water-resistant paint.</p>
+          <div class="rank-pros">Sincere social-impact mural practice &mdash; in-house muralist for Young Chicago Authors and the Breathing Room Collective, plus City of Aurora public-art work. The flora-over-landmark device has potential. Comes in well under our $9,650 fee.</div>
+          <div class="rank-cons">The concept doesn't engage the America 250 / "Living Community Story" theme as directly as competitors &mdash; flowers in front of a library reads as decoration rather than narrative. Three years of muralist experience and a 2,127&ndash;3,488 budget range suggests the leap to a six-panel grant-funded civic mural is a stretch &mdash; she may be a better fit for the unWIND commission (where she also applied, see <a href="#unwind" class="text-wss-blue-accessible underline underline-offset-2">below</a>).</div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- America 250 closing -->
+    <div class="bg-slate-950 text-white">
+      <div class="max-w-5xl mx-auto px-6 py-12">
+        <p class="font-mono text-[10px] uppercase tracking-widest text-wss-gold mb-4">America 250 &middot; Summary recommendation</p>
+        <p class="text-xl md:text-2xl font-light leading-relaxed text-white/90">
+          Bring <strong class="font-semibold">Artist 2</strong>, <strong class="font-semibold">Artist 1</strong>, and <strong class="font-semibold">Artist 3</strong> into the committee discussion. If <strong class="font-semibold">Artist 8</strong> submits a complete application before jury close, they belong in the conversation as well.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== UNWIND SECTION ===================== -->
+  <section id="unwind" class="mt-20">
+    <!-- Banner -->
+    <div class="proj-banner relative bg-slate-950 text-white">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1777947363/wss-river-street-plaza-aerial-hero-2026.png" alt="River Street Plaza aerial visualization" class="proj-banner-img">
+      <div class="proj-banner-veil" style="background:linear-gradient(to right, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.78) 50%, rgba(2,6,23,0.55) 100%);"></div>
+      <div class="relative max-w-6xl mx-auto px-6 py-20">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-2 h-2 rounded-full bg-wss-gold"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-wss-gold">Project Two &middot; 9 Submissions &middot; 3 Selections</span>
+        </div>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] mb-4">un<span class="text-wss-gold">WIND</span><br>Benches</h2>
+        <p class="text-white/70 max-w-xl leading-relaxed">
+          Three painted Noblewins benches &mdash; two Arch and one Arcadia &mdash; for River Street Plaza. $3,200 per artist &middot; on-site painting June 5&ndash;15.
+        </p>
+      </div>
+    </div>
+
+    <!-- Production note -->
+    <div class="bg-amber-50 border-y border-amber-200">
+      <div class="max-w-5xl mx-auto px-6 py-5 flex gap-3 items-start">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" class="flex-shrink-0 mt-0.5"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <p class="text-amber-900 text-sm leading-relaxed">
+          <strong class="font-semibold">Heads-up on bench-style mismatch:</strong> Several applicants proposed designs on the Noblewins <em>Acadia</em> sail-form bench, which Noblewins discontinued in Fall 2025. The brief calls for two <strong>Arch</strong> and one <strong>Arcadia</strong>. Confirm with each Acadia-targeted artist whether they can adapt to the actual Arcadia geometry before final selection.
+        </p>
+      </div>
+    </div>
+
+    <!-- Rankings -->
+    <div class="max-w-5xl mx-auto px-6 py-16">
+
+      <!-- Rank 1 -->
+      <article class="rank-card">
+        <div class="rank-num gold">01</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297722/wss-unwind-artist-8-concept.png" alt="Artist 8 concept rendering — three Arch benches wrapped in a quilted-patchwork pattern of windmill, stars, strawberries, dandelions, folk bird, and Americana tile blocks" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 8 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 8 &middot; Quilted-patchwork Arch bench</p>
+          <h3 class="rank-title">Americana quilt blocks with a windmill, stars, strawberries, and a folk-art bird.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Graphic designer / illustrator / painter</span>
+            <span class="meta-pill veteran">Polished site templates included</span>
+          </div>
+          <p class="rank-concept">A signature warm palette (chartreuse, olive, burnt orange, lavender, dusty blue, cream) applied as a quilt-block patchwork wrapping the Arch bench &mdash; each tile a tiny piece of local iconography (windmill, harvest stars, strawberries, dandelions, a folk-art bird). Includes a mounted-hardware template overlay showing exactly where the design avoids the bench-foot anchors.</p>
+          <div class="rank-pros">Best fit for the plaza brief of all nine: explicitly "welcoming, community-focused," directly responsive to the copper-toned leaf privacy fencing without literally repeating it, and the patchwork format gives the plaza visitor something to discover up close. The template page alone signals the level of professional preparation we want for a public installation. Portfolio (Little Barn Baby, Where Beautiful Things Come Together, You Are Abundantly Loved) shows consistent palette discipline at mural scale.</div>
+          <div class="rank-cons">Style runs sweet/whimsical &mdash; pairs well with one of the three benches but might feel monotonal if all three commissions land in the same register. Best treated as one of the two Arch slots.</div>
+        </div>
+      </article>
+
+      <!-- Rank 2 -->
+      <article class="rank-card">
+        <div class="rank-num silver">02</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297721/wss-unwind-artist-7-concept.png" alt="Artist 7 concept rendering — three design directions for a unified three-bench installation: Neutrinos (blue-on-yellow particle tracks), Windmills (silhouettes against orange sky), and Dodecahedrons (colorful faceted polyhedra)" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 7 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 7 &middot; Three benches as a unified set</p>
+          <h3 class="rank-title">Neutrinos. Windmills. Dodecahedrons. A rambling, layered visual system across the plaza.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill veteran">30 years studio + administrative arts career</span>
+            <span class="meta-pill illinois">Commissioned by Kai Japanese Kitchen, Cross Street Apts (Aurora)</span>
+          </div>
+          <p class="rank-concept">The only artist offering a coherent three-bench system rather than a single design. Three sketch directions presented as wraps: <strong>Neutrinos</strong> (blue/yellow Fermilab-coded swirls), <strong>Windmills</strong> (silhouettes against orange sky), <strong>Dodecahedrons</strong> (colorful faceted polyhedra). Layered, improvisational mark-making style.</p>
+          <div class="rank-pros">If the committee is at all worried about three benches feeling visually unrelated when installed together, this is the candidate who solves that problem &mdash; one artist, three concepts, one identifiable hand. The Cross Street Apartments dodecahedron piece (Aurora 2025) is real and at scale. The Neutrinos direction is the strongest single-bench Fermilab nod in the entire pool.</div>
+          <div class="rank-cons">Sketches are presented as rectangles, not yet wrapped to the bench geometry &mdash; we'd need to see at least one mock-up on the actual Arch or Arcadia form before committing. Also: this depends on us deciding whether we <em>want</em> visual unity across three benches, or whether we'd rather see three distinct voices.</div>
+        </div>
+      </article>
+
+      <!-- Rank 3 -->
+      <article class="rank-card">
+        <div class="rank-num bronze">03</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297721/wss-unwind-artist-6-concept.png" alt="Artist 6 concept rendering — Arch bench wrapped in falling autumn leaves in ochre, burnt orange, amber, olive, and gray" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 6 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 6 &middot; Falling-leaves Arch bench</p>
+          <h3 class="rank-title">Autumn canopy wrapped around the Arch &mdash; a direct dialogue with the copper privacy fencing.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Clean, polished render</span>
+            <span class="meta-pill veteran">Site-aware concept statement</span>
+          </div>
+          <p class="rank-concept">A bold, graphic field of oak, maple, and ash leaves in seasonal ochres / burnt oranges / vibrant ambers wrapping the Arch bench's full circumference. Statement frames it as "a visual bridge between Batavia's industrial heritage and Fox River ecosystem." $500 supplies + $2,500 design = $3,000.</p>
+          <div class="rank-pros">The most explicit site-responsive design in the entire bench pool &mdash; the copper-toned leaf-patterned privacy fencing is named in our brief as a context element, and this is the only proposal that picks up that thread directly. Render quality is high; the bench mockup actually shows the design on the Arch geometry, not just floating illustration.</div>
+          <div class="rank-cons">Light on portfolio context within the PDF itself &mdash; we have the concept render but not enough exterior-mural reference work to know how the painted execution will compare to the digital render. Worth requesting two or three previously completed exterior pieces before final selection.</div>
+        </div>
+      </article>
+
+      <!-- Rank 4 -->
+      <article class="rank-card">
+        <div class="rank-num">04</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297720/wss-unwind-artist-4-concept.png" alt="Artist 4 concept rendering — Arch bench with native plants, flowing ripple patterns, windmill shadow on water, lilypads, and an underwater-river view inside the arch with turtle and fish" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 4 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 4 &middot; Underwater Fox River with windmill reflection</p>
+          <h3 class="rank-title">Native plants, lilypads, mallards, and a windmill shadow in the water.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Graphic designer / painter</span>
+            <span class="meta-pill emerging">Habitat for Humanity "Buzzing Springs," 2025</span>
+          </div>
+          <p class="rank-concept">Outer panels: native plants, flowing ripple patterns, the shadow of a windmill interacting with the river surface, scattered lilypads, mallards. Interior of the Arch: an underwater view (lilypad undersides, turtle, fish). Color palette explicitly tied to the plaza's copper privacy fencing (blues / greens / yellow / copper hints).</p>
+          <div class="rank-pros">Strongest <em>concept</em> for site response in the pool &mdash; she's the only applicant who treated the inside-of-the-arch as a distinct design opportunity, which fits the "pause, gather, connect" brief beautifully. Inspiration page (windmill photo, river-ripple references) shows she went to the site.</div>
+          <div class="rank-cons">Portfolio (Adirondack chair, embroidery hoop, acrylic clouds, Habitat for Humanity "Buzzing Springs") is mostly smaller-scale work &mdash; the leap to a 123 sq.ft. wrap is real. Concept sketches are stylized but rough; will want to see a more refined rendering before committing.</div>
+        </div>
+      </article>
+
+      <!-- Rank 5 -->
+      <article class="rank-card">
+        <div class="rank-num">05</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297718/wss-unwind-artist-2-concept.png" alt="Artist 2 concept rendering — Acadia sail-form bench with vibrant painterly native Illinois prairie flowers, monarch butterfly, goldfinch, and painted turtle in pink, orange, purple, and teal" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 2 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 2 &middot; Native flora &amp; fauna in expressive painterly color</p>
+          <h3 class="rank-title">Echinacea, lavender, monarch, goldfinch, turtle &mdash; Fox River vitality in vibrant drips and washes.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">Vibrant pink / orange / purple / teal palette</span>
+            <span class="meta-pill warn">Proposed for discontinued Acadia bench</span>
+          </div>
+          <p class="rank-concept">A vibrant tribute to Batavia's native prairie ecology: echinacea, black-eyed Susans, lavender, painted goldfinch, monarch butterfly, native painted turtle. Painted in a loose, drippy, expressive painterly style on the sail-form bench.</p>
+          <div class="rank-pros">Most expressive painterly hand of the bench pool &mdash; would bring a level of textural energy the plaza doesn't currently have. Native-flora-and-fauna framing is the most ecologically literate of the bench applications.</div>
+          <div class="rank-cons">Proposed specifically for the Acadia sail-form bench &mdash; Noblewins discontinued the Acadia in Fall 2025. Worth a quick conversation about whether she'd adapt the same design language to the Arcadia (which is the actual tall sail-form bench we're commissioning).</div>
+        </div>
+      </article>
+
+      <!-- Rank 6 -->
+      <article class="rank-card">
+        <div class="rank-num">06</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297717/wss-unwind-artist-1-concept.png" alt="Artist 1 concept rendering — two Acadia sail-form benches with photorealistic floral wraps, one in pink phalaenopsis orchids and one in blue Puya alpestris (Chilean blue lily)" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 1 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 1 &middot; Photorealistic floral wrap on Acadia sail-form</p>
+          <h3 class="rank-title">Two design directions: orchid and blue Puya alpestris (Chilean blue lily).</h3>
+          <div class="meta-pills">
+            <span class="meta-pill veteran">$120K Sunset Blvd commission, multiple ArtsWA STEAM murals</span>
+            <span class="meta-pill warn">Proposed for discontinued Acadia bench</span>
+            <span class="meta-pill warn">Designs not Illinois-native</span>
+          </div>
+          <p class="rank-concept">Two highly photorealistic floral concepts on the Acadia: a pink phalaenopsis-orchid wrap with banana leaves, and a blue Puya alpestris (Chilean blue lily) wrap. Pricing model: $35/sq.ft. &times; 106.5 sq.ft. = $3,710 (will deliver at our $3,200 cap).</p>
+          <div class="rank-pros">Most credentialed muralist in the unWIND pool &mdash; "Grand Summation of Molecular Motion" (Sunset Blvd, West Hollywood, $120K), Katherine G. Johnson Elementary STEM murals (Tacoma, $33.5K each), the Bucktown floral wall in Chicago. Operates at a tier well above what $3,200 typically buys.</div>
+          <div class="rank-cons">Same Acadia-discontinued issue as Artist 2, plus a concept-fit concern: phalaenopsis orchids and Chilean blue lilies are tropical / South American &mdash; they read as decorative wallpaper rather than as Batavia. The brief asked for designs reflecting "the beauty, diversity, and spirit of downtown Batavia," and these don't. Compelling artist; not the right concept for this plaza without revision.</div>
+        </div>
+      </article>
+
+      <!-- Rank 7 -->
+      <article class="rank-card">
+        <div class="rank-num">07</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297719/wss-unwind-artist-3-concept.png" alt="Artist 3 concept rendering — two arch panels by kikiz-artz with an underwater Illinois pond on the left (water lilies, fish, stones) and native Illinois prairie flowers on the right (echinacea, milkweed, monarda) with pollinators" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 3 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 3 &middot; Illinois ponds, rivers, and prairie flora</p>
+          <h3 class="rank-title">Two-panel underwater + native-prairie wrap on the Noblewins arch.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill illinois">In-house muralist, Young Chicago Authors / Breathing Room Collective</span>
+            <span class="meta-pill emerging">~3 years muralist</span>
+          </div>
+          <p class="rank-concept">Left panel: an underwater Illinois pond scene with native fish, water lilies, river stones. Right panel: native Illinois prairie flowers (echinacea, monarda) and pollinators &mdash; "iconic plants we see growing in Illinois gardens." Budget $2,127.</p>
+          <div class="rank-pros">Same artist as America 250 Artist 5, and the unWIND brief is a better fit for her current scale &mdash; her social-impact mural portfolio (#LetUsBreathe, Love Fridge, mariachi mural) shows she can deliver expressive work in public space. Genuinely under budget.</div>
+          <div class="rank-cons">Concept sketches feel preliminary &mdash; the two arches are presented separately rather than as a single wrap-around design, and there's no rendering of the bench itself. The technical reading of the bench surface needs more work.</div>
+        </div>
+      </article>
+
+      <!-- Rank 8 -->
+      <article class="rank-card">
+        <div class="rank-num">08</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297723/wss-unwind-artist-9-concept.png" alt="Artist 9 concept rendering — pencil sketch of an Arch bench tableau with an elderly woman and dog, a gentleman with a newspaper, sleeping children with teddy bear, and a young couple, with rainbow color-pencil palette swatches at the base" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 9 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 9 &middot; Norman-Rockwell-inspired figurative scenes</p>
+          <h3 class="rank-title">Two warm narrative concepts &mdash; a boy fishing with a cat, and a multigenerational bench tableau.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill emerging">Assisted on Naperville Loves a Parade mural (3 years)</span>
+            <span class="meta-pill emerging">Pencil sketches only</span>
+          </div>
+          <p class="rank-concept">Two figurative directions: (1) a boy catching a fish at the Fox while a cat watches and children look on &mdash; with a second composition of children approaching a garden gate; (2) a populated bench tableau (elderly woman with a dog, gentleman dozing under a newspaper, kids asleep with a teddy bear, a young couple). Stated style: impressionist watercolor brush-strokes letting light/white show through.</p>
+          <div class="rank-pros">Of all the bench applications, this is the one that most directly answers the "pause, gather, connect" brief on its own terms &mdash; people sitting on the bench will see other people enjoying the bench. Warm, narrative, human.</div>
+          <div class="rank-cons">Submitted as pencil sketches only &mdash; no color render, no portfolio piece at remotely comparable scale (assistant credit on the Naperville Century Walk mural plus small canvas portraits). Painted-figure realism on a curved bench surface in a 10-day on-site window is a heavy ask for an emerging artist.</div>
+        </div>
+      </article>
+
+      <!-- Rank 9 -->
+      <article class="rank-card">
+        <div class="rank-num">09</div>
+        <div>
+          <figure class="rank-figure">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1779297720/wss-unwind-artist-5-concept.png" alt="Artist 5 concept rendering — four stock photo references showing windmills at different times, labeled Inside Inside Outside Outside, with American-style and Dutch-style windmills at dusk and against a daytime tulip field" loading="lazy">
+            <figcaption class="rank-figcaption">Artist 5 &middot; Concept rendering</figcaption>
+          </figure>
+          <p class="rank-eyebrow">Artist 5 &middot; Photo-realistic windmills at dusk</p>
+          <h3 class="rank-title">"Bright cheerful windmills outside, relaxing dusk inside" &mdash; same 40-year career as America 250 Artist 6.</h3>
+          <div class="meta-pills">
+            <span class="meta-pill veteran">40+ years professional</span>
+            <span class="meta-pill warn">Stock photo references only, no painted concept</span>
+          </div>
+          <p class="rank-concept">Concept presented as five stock-photo references showing windmills at varying times of day. Two-sentence written concept. $3,200 flat compensation including paint and materials.</p>
+          <div class="rank-pros">Major credentials (Chinese American Museum, DuPage Children's Museum, Orvis nationwide). If we want a "safe veteran hand" on one of the benches, the underlying capability is real.</div>
+          <div class="rank-cons">The submission itself is the thinnest of any of the seventeen total applications &mdash; no painted concept, no design sketch, no portfolio image specific to bench-scale work, no community-engagement plan. For a competitive jury process this is below the threshold of what we should fund.</div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- unWIND closing -->
+    <div class="bg-slate-950 text-white">
+      <div class="max-w-5xl mx-auto px-6 py-12">
+        <p class="font-mono text-[10px] uppercase tracking-widest text-wss-gold mb-4">unWIND &middot; Summary recommendation</p>
+        <p class="text-xl md:text-2xl font-light leading-relaxed text-white/90">
+          Strongest three-bench combination, if we want three distinct voices: <strong class="font-semibold">Artist 8</strong> (Arch &middot; patchwork), <strong class="font-semibold">Artist 6</strong> (Arch &middot; falling leaves), <strong class="font-semibold">Artist 4</strong> (Arcadia &middot; underwater Fox River).
+        </p>
+        <p class="text-base md:text-lg text-white/60 leading-relaxed mt-5">
+          <strong class="text-white/80 font-semibold">Alternative,</strong> if we want plaza-wide visual unity: commission <strong class="font-semibold text-white">Artist 7</strong> for all three benches (Neutrinos + Windmills as the two Arches, Dodecahedrons as the Arcadia) and treat it as a single integrated public-art installation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DISCUSSION NOTES ===================== -->
+  <section class="bg-stone-100 border-t border-stone-200 grain">
+    <div class="max-w-5xl mx-auto px-6 py-20 relative">
+      <p class="font-mono text-[11px] uppercase tracking-widest text-wss-blue-accessible mb-2">For Committee Discussion</p>
+      <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-10 leading-tight">Things worth surfacing as a group.</h2>
+
+      <div class="space-y-8">
+        <div class="flex gap-5">
+          <span class="flex-shrink-0 w-10 h-10 bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">01</span>
+          <div>
+            <p class="font-semibold text-slate-950 mb-1 text-lg leading-snug">The Acadia / Arcadia naming confusion.</p>
+            <p class="text-slate-700 leading-relaxed">Three applicants (Artist 1, Artist 2, and the Noblewins spec sheets they used) reference the Acadia bench, which Noblewins discontinued in Fall 2025. Our brief calls for two Arch and one Arcadia. Before final selection, confirm with each artist whether they'd adapt their design to the Arcadia geometry, and consider clarifying the bench-model language in any future open call.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <span class="flex-shrink-0 w-10 h-10 bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">02</span>
+          <div>
+            <p class="font-semibold text-slate-950 mb-1 text-lg leading-snug">Artist 8's incomplete America 250 application.</p>
+            <p class="text-slate-700 leading-relaxed">The single-image submission with the "Our Past. Our Present. Our Future. Together." tagline is among the strongest visual concepts we received, but submitted without artist statement, portfolio, budget, residency proof, or community-engagement plan. Before the May 15 notification window closes, decide whether to (a) reach out and request a complete application, (b) treat it as withdrawn, or (c) keep it in the pool as a concept reference.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <span class="flex-shrink-0 w-10 h-10 bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">03</span>
+          <div>
+            <p class="font-semibold text-slate-950 mb-1 text-lg leading-snug">AI-rendered concepts vs. demonstrated hand-painting.</p>
+            <p class="text-slate-700 leading-relaxed">Artist 3 (America 250) submitted very polished but clearly AI-generated panel studies. The portfolio supports their hand-painting capability, but it's worth a direct conversation about how the realized mural will differ from the AI mock-ups &mdash; both to manage expectations and to lock in the actual painted style.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <span class="flex-shrink-0 w-10 h-10 bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">04</span>
+          <div>
+            <p class="font-semibold text-slate-950 mb-1 text-lg leading-snug">One artist, three benches &mdash; or three artists, three benches?</p>
+            <p class="text-slate-700 leading-relaxed">The brief assumes three artists, one each. Artist 7 is the only applicant to propose all three as a unified set. There's a real plaza-design tradeoff here: three artists deliver more community voice but risk visual disjointedness next to the metal tree iron and copper leaf fencing; one artist across three benches reads as a single installation but means we fund one voice rather than three. Worth deciding this <em>before</em> we make selections.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <span class="flex-shrink-0 w-10 h-10 bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">05</span>
+          <div>
+            <p class="font-semibold text-slate-950 mb-1 text-lg leading-snug">Cultural responsibility on the Shabbona panel.</p>
+            <p class="text-slate-700 leading-relaxed">Artist 4's "Community Hands" proposal includes a panel of Chief Shabbona holding the Potawatomi flag, and she's stated she will seek Citizen Potawatomi tribal-government approval. This is the right approach. If we move forward with her proposal &mdash; or with any proposal that includes Native imagery &mdash; we should formalize that tribal-consultation requirement into the artist contract rather than leaving it to the artist's initiative.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-slate-950 text-white py-12 mt-0">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <p class="font-mono text-xs text-white/50">&copy; 2026 Water Street Studios Public Art Initiative.</p>
+        <p class="font-mono text-xs text-white/40 mt-1">Internal jury document &middot; Submitted in advance of the May 15 selection.</p>
+      </div>
+      <div class="flex gap-6">
+        <a href="#america250" class="font-mono text-xs text-white/50 hover:text-white transition-colors">America 250</a>
+        <a href="#unwind" class="font-mono text-xs text-white/50 hover:text-white transition-colors">unWIND</a>
+        <a href="index-4may2026.html" class="font-mono text-xs text-white/50 hover:text-white transition-colors">&larr; Back to Site</a>
+        <a href="mailto:publicart@waterstreetstudios.org" class="font-mono text-xs text-white/50 hover:text-white transition-colors">publicart@waterstreetstudios.org</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
