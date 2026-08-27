@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Story Engine — WSS Public Art Social Plan</title>
+  <meta name="description" content="One capture day. A reel every week, forever. The Water Street Studios public art social media production and distribution plan.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://waterstreetstudios.org/social-plan">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'wss-blue': '#009BC7',
+            'wss-blue-dark': '#007A9E',
+            'wss-blue-accessible': '#006B8F',
+            'wss-green': '#95C322',
+            'wss-green-dark': '#6F9418',
+            'wss-gold': '#FDC400',
+            'wss-gold-dark': '#8A6A00',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    body { font-size: 16px; }
+    .font-mono, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Limestone grain on dark sections */
+    .grain { position: relative; }
+    .grain::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .grain > * { position: relative; z-index: 1; }
+
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; }
+    .rule { height: 1px; background: currentColor; opacity: 0.15; }
+
+    /* Section number markers */
+    .secnum { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #94a3b8; }
+
+    /* Cards */
+    .card { background: #fff; border: 1px solid #e2e8f0; }
+    .card-dark { background: #0f172a; border: 1px solid rgba(255,255,255,0.10); }
+
+    /* Pipeline stage connector */
+    .stage { position: relative; }
+    @media (min-width: 1024px) {
+      .stage:not(:last-child)::after {
+        content: '';
+        position: absolute; top: 34px; right: -13px; width: 26px; height: 1px;
+        background: rgba(255,255,255,0.22);
+      }
+    }
+
+    /* Phone frame */
+    .phone { width: 100%; max-width: 260px; aspect-ratio: 9/16; background: #000; border: 1px solid #334155; display: flex; flex-direction: column; }
+    .phone-seg { display: flex; flex-direction: column; justify-content: center; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.14); }
+    .phone-seg:last-child { border-bottom: none; }
+
+    /* Bar meters */
+    .meter { height: 6px; background: #e2e8f0; position: relative; overflow: hidden; }
+    .meter > span { display: block; height: 100%; background: #006B8F; }
+
+    /* Sticky nav */
+    #jump { position: sticky; top: 0; z-index: 50; background: rgba(250,250,249,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
+    #jump a { white-space: nowrap; }
+    #jump .bar { overflow-x: auto; scrollbar-width: none; }
+    #jump .bar::-webkit-scrollbar { display: none; }
+
+    /* Tables */
+    table.plan { width: 100%; border-collapse: collapse; }
+    table.plan th { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; text-align: left; padding: 0 0 10px; border-bottom: 1px solid #e2e8f0; font-weight: 500; }
+    table.plan td { padding: 14px 0; border-bottom: 1px solid #f1f5f9; vertical-align: top; font-size: 15px; color: #334155; }
+    table.plan tr:last-child td { border-bottom: none; }
+
+    /* Checklist */
+    .ask { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
+    .ask:last-child { border-bottom: none; }
+
+    /* Timeline */
+    .tl { position: relative; padding-left: 28px; }
+    .tl::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: #cbd5e1; }
+    .tl-item { position: relative; padding-bottom: 26px; }
+    .tl-item::before { content: ''; position: absolute; left: -27px; top: 5px; width: 11px; height: 11px; background: #fff; border: 2px solid #006B8F; }
+    .tl-item:last-child { padding-bottom: 0; }
+
+    @media print {
+      #jump { display: none; }
+      body { background: #fff; }
+      section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-900 antialiased">
+
+<!-- =================================================================== -->
+<!-- HERO                                                                -->
+<!-- =================================================================== -->
+<header class="bg-slate-950 text-white grain">
+  <div class="max-w-6xl mx-auto px-6 pt-14 pb-4">
+    <div class="flex flex-wrap items-center justify-between gap-6">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg"
+           alt="Water Street Studios Public Art Initiative" class="h-14 w-auto">
+      <p class="eyebrow text-white/35">Proposal &middot; Monthly Public Art Check-In &middot; August 28, 2026</p>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-6 pt-16 pb-20">
+    <p class="eyebrow text-wss-gold mb-8">Social Media Production &amp; Distribution</p>
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.88] max-w-4xl">
+      One morning<br>of stories.<br>
+      <span class="text-wss-blue">A year of reels.</span>
+    </h1>
+
+    <div class="mt-14 grid md:grid-cols-12 gap-10 items-end">
+      <p class="md:col-span-7 text-lg md:text-xl text-white/65 leading-relaxed font-light">
+        Every mural in Batavia has a story that currently lives in three or four people's heads.
+        We spend one morning walking to all of it with the people who made it happen, we record
+        those stories once, and then a machine turns that single morning into
+        <strong class="text-white font-semibold">one public art reel every week &mdash; indefinitely</strong> &mdash;
+        each one ending on the same eight words:
+        <em class="not-italic text-white">public art in Batavia, made by Water Street Studios.</em>
+      </p>
+      <div class="md:col-span-5 md:pl-8 md:border-l border-white/10">
+        <div class="grid grid-cols-2 gap-y-8 gap-x-6">
+          <div>
+            <div class="text-4xl font-black tracking-tight text-wss-blue">1</div>
+            <div class="eyebrow text-white/40 mt-2">Reel per week</div>
+          </div>
+          <div>
+            <div class="text-4xl font-black tracking-tight text-wss-green">52</div>
+            <div class="eyebrow text-white/40 mt-2">Per year, automated</div>
+          </div>
+          <div>
+            <div class="text-4xl font-black tracking-tight text-wss-gold">4&ndash;6</div>
+            <div class="eyebrow text-white/40 mt-2">Capture hrs / 12 mo</div>
+          </div>
+          <div>
+            <div class="text-4xl font-black tracking-tight text-white">0</div>
+            <div class="eyebrow text-white/40 mt-2">Hrs to publish</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex flex-wrap gap-x-8 gap-y-2 mono text-[11px] text-white/30">
+      <span>Prepared by Gary Ricke</span>
+      <span class="hidden md:inline">&middot;</span>
+      <span>First capture: America 250 unveiling &mdash; Sat, Sept 12, 2026</span>
+      <span class="hidden md:inline">&middot;</span>
+      <span>Decisions needed today: 6</span>
+    </div>
+  </div>
+</header>
+
+<!-- =================================================================== -->
+<!-- JUMP NAV                                                            -->
+<!-- =================================================================== -->
+<nav id="jump">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="bar flex gap-7 py-3.5 mono text-[11px] uppercase tracking-widest text-slate-500">
+      <a href="#idea" class="hover:text-wss-blue-accessible transition-colors">The Idea</a>
+      <a href="#math" class="hover:text-wss-blue-accessible transition-colors">The Math</a>
+      <a href="#machine" class="hover:text-wss-blue-accessible transition-colors">The Machine</a>
+      <a href="#anatomy" class="hover:text-wss-blue-accessible transition-colors">Anatomy</a>
+      <a href="#capture" class="hover:text-wss-blue-accessible transition-colors">Capture Days</a>
+      <a href="#feed" class="hover:text-wss-blue-accessible transition-colors">Feeding It</a>
+      <a href="#formats" class="hover:text-wss-blue-accessible transition-colors">Formats</a>
+      <a href="#publish" class="hover:text-wss-blue-accessible transition-colors">Publishing</a>
+      <a href="#stack" class="hover:text-wss-blue-accessible transition-colors">Stack</a>
+      <a href="#roadmap" class="hover:text-wss-blue-accessible transition-colors">Roadmap</a>
+      <a href="#asks" class="hover:text-wss-blue-accessible transition-colors font-medium text-wss-blue-accessible">Decisions</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================================================================== -->
+<!-- 01 — THE IDEA                                                       -->
+<!-- =================================================================== -->
+<section id="idea" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <div class="grid md:grid-cols-12 gap-12">
+    <div class="md:col-span-4">
+      <p class="secnum mb-4">01 / THE IDEA</p>
+      <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+        Walk the town.<br>Press record.<br>Ask five questions.
+      </h2>
+      <div class="rule my-8 text-slate-900"></div>
+      <p class="mono text-[11px] uppercase tracking-widest text-slate-400">The whole proposal in one sentence</p>
+    </div>
+
+    <div class="md:col-span-8 md:pt-16 space-y-7 text-lg leading-relaxed text-slate-600">
+      <p>
+        Gary spends a morning or an afternoon with one person &mdash; or a small group &mdash; and we
+        physically go to every piece of public art in Batavia. At each stop, they tell the story:
+        how it came to be, who the artist was, what nearly derailed it, what nobody notices.
+        It is a conversation, not a shoot. No script, no teleprompter, no crew.
+      </p>
+      <p>
+        At every stop we also grab <strong class="text-slate-900">30&ndash;60 seconds of Insta360 footage</strong>
+        and <strong class="text-slate-900">a short drone move</strong>. That is the visual seasoning
+        that keeps fifty reels from looking like fifty talking heads.
+      </p>
+      <p>
+        Then the work stops being human. Each interview gets broken down into one or several
+        short reels, each with the same branded end card and call to action, and a scheduling
+        agent releases them one per week &mdash; forever.
+      </p>
+
+      <div class="bg-slate-950 text-white p-8 md:p-10 mt-10 grain">
+        <p class="eyebrow text-wss-gold mb-5">The strategic point</p>
+        <p class="text-2xl md:text-3xl font-light leading-snug tracking-tight">
+          Batavia already knows it has good public art. Very few people know
+          <em class="not-italic font-semibold text-wss-blue">who keeps making it happen.</em>
+          Fifty-two weeks of stories, every one of them signed the same way, fixes that.
+        </p>
+        <p class="mt-6 text-white/50 text-base leading-relaxed">
+          This is a branding program disguised as a content program. The reels are genuinely
+          about the art and the artists &mdash; that is why people watch them &mdash; but the
+          cumulative effect is that Water Street Studios becomes the answer to
+          "where does Batavia's public art come from?"
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 02 — THE MATH                                                       -->
+<!-- =================================================================== -->
+<section id="math" class="bg-slate-950 text-white grain scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <div class="grid md:grid-cols-12 gap-12 items-start">
+      <div class="md:col-span-5">
+        <p class="secnum mb-4 text-white/35">02 / THE MATH</p>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+          Capture once.<br>Cut many.<br>
+          <span class="text-wss-green">Publish forever.</span>
+        </h2>
+        <p class="mt-8 text-white/60 leading-relaxed">
+          The reason weekly video dies at small organizations is that every post is treated as
+          its own project. Someone has an idea, someone films it, someone edits it, someone
+          remembers to post it. That is roughly two to three hours per post, and it collapses
+          the first busy month.
+        </p>
+        <p class="mt-5 text-white/60 leading-relaxed">
+          We invert it. Filming happens in rare, dense batches. Editing is a program.
+          Publishing is a cron job. Human judgment is spent once a month on approvals, not
+          once a week on production.
+        </p>
+      </div>
+
+      <div class="md:col-span-7">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="card-dark p-7">
+            <p class="eyebrow text-white/35 mb-5">The usual way</p>
+            <div class="text-5xl font-black tracking-tighter text-white/70">104<span class="text-2xl text-white/30">+ hrs</span></div>
+            <p class="mono text-[11px] text-white/35 mt-2 uppercase tracking-widest">per year</p>
+            <ul class="mt-6 space-y-2.5 text-sm text-white/50 leading-relaxed">
+              <li>52 separate ideas to have</li>
+              <li>52 separate trips to film</li>
+              <li>52 separate edits</li>
+              <li>52 chances to skip a week</li>
+            </ul>
+          </div>
+          <div class="card-dark p-7 border-wss-green/40" style="border-color:rgba(149,195,34,0.45)">
+            <p class="eyebrow mb-5" style="color:#95C322">This way</p>
+            <div class="text-5xl font-black tracking-tighter text-white">~24<span class="text-2xl text-white/40"> hrs</span></div>
+            <p class="mono text-[11px] text-white/35 mt-2 uppercase tracking-widest">per year</p>
+            <ul class="mt-6 space-y-2.5 text-sm text-white/60 leading-relaxed">
+              <li>2&ndash;3 capture days (~12 hrs)</li>
+              <li>Automated assembly (~0 hrs)</li>
+              <li>12 monthly approvals (~6 hrs)</li>
+              <li>Tuning + new sources (~6 hrs)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-6 card-dark p-7">
+          <p class="eyebrow text-white/35 mb-6">Yield of a single capture day</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div>
+              <div class="text-3xl font-black tracking-tight text-wss-blue">6&ndash;8</div>
+              <div class="mono text-[10px] uppercase tracking-widest text-white/35 mt-2">Stops on foot</div>
+            </div>
+            <div>
+              <div class="text-3xl font-black tracking-tight text-wss-blue">~2.5<span class="text-lg">hrs</span></div>
+              <div class="mono text-[10px] uppercase tracking-widest text-white/35 mt-2">Raw interview</div>
+            </div>
+            <div>
+              <div class="text-3xl font-black tracking-tight text-wss-blue">30&ndash;50</div>
+              <div class="mono text-[10px] uppercase tracking-widest text-white/35 mt-2">Usable clips</div>
+            </div>
+            <div>
+              <div class="text-3xl font-black tracking-tight text-wss-green">7&ndash;12</div>
+              <div class="mono text-[10px] uppercase tracking-widest text-white/35 mt-2">Months of runway</div>
+            </div>
+          </div>
+          <p class="text-sm text-white/45 mt-7 leading-relaxed border-t border-white/10 pt-6">
+            A single unhurried morning &mdash; the kind we could do on a Saturday in October &mdash;
+            produces more publishable material than the initiative posted in all of 2025.
+            Two such mornings a year, plus rolling phone footage from paint days, is the entire
+            production requirement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 03 — THE MACHINE                                                    -->
+<!-- =================================================================== -->
+<section id="machine" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <p class="secnum mb-4">03 / THE MACHINE</p>
+  <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+    <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+      Six stages.<br>One of them<br>needs a human.
+    </h2>
+    <p class="md:col-span-6 text-slate-600 leading-relaxed">
+      Everything below the dotted line runs without anyone touching it. The only mandatory
+      human step is approval &mdash; and that is deliberate. Nothing reaches a Water Street
+      channel that a person has not looked at. But approval happens in one monthly batch,
+      not weekly.
+    </p>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="bg-slate-950 text-white p-8 md:p-12 grain">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-7 gap-y-10">
+
+      <!-- 1 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">01</span>
+          <span class="w-9 h-9 border border-white/20 flex items-center justify-center text-wss-blue">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Capture</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Interviews, Insta360, drone, artist selfie clips. Card dumps into one watched
+          Drive folder with a fixed naming pattern.
+        </p>
+        <p class="mono text-[10px] text-wss-gold mt-3 uppercase tracking-widest">Human</p>
+      </div>
+
+      <!-- 2 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">02</span>
+          <span class="w-9 h-9 border border-white/20 flex items-center justify-center text-wss-blue">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Transcribe &amp; log</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Descript transcribes. Claude reads the transcript and marks every self-contained
+          story beat with in/out timecodes.
+        </p>
+        <p class="mono text-[10px] text-wss-green mt-3 uppercase tracking-widest">Automated</p>
+      </div>
+
+      <!-- 3 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">03</span>
+          <span class="w-9 h-9 border border-white/20 flex items-center justify-center text-wss-blue">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 4h16v16H4z"/><path d="M9 4v16M15 4v16M4 9h5M4 15h5M15 9h5M15 15h5"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Assemble</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Descript cuts to the transcript; ffmpeg handles the deterministic work &mdash; 9:16,
+          loudness, b-roll inserts, title and end cards.
+        </p>
+        <p class="mono text-[10px] text-wss-green mt-3 uppercase tracking-widest">Automated</p>
+      </div>
+
+      <!-- 4 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">04</span>
+          <span class="w-9 h-9 border flex items-center justify-center" style="border-color:rgba(253,196,0,0.5);color:#FDC400">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 12l5 5L20 6"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Approve</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Finished reels land on a gated review page. Committee watches, approves or
+          comments. One sitting, once a month.
+        </p>
+        <p class="mono text-[10px] text-wss-gold mt-3 uppercase tracking-widest">Human &mdash; required</p>
+      </div>
+
+      <!-- 5 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">05</span>
+          <span class="w-9 h-9 border border-white/20 flex items-center justify-center text-wss-blue">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Schedule</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Approved reels enter a dated queue. A weekly agent pulls the top item, writes
+          nothing new, publishes what was approved.
+        </p>
+        <p class="mono text-[10px] text-wss-green mt-3 uppercase tracking-widest">Automated</p>
+      </div>
+
+      <!-- 6 -->
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="mono text-[10px] text-white/30">06</span>
+          <span class="w-9 h-9 border border-white/20 flex items-center justify-center text-wss-blue">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/></svg>
+          </span>
+        </div>
+        <h3 class="font-bold text-base tracking-tight mb-2">Measure &amp; feed back</h3>
+        <p class="text-[13px] text-white/50 leading-relaxed">
+          Weekly metrics roll into a dashboard. What performs tells the next capture day
+          what to ask for.
+        </p>
+        <p class="mono text-[10px] text-wss-green mt-3 uppercase tracking-widest">Automated</p>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-dashed border-white/15 grid md:grid-cols-3 gap-8">
+      <div>
+        <p class="eyebrow text-white/35 mb-3">Folder discipline</p>
+        <p class="mono text-[12px] text-white/55 leading-loose">
+          00-INBOX/<br>
+          01-TRANSCRIBED/<br>
+          02-ASSEMBLED/<br>
+          03-APPROVE/<br>
+          04-QUEUE/<br>
+          05-PUBLISHED/
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow text-white/35 mb-3">File naming</p>
+        <p class="mono text-[12px] text-white/55 leading-loose break-all">
+          20260912_cityhall_decker_a7.mp4<br>
+          20260912_cityhall_drone_01.mp4<br>
+          WSS_REEL_017_almost-fell.mp4
+        </p>
+        <p class="text-[12px] text-white/40 mt-3 leading-relaxed">
+          Date, location, subject, source. The automation reads the filename &mdash; naming
+          is the only manual metadata anyone ever enters.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow text-white/35 mb-3">The one rule</p>
+        <p class="text-[13px] text-white/55 leading-relaxed">
+          The publisher can only ever read from <span class="mono text-white/80">04-QUEUE</span>.
+          It has no ability to generate, alter, or improvise a post. If the queue is empty,
+          it posts nothing and sends an alert &mdash; it never invents filler.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 04 — ANATOMY OF A REEL                                              -->
+<!-- =================================================================== -->
+<section id="anatomy" class="bg-white border-y border-slate-200 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <p class="secnum mb-4">04 / ANATOMY</p>
+    <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+      <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+        Every reel is<br>the same five parts.
+      </h2>
+      <p class="md:col-span-6 text-slate-600 leading-relaxed">
+        This is what makes automation possible. The structure never changes, so the program
+        never has to make a creative decision &mdash; it only has to find the best 30 seconds
+        of talking and drop it into slot three.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-14 items-start">
+      <!-- Phone -->
+      <div class="lg:col-span-4 flex justify-center lg:justify-start">
+        <div class="phone">
+          <div class="phone-seg" style="flex:0 0 12%; background:#0f172a">
+            <p class="mono text-[9px] uppercase tracking-widest" style="color:#FDC400">0:00&ndash;0:03 &middot; Hook</p>
+            <p class="text-white text-[13px] font-semibold leading-tight mt-1">"We almost lost the whole thing to the rain."</p>
+          </div>
+          <div class="phone-seg" style="flex:0 0 9%; background:#111827">
+            <p class="mono text-[9px] uppercase tracking-widest text-white/40">0:03&ndash;0:07 &middot; Title card</p>
+            <p class="text-white text-[12px] font-bold leading-tight mt-1">ART OF THE FOX &mdash; BATAVIA CITY HALL</p>
+          </div>
+          <div class="phone-seg" style="flex:1 1 46%; background:#1e293b">
+            <p class="mono text-[9px] uppercase tracking-widest" style="color:#009BC7">0:07&ndash;0:42 &middot; The story</p>
+            <p class="text-white/70 text-[12px] leading-snug mt-1.5">Interview, captions burned in, cutaways to the artwork on every natural pause.</p>
+          </div>
+          <div class="phone-seg" style="flex:0 0 18%; background:#0b1220">
+            <p class="mono text-[9px] uppercase tracking-widest" style="color:#95C322">0:42&ndash;0:52 &middot; B-roll</p>
+            <p class="text-white/60 text-[12px] leading-snug mt-1.5">Drone push-in or 360 orbit. The reveal.</p>
+          </div>
+          <div class="phone-seg" style="flex:0 0 15%; background:#000">
+            <p class="mono text-[9px] uppercase tracking-widest text-white/40">0:52&ndash;0:58 &middot; End card</p>
+            <p class="text-white text-[11px] font-bold leading-tight mt-1">WATER STREET STUDIOS<br><span class="font-normal text-white/60">Public art in Batavia.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specs -->
+      <div class="lg:col-span-8">
+        <div class="grid sm:grid-cols-2 gap-x-10 gap-y-8">
+          <div>
+            <p class="eyebrow text-slate-400 mb-3">Locked technical spec</p>
+            <ul class="space-y-2 text-[15px] text-slate-600 leading-relaxed">
+              <li><strong class="text-slate-900">1080 &times; 1920, 9:16, 30fps</strong> &mdash; one master format for all four platforms</li>
+              <li><strong class="text-slate-900">Under 60 seconds</strong> &mdash; keeps every reel eligible everywhere</li>
+              <li><strong class="text-slate-900">Audio normalized to &minus;14 LUFS</strong> &mdash; no volume surprises between posts</li>
+              <li><strong class="text-slate-900">Burned-in captions</strong> &mdash; most views are muted; also serves accessibility</li>
+              <li><strong class="text-slate-900">Safe margins</strong> &mdash; 120px top / 250px bottom kept clear of platform UI</li>
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow text-slate-400 mb-3">The end card &mdash; the whole point</p>
+            <p class="text-[15px] text-slate-600 leading-relaxed">
+              Six seconds, black, the Public Art Initiative mark, and one rotating call to
+              action. It is identical on every single reel, forever. That repetition is
+              what converts fifty nice videos into a brand position.
+            </p>
+            <div class="mt-5 space-y-2">
+              <div class="flex items-baseline gap-3"><span class="mono text-[10px] text-wss-blue-accessible uppercase tracking-widest w-16 shrink-0">Weeks 1&ndash;13</span><span class="text-sm text-slate-600">See it in person &mdash; the self-guided tour</span></div>
+              <div class="flex items-baseline gap-3"><span class="mono text-[10px] text-wss-blue-accessible uppercase tracking-widest w-16 shrink-0">14&ndash;26</span><span class="text-sm text-slate-600">Artists: the next open call</span></div>
+              <div class="flex items-baseline gap-3"><span class="mono text-[10px] text-wss-blue-accessible uppercase tracking-widest w-16 shrink-0">27&ndash;39</span><span class="text-sm text-slate-600">Sponsor a wall / support the initiative</span></div>
+              <div class="flex items-baseline gap-3"><span class="mono text-[10px] text-wss-blue-accessible uppercase tracking-widest w-16 shrink-0">40&ndash;52</span><span class="text-sm text-slate-600">Visit Water Street Studios</span></div>
+            </div>
+            <p class="text-[13px] text-slate-500 mt-4 leading-relaxed">
+              Every CTA resolves to a clean, speakable URL &mdash;
+              <span class="mono text-slate-700">waterstreetstudios.org/public-art</span> &mdash;
+              never a link that has to be typed carefully.
+            </p>
+          </div>
+
+          <div class="sm:col-span-2 border-t border-slate-200 pt-8">
+            <p class="eyebrow text-slate-400 mb-3">Caption template (generated, then approved)</p>
+            <div class="bg-stone-50 border border-slate-200 p-6 mono text-[12.5px] leading-loose text-slate-600">
+              [The hook line, repeated as text]<br><br>
+              [Two sentences of context: what the piece is, where it is.]<br><br>
+              Artist: [name] &middot; [Year] &middot; [Location]<br>
+              Part of the Water Street Studios Public Art Initiative.<br><br>
+              [Rotating CTA + clean URL]<br><br>
+              #BataviaPublicArt #WaterStreetStudios #PublicArt #FoxValleyArts #BataviaIL
+            </div>
+            <p class="text-[13px] text-slate-500 mt-3">
+              Alt text is generated alongside every caption &mdash; the same accessibility standard
+              already applied across the initiative website.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 05 — CAPTURE DAYS                                                   -->
+<!-- =================================================================== -->
+<section id="capture" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <p class="secnum mb-4">05 / CAPTURE DAYS</p>
+  <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95] max-w-2xl mb-16">
+    Two mornings<br>fill the whole year.
+  </h2>
+
+  <div class="grid lg:grid-cols-2 gap-8">
+
+    <!-- Sept 12 -->
+    <div class="card p-8 md:p-10 border-t-4" style="border-top-color:#FDC400">
+      <p class="eyebrow text-wss-gold-dark mb-3">Capture Day 01 &mdash; Opportunistic</p>
+      <h3 class="text-3xl font-black tracking-tight leading-tight">America 250 Unveiling</h3>
+      <p class="mono text-[12px] text-slate-500 mt-2 uppercase tracking-widest">Saturday, September 12, 2026 &middot; Batavia City Hall</p>
+      <div class="rule my-7 text-slate-900"></div>
+
+      <p class="text-slate-600 leading-relaxed">
+        Gary is at a wedding that day but can swing through. This is a constrained, high-value
+        window &mdash; the artist, the committee, the officials, and a finished mural are all in
+        one place at one time, and that will not happen again. The plan is built for
+        <strong class="text-slate-900">45&ndash;60 minutes, solo, no setup.</strong>
+      </p>
+
+      <div class="tl mt-8">
+        <div class="tl-item">
+          <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible">First 5 minutes</p>
+          <p class="text-slate-700 mt-1.5 leading-relaxed">Drone up before the crowd builds. Two moves: a slow push toward the west bays, and one reveal pulling back over Depot Pond.</p>
+        </div>
+        <div class="tl-item">
+          <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible">Next 10 minutes</p>
+          <p class="text-slate-700 mt-1.5 leading-relaxed">Insta360 walk-through of the finished mural, plus tight detail passes on two or three panels. No people needed.</p>
+        </div>
+        <div class="tl-item">
+          <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible">30&ndash;40 minutes</p>
+          <p class="text-slate-700 mt-1.5 leading-relaxed">Four interviews, roughly eight minutes each, standing in front of the work. Priority order below. Same five questions for everyone.</p>
+        </div>
+        <div class="tl-item">
+          <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible">Last 5 minutes</p>
+          <p class="text-slate-700 mt-1.5 leading-relaxed">Ambient crowd audio, reaction shots, one wide of people looking up at it. Then leave for the wedding.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 bg-stone-50 border border-slate-200 p-6">
+        <p class="eyebrow text-slate-400 mb-4">Interview priority &mdash; in this order</p>
+        <ol class="space-y-2.5 text-[15px] text-slate-600">
+          <li class="flex gap-3"><span class="mono text-[11px] text-slate-400 pt-1">01</span><span><strong class="text-slate-900">The selected artist</strong> &mdash; irreplaceable. If only one interview happens, this is it.</span></li>
+          <li class="flex gap-3"><span class="mono text-[11px] text-slate-400 pt-1">02</span><span><strong class="text-slate-900">A committee member</strong> &mdash; the "how this got funded and approved" story.</span></li>
+          <li class="flex gap-3"><span class="mono text-[11px] text-slate-400 pt-1">03</span><span><strong class="text-slate-900">A City of Batavia representative</strong> &mdash; the civic frame; useful for grant reporting too.</span></li>
+          <li class="flex gap-3"><span class="mono text-[11px] text-slate-400 pt-1">04</span><span><strong class="text-slate-900">Two members of the public</strong> &mdash; 20 seconds each. The most shareable footage of the day.</span></li>
+        </ol>
+      </div>
+
+      <div class="mt-6 flex items-start gap-3 text-[14px] text-slate-500 leading-relaxed">
+        <svg class="w-5 h-5 shrink-0 mt-0.5 text-wss-gold-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M12 3l9 17H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <span>Someone needs to warn the artist and the committee in advance that we will ask for eight minutes. Cold-asking on unveiling day gets a rushed, useless answer.</span>
+      </div>
+    </div>
+
+    <!-- Story walk -->
+    <div class="card p-8 md:p-10 border-t-4" style="border-top-color:#006B8F">
+      <p class="eyebrow text-wss-blue-accessible mb-3">Capture Day 02 &mdash; The Main Event</p>
+      <h3 class="text-3xl font-black tracking-tight leading-tight">The Story Walk</h3>
+      <p class="mono text-[12px] text-slate-500 mt-2 uppercase tracking-widest">A Saturday morning &mdash; late Sept or October 2026 &middot; ~4 hours</p>
+      <div class="rule my-7 text-slate-900"></div>
+
+      <p class="text-slate-600 leading-relaxed">
+        This is the one that fills the calendar. We walk downtown Batavia with one to three
+        people who were in the room when these pieces happened, and we stop at every
+        installation. Roughly 25&ndash;30 minutes per stop, then walk to the next one.
+        Walking between stops is not lost time &mdash; it is where the good, unguarded stories
+        actually come out.
+      </p>
+
+      <table class="plan mt-8">
+        <thead>
+          <tr><th style="width:44%">Stop</th><th style="width:32%">Who tells it</th><th class="text-right">Est. reels</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong class="text-slate-900">Art of the Fox</strong><div class="mono text-[11px] text-slate-400 mt-1">100 N Island Ave &middot; 10 murals, 2024</div></td>
+            <td class="text-[14px]">2&ndash;3 of the ten artists, plus a Conservation Foundation partner</td>
+            <td class="text-right mono text-slate-900 font-medium">10&ndash;14</td>
+          </tr>
+          <tr>
+            <td><strong class="text-slate-900">Good Energy Gateway</strong><div class="mono text-[11px] text-slate-400 mt-1">18 E Wilson St &middot; 24&times;20 ft</div></td>
+            <td class="text-[14px]">Amy Decker (artist), Josh Schultz (project manager)</td>
+            <td class="text-right mono text-slate-900 font-medium">5&ndash;7</td>
+          </tr>
+          <tr>
+            <td><strong class="text-slate-900">Wave Petunia Mural</strong><div class="mono text-[11px] text-slate-400 mt-1">State &amp; N River St &middot; 2023</div></td>
+            <td class="text-[14px]">Angie Maioriello (artist) or a Ball Horticultural partner</td>
+            <td class="text-right mono text-slate-900 font-medium">4&ndash;6</td>
+          </tr>
+          <tr>
+            <td><strong class="text-slate-900">America 250 Mural</strong><div class="mono text-[11px] text-slate-400 mt-1">City Hall west limestone bays</div></td>
+            <td class="text-[14px]">Follow-up with the artist, now that it is finished and lived-with</td>
+            <td class="text-right mono text-slate-900 font-medium">4&ndash;6</td>
+          </tr>
+          <tr>
+            <td><strong class="text-slate-900">Bar Evolution pop-ups</strong><div class="mono text-[11px] text-slate-400 mt-1">27 N River St &middot; rotating exhibitions</div></td>
+            <td class="text-[14px]">A rotating exhibiting artist; the venue owner</td>
+            <td class="text-right mono text-slate-900 font-medium">3&ndash;5</td>
+          </tr>
+          <tr>
+            <td><strong class="text-slate-900">Water Street Studios itself</strong><div class="mono text-[11px] text-slate-400 mt-1">The origin stop &mdash; start or end here</div></td>
+            <td class="text-[14px]">Initiative leadership &mdash; the "why we do this at all" story</td>
+            <td class="text-right mono text-slate-900 font-medium">4&ndash;6</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-baseline mt-5 pt-5 border-t-2 border-slate-900">
+        <span class="mono text-[11px] uppercase tracking-widest text-slate-500">Total from one morning</span>
+        <span class="text-3xl font-black tracking-tight text-wss-blue-accessible">30&ndash;44 reels</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- The five questions -->
+  <div class="mt-8 bg-slate-950 text-white p-8 md:p-12 grain">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-4">
+        <p class="eyebrow text-wss-gold mb-4">The five questions</p>
+        <h3 class="text-3xl font-black tracking-tighter leading-tight">Ask everyone<br>the same thing.</h3>
+        <p class="text-white/50 text-[15px] leading-relaxed mt-6">
+          A fixed question set is the single highest-leverage decision in this whole system.
+          It means every interview produces the same shaped answers, which means the
+          automation always knows what it is looking at, which means editing becomes
+          pattern-matching instead of judgment.
+        </p>
+        <p class="text-white/50 text-[15px] leading-relaxed mt-4">
+          It also produces natural comparison reels &mdash; six artists answering question five,
+          cut together, is a reel we get for free.
+        </p>
+      </div>
+      <div class="md:col-span-8 grid sm:grid-cols-2 gap-6">
+        <div class="card-dark p-6">
+          <span class="mono text-[11px] text-wss-blue">Q1</span>
+          <p class="text-lg font-semibold mt-2 leading-snug">Say your name, and tell me what you had to do with this piece.</p>
+          <p class="text-[13px] text-white/40 mt-3">Gives every clip its own built-in lower third. No separate logging needed.</p>
+        </div>
+        <div class="card-dark p-6">
+          <span class="mono text-[11px] text-wss-blue">Q2</span>
+          <p class="text-lg font-semibold mt-2 leading-snug">What was here before?</p>
+          <p class="text-[13px] text-white/40 mt-3">The before/after reel writes itself. Boarded windows, blank brick, a parking wall.</p>
+        </div>
+        <div class="card-dark p-6">
+          <span class="mono text-[11px] text-wss-blue">Q3</span>
+          <p class="text-lg font-semibold mt-2 leading-snug">Tell me about one thing that almost went wrong.</p>
+          <p class="text-[13px] text-white/40 mt-3">The highest-performing question. Conflict is what makes a story a story.</p>
+        </div>
+        <div class="card-dark p-6">
+          <span class="mono text-[11px] text-wss-blue">Q4</span>
+          <p class="text-lg font-semibold mt-2 leading-snug">What is the detail nobody notices?</p>
+          <p class="text-[13px] text-white/40 mt-3">Produces a "look closer" reel per artwork and gives the drone something to point at.</p>
+        </div>
+        <div class="card-dark p-6 sm:col-span-2">
+          <span class="mono text-[11px] text-wss-blue">Q5</span>
+          <p class="text-lg font-semibold mt-2 leading-snug">Ten years from now, someone walks past this. What do you hope they feel?</p>
+          <p class="text-[13px] text-white/40 mt-3">The closer. Almost always the emotional beat that a reel should end on before the end card &mdash; and the answer that makes the case for public art funding better than any grant application.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-8 border-t border-white/10 grid sm:grid-cols-3 gap-8 text-[13px] text-white/50 leading-relaxed">
+      <div>
+        <p class="eyebrow text-white/35 mb-2.5">Gear, kept deliberately small</p>
+        Phone or mirrorless on a small gimbal, one wireless lav per speaker, Insta360, drone. Nothing that needs a second person or a setup window.
+      </div>
+      <div>
+        <p class="eyebrow text-white/35 mb-2.5">Audio is the only thing that can't be fixed later</p>
+        Lav on the speaker, always. A great story with wind noise is unusable; a mediocre story with clean audio is publishable.
+      </div>
+      <div>
+        <p class="eyebrow text-white/35 mb-2.5">Releases signed on the spot</p>
+        One-page media release, phone signature, before the camera comes out. This is the step that quietly kills projects six months later.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 06 — FEEDING THE MACHINE                                            -->
+<!-- =================================================================== -->
+<section id="feed" class="bg-white border-y border-slate-200 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <p class="secnum mb-4">06 / FEEDING IT</p>
+    <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+      <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+        The machine is<br>only as good as<br>what we drop in.
+      </h2>
+      <p class="md:col-span-6 text-slate-600 leading-relaxed">
+        Capture days are the backbone, but the system is designed to eat anything. A committee
+        member's phone video from a paint day, an artist's selfie clip from their studio, a
+        volunteer's photo of a panel half-finished &mdash; all of it goes in the same inbox folder
+        and comes out looking like it belongs to the same series.
+        <strong class="text-slate-900">Everyone at this table is a content source.</strong>
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-7">
+        <table class="plan">
+          <thead>
+            <tr><th style="width:38%">Source</th><th style="width:20%">Who feeds it</th><th style="width:14%">Cadence</th><th class="text-right">Reels / yr</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong class="text-slate-900">The Story Walk</strong><div class="text-[13px] text-slate-500 mt-1">Full interviews at every installation</div></td>
+              <td class="text-[14px]">Gary + storytellers</td>
+              <td class="mono text-[12px] text-slate-500">2&times; / yr</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">30&ndash;44</div><div class="meter"><span style="width:100%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Unveilings &amp; ribbon cuttings</strong><div class="text-[13px] text-slate-500 mt-1">America 250, unWIND Plaza, future installs</div></td>
+              <td class="text-[14px]">Whoever is there</td>
+              <td class="mono text-[12px] text-slate-500">2&ndash;4&times; / yr</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">8&ndash;16</div><div class="meter"><span style="width:36%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Paint days &amp; panel builds</strong><div class="text-[13px] text-slate-500 mt-1">Volunteer selfie clips, time-lapse, hands-on-brush</div></td>
+              <td class="text-[14px]">Committee, volunteers</td>
+              <td class="mono text-[12px] text-slate-500">Rolling</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">6&ndash;12</div><div class="meter"><span style="width:27%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Artist studio clips</strong><div class="text-[13px] text-slate-500 mt-1">Selfie video from artists working on upcoming installs</div></td>
+              <td class="text-[14px]">Commissioned artists</td>
+              <td class="mono text-[12px] text-slate-500">Per project</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">6&ndash;10</div><div class="meter"><span style="width:23%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Archive &amp; process photos</strong><div class="text-[13px] text-slate-500 mt-1">Before shots, concept renderings, jury sketches</div></td>
+              <td class="text-[14px]">Initiative files</td>
+              <td class="mono text-[12px] text-slate-500">One-time</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">6&ndash;8</div><div class="meter"><span style="width:18%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Pop-up exhibitions</strong><div class="text-[13px] text-slate-500 mt-1">Bar Evolution rotations, opening nights</div></td>
+              <td class="text-[14px]">Exhibiting artists</td>
+              <td class="mono text-[12px] text-slate-500">Every 2 mo</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">6&ndash;10</div><div class="meter"><span style="width:23%"></span></div></td>
+            </tr>
+            <tr>
+              <td><strong class="text-slate-900">Drone &amp; 360 library</strong><div class="text-[13px] text-slate-500 mt-1">Seasonal re-shoots &mdash; same walls in snow, in bloom</div></td>
+              <td class="text-[14px]">Gary</td>
+              <td class="mono text-[12px] text-slate-500">Quarterly</td>
+              <td class="text-right"><div class="mono text-slate-900 font-medium mb-1.5">4&ndash;8</div><div class="meter"><span style="width:18%"></span></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="flex justify-between items-baseline mt-6 pt-6 border-t-2 border-slate-900">
+          <div>
+            <span class="mono text-[11px] uppercase tracking-widest text-slate-500">Annual supply vs. annual demand</span>
+            <p class="text-[13px] text-slate-500 mt-1">Demand is 52. Everything above 52 becomes buffer.</p>
+          </div>
+          <span class="text-3xl font-black tracking-tight text-wss-green-dark">66&ndash;108</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="bg-slate-950 text-white p-8 grain">
+          <p class="eyebrow text-wss-gold mb-4">The habit we need to build</p>
+          <h3 class="text-2xl font-black tracking-tight leading-tight mb-5">A shared upload link, and permission to send bad footage.</h3>
+          <p class="text-white/55 text-[15px] leading-relaxed">
+            The failure mode is people self-censoring &mdash; deciding their vertical phone clip
+            is "not good enough to send." It is. Shaky, 15-second, poorly-lit footage of
+            someone painting is exactly what a b-roll insert needs, and nobody outside the
+            committee will ever see the parts we do not use.
+          </p>
+          <div class="rule my-7 text-white"></div>
+          <p class="eyebrow text-white/35 mb-3">What "sending it" looks like</p>
+          <ol class="space-y-3 text-[14px] text-white/60">
+            <li class="flex gap-3"><span class="mono text-[11px] text-white/30 pt-0.5">01</span><span>Tap the bookmarked upload link on your phone.</span></li>
+            <li class="flex gap-3"><span class="mono text-[11px] text-white/30 pt-0.5">02</span><span>Pick the clips. Type one line: where and who.</span></li>
+            <li class="flex gap-3"><span class="mono text-[11px] text-white/30 pt-0.5">03</span><span>That is the entire ask. No editing, no naming, no thinking about whether it is usable.</span></li>
+          </ol>
+          <div class="mt-7 pt-6 border-t border-white/10">
+            <p class="text-[13px] text-white/45 leading-relaxed">
+              For commissioned artists, we make it contractual and easy:
+              <strong class="text-white/80">three selfie clips during the project</strong> &mdash;
+              one at the start, one mid-build, one on completion &mdash; written into the
+              agreement as a deliverable alongside the artwork itself. It costs them six
+              minutes and it doubles the storytelling value of the commission.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 07 — FORMATS                                                        -->
+<!-- =================================================================== -->
+<section id="formats" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <p class="secnum mb-4">07 / FORMATS</p>
+  <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+    <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+      Eight templates.<br>Endless variations.
+    </h2>
+    <p class="md:col-span-6 text-slate-600 leading-relaxed">
+      One raw interview yields several different reels, because the same footage can be cut
+      eight ways. The automation picks the template that matches what it finds in the
+      transcript &mdash; a "what almost went wrong" answer becomes a Behind the Build; a
+      one-liner becomes a One Question.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">45&ndash;60s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">The Story Behind</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">One artwork, one storyteller, one complete story. The flagship format.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">15&ndash;25s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">One Question</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">A single punchy answer, no setup. Cheapest to produce, highest volume.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">20&ndash;30s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Then / Now</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Boarded window to finished mural. Archive photo, hard cut, drone reveal.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">30&ndash;45s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Behind the Build</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">The thing that almost went wrong. Process footage over the telling.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">30&ndash;40s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Meet the Artist</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Who they are, how they work, what else they have made. Artists reshare these.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">15&ndash;20s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Look Closer</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Pure visual. 360 orbit or drone into one hidden detail. No talking at all.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">20&ndash;30s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Where To Find It</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Walking route from one piece to the next. Drives the self-guided tour CTA.</p>
+    </div>
+    <div class="card p-6">
+      <p class="mono text-[10px] uppercase tracking-widest text-wss-blue-accessible mb-3">20&ndash;30s</p>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Six Answers</h3>
+      <p class="text-[14px] text-slate-500 leading-relaxed">The same question, six different artists, cut together. Free from the fixed question set.</p>
+    </div>
+  </div>
+
+  <div class="mt-10 border-l-2 border-slate-900 pl-7 py-2 max-w-3xl">
+    <p class="text-lg text-slate-600 leading-relaxed">
+      Templates also solve the hardest problem in weekly content, which is not production &mdash;
+      it is <strong class="text-slate-900">deciding what to make.</strong> With eight formats and a
+      tagged clip library, the question "what goes out next Wednesday?" has a mechanical answer.
+    </p>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 08 — PUBLISHING                                                     -->
+<!-- =================================================================== -->
+<section id="publish" class="bg-slate-950 text-white grain scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <p class="secnum mb-4 text-white/35">08 / PUBLISHING</p>
+    <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+      <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+        One reel.<br>Four channels.<br>Zero hands.
+      </h2>
+      <p class="md:col-span-6 text-white/60 leading-relaxed">
+        We connect to the existing Water Street Studios accounts &mdash; we are not starting new
+        ones. The public art initiative should reinforce the Water Street brand, not fragment
+        it into a second audience we then have to grow from zero.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+        <div class="card-dark p-6">
+          <h3 class="font-bold text-lg tracking-tight mb-1">Instagram Reels</h3>
+          <p class="mono text-[10px] uppercase tracking-widest text-white/35 mb-4">Primary channel</p>
+          <p class="text-[14px] text-white/55 leading-relaxed">Where the art audience is. Artists reshare to their own stories, which is our main organic reach multiplier.</p>
+        </div>
+        <div class="card-dark p-6">
+          <h3 class="font-bold text-lg tracking-tight mb-1">Facebook Reels</h3>
+          <p class="mono text-[10px] uppercase tracking-widest text-white/35 mb-4">Local reach</p>
+          <p class="text-[14px] text-white/55 leading-relaxed">Where Batavia residents, city officials, and community groups actually are. Cross-posts from the same upload.</p>
+        </div>
+        <div class="card-dark p-6">
+          <h3 class="font-bold text-lg tracking-tight mb-1">YouTube Shorts</h3>
+          <p class="mono text-[10px] uppercase tracking-widest text-white/35 mb-4">Permanent archive</p>
+          <p class="text-[14px] text-white/55 leading-relaxed">The only channel where a reel from 2026 is still findable in 2031. Doubles as the searchable public art record.</p>
+        </div>
+        <div class="card-dark p-6">
+          <h3 class="font-bold text-lg tracking-tight mb-1">TikTok</h3>
+          <p class="mono text-[10px] uppercase tracking-widest text-white/35 mb-4">Optional &mdash; committee call</p>
+          <p class="text-[14px] text-white/55 leading-relaxed">Same file, no extra work. Worth switching on only if someone is willing to answer comments there.</p>
+        </div>
+
+        <div class="sm:col-span-2 card-dark p-7">
+          <p class="eyebrow text-white/35 mb-5">Cadence</p>
+          <div class="grid sm:grid-cols-3 gap-6">
+            <div>
+              <div class="text-2xl font-black tracking-tight text-wss-blue">Wed</div>
+              <p class="text-[13px] text-white/50 mt-2 leading-relaxed">One reel, mid-week, late morning. Fixed day so it becomes a thing people expect.</p>
+            </div>
+            <div>
+              <div class="text-2xl font-black tracking-tight text-wss-blue">+ Story</div>
+              <p class="text-[13px] text-white/50 mt-2 leading-relaxed">Auto-reshared to Stories the same day, with a link sticker to the tour page.</p>
+            </div>
+            <div>
+              <div class="text-2xl font-black tracking-tight text-wss-blue">8 wks</div>
+              <p class="text-[13px] text-white/50 mt-2 leading-relaxed">Minimum queue depth. Drop below and the system asks for a capture day.</p>
+            </div>
+          </div>
+          <p class="text-[13px] text-white/40 mt-6 pt-5 border-t border-white/10 leading-relaxed">
+            Posting day and time start as a sensible default and get tuned after eight weeks of
+            our own data &mdash; not from generic best-practice advice, which is worth very little
+            for a local audience this specific.
+          </p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="card-dark p-8 h-full">
+          <p class="eyebrow text-wss-gold mb-5">How we actually connect</p>
+          <p class="text-[15px] text-white/60 leading-relaxed">
+            There are two routes, and I recommend starting with the boring one.
+          </p>
+
+          <div class="mt-7 border-l-2 pl-5" style="border-color:#95C322">
+            <p class="mono text-[10px] uppercase tracking-widest mb-2" style="color:#95C322">Phase 1 &mdash; recommended start</p>
+            <h4 class="font-bold text-base mb-2">A scheduling service the agent writes into</h4>
+            <p class="text-[14px] text-white/55 leading-relaxed">
+              The automation drops approved reels and captions into a scheduler
+              (Buffer, Metricool, or similar) that already holds the platform connections.
+              It handles token refreshes, platform API changes, and retries &mdash; the three
+              things that silently break homegrown publishers. If it fails, a human can
+              publish from a phone in 30 seconds.
+            </p>
+          </div>
+
+          <div class="mt-7 border-l-2 border-white/20 pl-5">
+            <p class="mono text-[10px] uppercase tracking-widest text-white/35 mb-2">Phase 2 &mdash; once it is proven</p>
+            <h4 class="font-bold text-base mb-2">Direct platform APIs</h4>
+            <p class="text-[14px] text-white/55 leading-relaxed">
+              Meta Graph API for Instagram and Facebook, YouTube Data API for Shorts.
+              Removes the subscription and gives us full control of metadata, but adds
+              maintenance. Only worth doing after the pipeline has run reliably for a
+              couple of months.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <p class="eyebrow text-white/35 mb-3">What this requires from Water Street</p>
+            <p class="text-[14px] text-white/55 leading-relaxed">
+              Instagram must be a Business or Creator account linked to the Facebook Page,
+              and someone with admin rights has to grant access. This is usually the step
+              that takes three weeks longer than expected, which is why it is on the
+              decisions list.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 09 — STACK                                                          -->
+<!-- =================================================================== -->
+<section id="stack" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <p class="secnum mb-4">09 / THE STACK</p>
+  <div class="grid md:grid-cols-12 gap-12 items-end mb-16">
+    <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+      Boring tools,<br>wired together<br>on purpose.
+    </h2>
+    <p class="md:col-span-6 text-slate-600 leading-relaxed">
+      Nothing here is exotic. The novelty is not in any single tool &mdash; it is that
+      Claude Code sits in the middle and does the coordinating work that would otherwise
+      be a person clicking between five apps every week.
+    </p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 6h16M4 12h16M4 18h9"/><path d="M18 15l3 3-3 3"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Claude Code</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">The orchestrator</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Reads transcripts, chooses clips, writes captions and alt text, drives every other tool, and files the output. This is the piece that replaces the weekly human.</p>
+    </div>
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Descript</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">Transcription &amp; story edit</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Turns speech into an editable text document. Removes filler words, generates captions, cuts to the transcript. Its API and agent can be driven directly from Claude Code.</p>
+    </div>
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M3 5h18v14H3z"/><path d="M10 9l5 3-5 3z"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">ffmpeg</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">The deterministic finisher</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Free, scriptable, exact. Handles 9:16 reframing, loudness normalization, title and end card concatenation, and export presets. The parts that must be identical every single time.</p>
+    </div>
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M3 7l4-3h10l4 3v13H3z"/><path d="M3 7h18"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Google Drive</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">Ingest &amp; archive</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Six numbered folders, one upload link anyone on the committee can use from a phone. Also becomes the initiative's permanent media archive, which we currently do not have.</p>
+    </div>
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Scheduled agent</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">The weekly heartbeat</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">Runs on a cron schedule with no one watching. Pulls the next approved reel, publishes it, logs the result, checks queue depth, and emails if anything is off.</p>
+    </div>
+    <div class="card p-7">
+      <div class="w-10 h-10 border border-slate-300 flex items-center justify-center text-wss-blue-accessible mb-5">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M4 20V9M10 20V4M16 20v-8M22 20v-5"/></svg>
+      </div>
+      <h3 class="font-bold text-lg tracking-tight mb-2">Review &amp; metrics page</h3>
+      <p class="mono text-[10px] uppercase tracking-widest text-slate-400 mb-4">On this site</p>
+      <p class="text-[14px] text-slate-500 leading-relaxed">A password-gated page in the same pattern as the jury review page &mdash; watch the queued reels, approve them, and see what last month's posts did. No new logins for anyone.</p>
+    </div>
+  </div>
+
+  <div class="mt-8 bg-stone-50 border border-slate-200 p-8">
+    <p class="eyebrow text-slate-400 mb-4">A note on what stays human</p>
+    <p class="text-slate-600 leading-relaxed max-w-4xl">
+      The automation never writes a story it was not told, never generates footage, and never
+      posts something a person has not watched. It selects, trims, formats, schedules, and
+      reports. Everything the audience hears came out of a real person's mouth in front of
+      a real wall in Batavia &mdash; which is precisely why the reels will be worth watching.
+    </p>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 10 — GUARDRAILS                                                     -->
+<!-- =================================================================== -->
+<section class="bg-white border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-20">
+    <p class="secnum mb-8">10 / GUARDRAILS &mdash; HOW THIS SURVIVES A BAD MONTH</p>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="font-bold text-base tracking-tight mb-2.5">The 8-week floor</h3>
+        <p class="text-[14px] text-slate-500 leading-relaxed">If the approved queue drops below eight reels, the system flags it at the monthly check-in. We never discover we are out of content the week we run out.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-base tracking-tight mb-2.5">Silence over filler</h3>
+        <p class="text-[14px] text-slate-500 leading-relaxed">An empty queue means no post and an alert. The publisher has no ability to improvise, so it can never put something unvetted onto a Water Street channel.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-base tracking-tight mb-2.5">Releases first</h3>
+        <p class="text-[14px] text-slate-500 leading-relaxed">No footage of a person enters the pipeline without a signed one-page release on file. Artist agreements get a media clause going forward.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-base tracking-tight mb-2.5">Manual override, always</h3>
+        <p class="text-[14px] text-slate-500 leading-relaxed">Any committee member can pause the queue or pull a scheduled post. The automation is a convenience, never an authority.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 11 — ROADMAP                                                        -->
+<!-- =================================================================== -->
+<section id="roadmap" class="max-w-6xl mx-auto px-6 py-24 md:py-32 scroll-mt-16">
+  <p class="secnum mb-4">11 / ROADMAP</p>
+  <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95] max-w-2xl mb-16">
+    First reel out<br>by mid-October.
+  </h2>
+
+  <div class="grid md:grid-cols-4 gap-6">
+    <div class="card p-7 border-t-4" style="border-top-color:#FDC400">
+      <p class="mono text-[11px] uppercase tracking-widest text-wss-gold-dark mb-3">Now &rarr; Sept 12</p>
+      <h3 class="text-xl font-black tracking-tight mb-4">Get ready to catch it</h3>
+      <ul class="space-y-2.5 text-[14px] text-slate-600">
+        <li>Confirm social account access</li>
+        <li>One-page media release drafted</li>
+        <li>Artist + committee warned about interviews</li>
+        <li>Drive folders and upload link live</li>
+        <li>Gear checked, batteries charged</li>
+      </ul>
+    </div>
+    <div class="card p-7 border-t-4" style="border-top-color:#006B8F">
+      <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible mb-3">Sept 12 &rarr; Sept 30</p>
+      <h3 class="text-xl font-black tracking-tight mb-4">Build the pipeline on real footage</h3>
+      <ul class="space-y-2.5 text-[14px] text-slate-600">
+        <li>America 250 footage ingested</li>
+        <li>Transcribe &rarr; clip-selection working end to end</li>
+        <li>Title card, lower third, end card designed once</li>
+        <li>First 3&ndash;4 reels assembled by hand-plus-script</li>
+        <li>Scheduling connection tested with a private post</li>
+      </ul>
+    </div>
+    <div class="card p-7 border-t-4" style="border-top-color:#006B8F">
+      <p class="mono text-[11px] uppercase tracking-widest text-wss-blue-accessible mb-3">October</p>
+      <h3 class="text-xl font-black tracking-tight mb-4">Story Walk + go live</h3>
+      <ul class="space-y-2.5 text-[14px] text-slate-600">
+        <li>The full Story Walk &mdash; a Saturday morning</li>
+        <li>First public reel published</li>
+        <li>Review page live for committee approvals</li>
+        <li>Queue built to 8+ weeks</li>
+      </ul>
+    </div>
+    <div class="card p-7 border-t-4" style="border-top-color:#95C322">
+      <p class="mono text-[11px] uppercase tracking-widest text-wss-green-dark mb-3">Nov &rarr; onward</p>
+      <h3 class="text-xl font-black tracking-tight mb-4">Hands off</h3>
+      <ul class="space-y-2.5 text-[14px] text-slate-600">
+        <li>Weekly publishing fully automated</li>
+        <li>Monthly batch approval becomes a standing agenda item here</li>
+        <li>Metrics reviewed at 8 weeks; day/time tuned</li>
+        <li>Second Story Walk scheduled for spring</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-10 grid md:grid-cols-12 gap-8 items-center bg-slate-950 text-white p-8 md:p-10 grain">
+    <div class="md:col-span-8">
+      <p class="eyebrow text-wss-gold mb-3">Standing agenda item</p>
+      <p class="text-xl md:text-2xl font-light leading-snug">
+        Ten minutes at every monthly check-in from November on:
+        <strong class="font-semibold">approve next month's reels, look at last month's numbers,
+        name who we still need to interview.</strong>
+        That ten minutes is the entire ongoing commitment this asks of the committee.
+      </p>
+    </div>
+    <div class="md:col-span-4 md:text-right">
+      <div class="text-6xl font-black tracking-tighter text-wss-blue">10</div>
+      <p class="eyebrow text-white/40 mt-2">Minutes per month</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 12 — DECISIONS                                                      -->
+<!-- =================================================================== -->
+<section id="asks" class="bg-slate-950 text-white grain scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <p class="secnum mb-4 text-white/35">12 / DECISIONS</p>
+    <div class="grid md:grid-cols-12 gap-12 items-end mb-14">
+      <h2 class="md:col-span-6 text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">
+        What I need<br>from this room<br>today.
+      </h2>
+      <p class="md:col-span-6 text-white/60 leading-relaxed">
+        Six decisions. None of them require money except the last one, and that one is
+        small. If we land these today, the first reel goes out in October and the second
+        one goes out without anybody doing anything.
+      </p>
+    </div>
+
+    <div class="bg-white text-slate-900 p-8 md:p-12">
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">01</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Approve the concept.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">One public art reel per week, published to the existing Water Street channels, every one of them ending with the Water Street Studios mark.</p>
+        </div>
+      </div>
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">02</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Name the storytellers.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">Who walks the town with me? Ideally one person who has been here since the beginning, plus one or two artists. And who do we ask to sit for eight minutes on September 12?</p>
+        </div>
+      </div>
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">03</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Pick the Story Walk date.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">A Saturday morning in late September or October. Four hours. Weather-dependent, so we pick a date and a backup.</p>
+        </div>
+      </div>
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">04</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Grant social account access.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">Who administers the Water Street Instagram, Facebook, and YouTube accounts, and can they add the connection this needs? Also: do we want TikTok in scope or not?</p>
+        </div>
+      </div>
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">05</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Approve a one-page media release.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">Standard likeness and footage consent, signed on a phone at the moment of filming. And a media clause added to future artist agreements, with three selfie clips as a deliverable.</p>
+        </div>
+      </div>
+      <div class="ask">
+        <span class="mono text-[11px] text-slate-400 pt-1 w-6 shrink-0">06</span>
+        <div class="flex-1">
+          <p class="font-bold text-lg tracking-tight">Approve a small monthly tool budget.</p>
+          <p class="text-[15px] text-slate-500 mt-1.5 leading-relaxed">Transcription/editing subscription, a scheduling service, and cloud storage. Order of magnitude is roughly <strong class="text-slate-900">$50&ndash;80 per month</strong> total &mdash; I will bring exact figures once we confirm which scheduler. No hardware purchase needed; the camera, Insta360, and drone are already in hand.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <div class="card-dark p-7">
+        <p class="eyebrow text-white/35 mb-3">What this costs the committee</p>
+        <p class="text-[15px] text-white/60 leading-relaxed">Ten minutes a month, one Saturday morning per half-year, and a willingness to send bad phone footage.</p>
+      </div>
+      <div class="card-dark p-7">
+        <p class="eyebrow text-white/35 mb-3">What it costs Gary</p>
+        <p class="text-[15px] text-white/60 leading-relaxed">Two capture days a year and roughly two weeks of build time up front, most of it in September.</p>
+      </div>
+      <div class="card-dark p-7">
+        <p class="eyebrow text-white/35 mb-3">What it buys</p>
+        <p class="text-[15px] text-white/60 leading-relaxed">Fifty-two reminders a year that Batavia's public art has a name behind it &mdash; and a permanent oral history of every piece, recorded while the people who made it are still here to tell it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- CLOSING                                                             -->
+<!-- =================================================================== -->
+<section class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+  <div class="max-w-4xl">
+    <p class="secnum mb-6">THE POINT</p>
+    <p class="text-3xl md:text-4xl font-light tracking-tight leading-snug text-slate-900">
+      Right now, the story of how Batavia got its public art is held by a handful of people
+      and written down almost nowhere. This plan records it while it is still first-hand,
+      turns it into something people actually want to watch, and makes sure that every
+      time they watch it, they learn
+      <strong class="font-black">who made it happen.</strong>
+    </p>
+    <div class="mt-12 flex flex-wrap gap-4">
+      <a href="index-4may2026.html" class="bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-accessible transition-colors">Public Art Initiative Site</a>
+      <a href="review-status.html" class="border border-slate-300 text-slate-700 px-8 py-4 text-xs font-mono uppercase tracking-widest hover:border-slate-900 hover:text-slate-900 transition-colors">Review Status</a>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- FOOTER                                                              -->
+<!-- =================================================================== -->
+<footer class="bg-slate-950 text-white">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+      <div>
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg"
+             alt="Water Street Studios Public Art Initiative" class="h-12 w-auto mb-6">
+        <p class="mono text-[11px] text-white/30 leading-loose">
+          Internal proposal &middot; Water Street Studios Public Art Initiative<br>
+          Prepared for the monthly public art check-in, August 28, 2026
+        </p>
+      </div>
+      <p class="mono text-[11px] text-white/25 md:text-right leading-loose">
+        Reel counts and hour estimates are planning figures.<br>
+        Subscription pricing to be confirmed before any commitment.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll for jump nav
+  document.querySelectorAll('#jump a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 56, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
