@@ -100,7 +100,61 @@
     .tl-item::before { content: ''; position: absolute; left: -27px; top: 5px; width: 11px; height: 11px; background: #fff; border: 2px solid #006B8F; }
     .tl-item:last-child { padding-bottom: 0; }
 
+
+    /* Password gate */
+    body:not(.unlocked) > *:not(#passwordGate) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    #passwordGate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    body.unlocked #passwordGate { display: none; }
+    .pg-box { width: 100%; max-width: 380px; text-align: center; }
+    .pg-logo { max-height: 64px; width: auto; margin: 0 auto 32px; display: block; }
+    .pg-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+    .pg-input-wrap { display: flex; gap: 0; }
+    .pg-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-right: none;
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .pg-input:focus { border-color: rgba(255,255,255,0.4); }
+    .pg-input.error { border-color: #ef4444; }
+    .pg-btn {
+      background: #009BC7;
+      border: none;
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 14px 22px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .pg-btn:hover { background: #007A9E; }
+    .pg-error { font-size: 12px; color: #f87171; margin-top: 14px; font-family: 'JetBrains Mono', monospace; display: none; }
+
     @media print {
+      #passwordGate { display: none !important; }
       #jump { display: none; }
       body { background: #fff; }
       section { break-inside: avoid; }
@@ -108,6 +162,66 @@
   </style>
 </head>
 <body class="bg-stone-50 text-slate-900 antialiased">
+
+<!-- ===================== PASSWORD GATE ===================== -->
+<div id="passwordGate">
+  <div class="pg-box">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg"
+         alt="Water Street Studios Public Art Initiative" class="pg-logo">
+    <p class="pg-label">Internal Proposal</p>
+    <div class="pg-input-wrap">
+      <input type="password" id="pgInput" class="pg-input" placeholder="Enter password" autocomplete="current-password">
+      <button class="pg-btn" type="button">Enter</button>
+    </div>
+    <p class="pg-error" id="pgError">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var SESSION_KEY = '_wss\u200Bsp_k1';
+    var HASH = 'f5784cd296c12330b11a6ce1b5f3b9cab9d0220a6b737cd71e61d98ae367c525';
+
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      document.body.classList.add('unlocked');
+    }
+
+    async function hashInput(str) {
+      var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(function (b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+    }
+
+    async function checkPassword() {
+      var input = document.getElementById('pgInput');
+      var errEl = document.getElementById('pgError');
+      var hash = await hashInput(input.value.toLowerCase().trim());
+      if (hash === HASH) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.body.classList.add('unlocked');
+      } else {
+        input.classList.add('error');
+        errEl.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var input = document.getElementById('pgInput');
+      var btn = document.querySelector('.pg-btn');
+      if (btn) btn.onclick = checkPassword;
+      if (input) {
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') checkPassword();
+          input.classList.remove('error');
+        });
+        if (!document.body.classList.contains('unlocked')) input.focus();
+      }
+    });
+  })();
+</script>
 
 <!-- =================================================================== -->
 <!-- HERO                                                                -->
