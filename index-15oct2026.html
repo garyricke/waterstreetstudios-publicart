@@ -998,11 +998,12 @@
           </figure>
         </div>
 
-        <!-- Right: the two reels, staggered -->
+        <!-- Right: the three reels, staggered -->
         <div class="lg:col-span-6 xl:col-span-6 xl:col-start-7">
-          <p class="font-mono text-xs uppercase tracking-[0.25em] text-white/60 mb-8 reveal">Watch &mdash; two short films from the opening</p>
-          <div class="grid grid-cols-2 gap-5 md:gap-8">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-white/60 mb-8 reveal">Watch &mdash; three short films</p>
+          <div class="grid grid-cols-2 gap-5 md:gap-8 items-start">
 
+            <div class="flex flex-col gap-12 md:gap-16">
             <div class="reveal">
               <div class="video-card is-portrait" role="button" tabindex="0" aria-label="Play video: Meet the artist, Marty Gniech"
                    onclick="openVideoLightbox('https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1080/v1792097364/wss-america250-reveal-reel-walkthrough.mp4')"
@@ -1017,6 +1018,23 @@
                 <h3 class="mt-2 text-xl md:text-2xl font-black tracking-tight leading-tight">Meet the artist</h3>
                 <p class="mt-2 text-base text-white/60 font-light leading-relaxed">Marty Gniech walks the wall, panel by panel, and tells the Batavia story behind each one.</p>
               </div>
+            </div>
+
+            <div class="reveal">
+              <div class="video-card is-portrait" role="button" tabindex="0" aria-label="Play video: Install day"
+                   onclick="openVideoLightbox('https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1080/v1792104157/wss-america250-install-day.mp4')"
+                   onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                <img src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_600/v1792104157/wss-america250-install-day.jpg" alt="" loading="lazy">
+                <div class="play-btn">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+                </div>
+              </div>
+              <div class="mt-5">
+                <p class="font-mono text-xs uppercase tracking-widest text-wss-gold">Film 03 &middot; 1:09</p>
+                <h3 class="mt-2 text-xl md:text-2xl font-black tracking-tight leading-tight">Install day</h3>
+                <p class="mt-2 text-base text-white/60 font-light leading-relaxed">The crew hangs the panels, and Marty touches up every screw head by hand. Filmed September 10, two days before the opening.</p>
+              </div>
+            </div>
             </div>
 
             <div class="reveal md:mt-24">
