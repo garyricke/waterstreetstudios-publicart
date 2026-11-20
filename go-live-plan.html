@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>WSS Public Art Initiative — Go-Live Review &amp; Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--stone:#fafaf9;--ink:#020617;--teal:#0d9488;--muted:#475569;--line:#e7e5e4;--gold:#b45309;--red:#b91c1c}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--stone);color:var(--ink);font:400 17px/1.7 Inter,system-ui,sans-serif}
+  main{max-width:860px;margin:0 auto;padding:72px 28px 120px}
+  .eyebrow{font:600 12px/1 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.22em;color:var(--teal)}
+  h1{font-weight:900;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.02;letter-spacing:-.035em;margin:14px 0 18px;text-wrap:balance}
+  h2{font-weight:900;font-size:1.9rem;letter-spacing:-.025em;margin:72px 0 8px;text-wrap:balance}
+  h2 span{color:var(--teal)}
+  h3{font-weight:600;font-size:1.05rem;margin:28px 0 6px;text-wrap:balance}
+  p,li{text-wrap:pretty}
+  .lede{font-size:1.2rem;font-weight:300;color:var(--muted);max-width:640px}
+  .verdict{margin:40px 0 0;border-left:4px solid var(--teal);background:#fff;padding:22px 26px}
+  .verdict strong{display:block;font-size:1.15rem;margin-bottom:4px}
+  code,.mono{font-family:'JetBrains Mono',monospace;font-size:.86em}
+  code{background:#f1f5f9;padding:1px 6px}
+  a{color:var(--teal)}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.95rem}
+  th{font:600 11px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);text-align:left;padding:10px 12px 10px 0;border-bottom:2px solid var(--ink)}
+  td{padding:12px 12px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .tag{font:600 10px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.14em;padding:3px 7px;white-space:nowrap}
+  .ok{background:#ccfbf1;color:#115e59}.fix{background:#fef3c7;color:#92400e}.ask{background:#e0e7ff;color:#3730a3}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:20px 0 0}
+  ol.steps>li{counter-increment:s;position:relative;padding:0 0 26px 64px;border-left:1px solid var(--line);margin-left:20px}
+  ol.steps>li::before{content:counter(s,decimal-leading-zero);position:absolute;left:-20px;top:-2px;width:40px;height:40px;background:var(--ink);color:#fff;font:600 13px/40px 'JetBrains Mono',monospace;text-align:center}
+  ol.steps>li:last-child{border-left-color:transparent}
+  .who{font:600 11px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.14em;color:var(--teal)}
+  ul{padding-left:20px}
+  .needed{margin-top:64px;background:var(--ink);color:#fff;padding:28px 30px}
+  .needed .eyebrow{color:#5eead4}
+  .needed li{margin:6px 0}
+</style>
+</head>
+<body>
+<!-- ============================================================
+     PER-PAGE PASSWORD GATE — paste immediately after <body>.
+     Use on internal pages that must NOT be openable by direct URL.
+     Shares the same {{SESSION_KEY}} as the admin panel, so once a
+     user unlocks via the badge they won't be re-prompted here.
+     ============================================================ -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#020617;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(253,196,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(253,196,0,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb, #FDC400 25%, transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:48px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-family:'Inter',system-ui,sans-serif;font-size:2rem;font-weight:900;color:#FDC400;letter-spacing:-.02em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,244,249,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.3);border:1px solid color-mix(in srgb, #FDC400 30%, transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#FDC400;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#FDC400;color:#020617;border:0;border-radius:8px;font-family:'Inter',system-ui,sans-serif;font-size:1.1rem;letter-spacing:.1em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#FDCF33;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='_wss\u200Bpv_k1',HASH='d3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70',gate=document.getElementById('pw-gate');
+  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  document.body.style.overflow='hidden';
+  function sha(s){ return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}); }
+  function attempt(){
+    sha(document.getElementById('pw-input').value.toLowerCase().trim()).then(function(h){
+      if(h===HASH){
+        try{sessionStorage.setItem(KEY,'1');}catch(e){}
+        document.body.style.overflow='';
+        gate.style.display='none';
+      } else {
+        document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+        var box=document.getElementById('pw-box');
+        box.classList.remove('pw-shake'); void box.offsetWidth; box.classList.add('pw-shake');
+      }
+    });
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+<main>
+  <p class="eyebrow">Committee meeting &middot; Nov&nbsp;20,&nbsp;2026</p>
+  <h1>Ready for sign&#8209;off. A&nbsp;few switches from&nbsp;live.</h1>
+  <p class="lede">A review of the current Water Street Studios Public Art Initiative site (Oct&nbsp;15 version), what was fixed today, what the committee needs to decide, and the steps to take it&nbsp;public.</p>
+
+  <div class="verdict">
+    <strong>Verdict: send the review link&nbsp;today.</strong>
+    Content is current through the America at 250 grand opening and the unWIND Benches story. All 63 images and videos load, every link resolves, and the open calls are retired. The remaining work is launch mechanics, not&nbsp;content.
+  </div>
+
+  <h2>Review link<span>.</span></h2>
+  <p><span class="mono">waterstreetstudios-publicart.org/index-15oct2026</span>. It's still behind the committee password. The bare domain currently forwards to the old Squarespace page, so send this exact&nbsp;link.</p>
+
+  <h2>What the review found<span>.</span></h2>
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Notes</th></tr>
+    <tr><td>Content &amp; dates</td><td><span class="tag ok">Current</span></td><td>America at 250 (Sept&nbsp;12 reveal), unWIND Benches (Oct&nbsp;16), install-day film. Closed open-call modals are no longer linked from anywhere.</td></tr>
+    <tr><td>Images &amp; video</td><td><span class="tag ok">Pass</span></td><td>All 63 Cloudinary assets return&nbsp;200.</td></tr>
+    <tr><td>Links</td><td><span class="tag ok">Pass</span></td><td>Internal and Water Street Studios links all&nbsp;resolve.</td></tr>
+    <tr><td>Internal pages</td><td><span class="tag ok">Gated</span></td><td>Artist rankings, review status, social plan and brand guide are password-gated and&nbsp;noindexed.</td></tr>
+    <tr><td>Form error handling</td><td><span class="tag ok">Fixed today</span></td><td>Volunteer and sponsor forms showed "thank you" even if the server rejected the message. They now confirm only after Netlify accepts it, and show an error with contact info&nbsp;otherwise.</td></tr>
+    <tr><td>Form delivery</td><td><span class="tag fix">Before launch</span></td><td>Notifications reach Gary, Bonnie, Sabrina (budamart@) and Lori. <span class="mono">publicart@waterstreetstudios.org</span> is not on the list. Move delivery to the standard Resend setup and live-test all three&nbsp;forms.</td></tr>
+    <tr><td>Admin area</td><td><span class="tag ok">Done today</span></td><td>All internal pages (review status, social plan, brand guide, artist application, version archive) now sit behind one admin badge and one password. The internal footer links are&nbsp;gone.</td></tr>
+    <tr><td>Search &amp; sharing</td><td><span class="tag fix">Before launch</span></td><td>Page is set to <code>noindex</code>, robots.txt blocks all crawlers, and there's no description or social-share image&nbsp;yet.</td></tr>
+    <tr><td>Old versions</td><td><span class="tag ok">Gated</span></td><td>All seven dated copies (Feb–Oct) are password-protected, hidden from search, and listed in the admin version&nbsp;archive.</td></tr>
+    <tr><td>Hero carousel</td><td><span class="tag fix">Deploy</span></td><td>The unWIND Benches slide now leads the hero, and its "Read the story" link works. Ready to&nbsp;deploy.</td></tr>
+    <tr><td>Phone number</td><td><span class="tag ask">Confirm</span></td><td>630-761-9777 appears in Contact, the footer and form error messages. Earlier guidance was to route everything to publicart@. Keep it or&nbsp;remove&nbsp;it?</td></tr>
+    <tr><td>Impact stats</td><td><span class="tag ask">Confirm</span></td><td>Hero reads 4+ mural sites, 12+ local artists, 76+ volunteers, 46+ potential sites. Still accurate after America at 250 and&nbsp;unWIND?</td></tr>
+  </table>
+
+  <h2>Decisions for the committee<span>.</span></h2>
+  <h3>1. Where does the site live?</h3>
+  <p><strong>Recommended:</strong> <span class="mono">waterstreetstudios-publicart.org</span> becomes the public address. It's already set up with SSL. The existing Squarespace page at <span class="mono">waterstreetstudios.org/public-art</span> then forwards to it, and the Water Street Studios nav links to it. Squarespace can't host this site under its own <span class="mono">/public-art</span> path, so this is the clean&nbsp;route.</p>
+  <h3>2. Who receives form messages?</h3>
+  <p>Confirm the organization inbox (e.g. <span class="mono">publicart@waterstreetstudios.org</span>) plus anyone else who should get volunteer, sponsor and general inquiries.</p>
+  <h3>3. Sign-off and launch date</h3>
+  <p>Who gives final approval, and by&nbsp;when.</p>
+
+  <h2>Steps to go live<span>.</span></h2>
+  <ol class="steps">
+    <li><span class="who">Committee</span><h3>Review &amp; sign off</h3>Send the review link. Collect edits and get a yes on the address, recipients and launch&nbsp;date.</li>
+    <li><span class="who">Gary / Orbis</span><h3>Promote the Oct&nbsp;15 page to the home page</h3>Replace the forwarding <code>index.html</code> with the final page. Remove the password gate and <code>noindex</code>. Point the canonical link at the new domain. Add a page description and social-share&nbsp;image.</li>
+    <li><span class="who">Gary / Orbis</span><h3>Open to search engines</h3>Update <code>robots.txt</code> to allow crawling (internal pages stay gated and noindexed). Add a sitemap and verify in Google Search&nbsp;Console.</li>
+    <li><span class="who">Gary / Orbis</span><h3>Deploy today's fixes</h3>Push the form fix, the unWIND hero slide and the admin panel so the review link shows the current&nbsp;version.</li>
+    <li><span class="who">Gary / Orbis</span><h3>Forms through Resend</h3>Add the standard form-delivery function with the confirmed recipients. Send one marked test through each of the three forms and confirm it lands in Netlify and in each&nbsp;inbox. Then retire the old Netlify email&nbsp;hook.</li>
+    <li><span class="who">WSS Squarespace admin</span><h3>Connect the main site</h3>Set a 301 URL mapping from <code>/public-art</code> to <span class="mono">https://waterstreetstudios-publicart.org</span>, and update the Public Art nav&nbsp;link.</li>
+    <li><span class="who">Gary / Orbis</span><h3>Launch checks</h3>Test at desktop, tablet and phone widths. Run a WAVE accessibility scan. Load every public URL, test the forms once more, and announce&nbsp;it.</li>
+  </ol>
+  <p style="color:var(--muted)">Steps 2–5 take roughly an afternoon once sign-off arrives. Step&nbsp;6 takes five minutes in&nbsp;Squarespace.</p>
+
+  <div class="needed">
+    <p class="eyebrow">Still needed</p>
+    <ul>
+      <li>Organization email for the general inquiry, volunteer and sponsor forms on waterstreetstudios-publicart.org. Is publicart@ the right&nbsp;inbox?</li>
+      <li>Domain decision (recommended: waterstreetstudios-publicart.org)</li>
+      <li>Keep or remove the phone&nbsp;number</li>
+      <li>Confirm the hero impact&nbsp;stats</li>
+      <li>Someone with Squarespace access for the <span class="mono">/public-art</span>&nbsp;redirect</li>
+    </ul>
+  </div>
+</main>
+</body>
+</html>

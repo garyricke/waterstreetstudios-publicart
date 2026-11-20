@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Strategy No. 2 — Conversations · WSS Public Art</title>
+  <meta name="description" content="One recorded conversation becomes an interactive article, three social clips and an email. The simpler social strategy for the Water Street Studios Public Art Initiative.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://waterstreetstudios-publicart.org/social-strategy-2">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'wss-blue': '#009BC7',
+            'wss-blue-dark': '#007A9E',
+            'wss-blue-accessible': '#006B8F',
+            'wss-blue-light': '#33B5D6',
+            'wss-gold': '#FDC400',
+            'wss-gold-dark': '#8A6A00',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    h1, h2, h3 { text-wrap: balance; }
+    p, li, td, small { text-wrap: pretty; }
+    .grain { position: relative; }
+    .grain::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .05;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .75rem; text-transform: uppercase; letter-spacing: .25em; }
+    .step-num { font-family: 'JetBrains Mono', monospace; }
+    /* waveform bars in the clip mockup */
+    .wave { display: flex; align-items: center; gap: 3px; height: 34px; }
+    .wave span { flex: 1; height: 100%; background: rgba(255,255,255,.75); border-radius: 1px; animation: wv 1.1s ease-in-out infinite; }
+    @keyframes wv { 0%,100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+    @media (prefers-reduced-motion: reduce) { .wave span { animation: none; } }
+    .shot { box-shadow: 0 30px 60px -25px rgba(2,6,23,.45); }
+    .pw { font-family: 'JetBrains Mono', monospace; background: #FDC400; color: #020617; padding: 1px 8px; }
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-950 font-sans antialiased">
+<!-- ============================================================
+     PER-PAGE PASSWORD GATE — paste immediately after <body>.
+     Use on internal pages that must NOT be openable by direct URL.
+     Shares the same {{SESSION_KEY}} as the admin panel, so once a
+     user unlocks via the badge they won't be re-prompted here.
+     ============================================================ -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#020617;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(253,196,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(253,196,0,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb, #FDC400 25%, transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:48px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-family:'Inter',system-ui,sans-serif;font-size:2rem;font-weight:900;color:#FDC400;letter-spacing:-.02em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,244,249,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.3);border:1px solid color-mix(in srgb, #FDC400 30%, transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#FDC400;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#FDC400;color:#020617;border:0;border-radius:8px;font-family:'Inter',system-ui,sans-serif;font-size:1.1rem;letter-spacing:.1em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#FDCF33;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='_wss\u200Bpv_k1',HASH='d3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70',gate=document.getElementById('pw-gate');
+  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  document.body.style.overflow='hidden';
+  function sha(s){ return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}); }
+  function attempt(){
+    sha(document.getElementById('pw-input').value.toLowerCase().trim()).then(function(h){
+      if(h===HASH){
+        try{sessionStorage.setItem(KEY,'1');}catch(e){}
+        document.body.style.overflow='';
+        gate.style.display='none';
+      } else {
+        document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+        var box=document.getElementById('pw-box');
+        box.classList.remove('pw-shake'); void box.offsetWidth; box.classList.add('pw-shake');
+      }
+    });
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+
+  <!-- ===================== HERO ===================== -->
+  <header class="relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 pt-10">
+      <a href="/index-15oct2026" class="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible transition-colors">&larr; Public Art Initiative</a>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 pt-24 md:pt-32 pb-24 md:pb-32 grid md:grid-cols-12 gap-12 items-end">
+      <div class="md:col-span-8">
+        <p class="eyebrow text-wss-blue-accessible mb-8">Social Strategy No.&nbsp;2 &middot; Conversations</p>
+        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9]">
+          One conversation.<br><span class="text-wss-blue">Four things to&nbsp;share.</span>
+        </h1>
+        <p class="mt-10 text-xl md:text-2xl font-light leading-relaxed text-slate-700 max-w-2xl">
+          We record a conversation with someone behind Batavia's public art, about anything worth hearing. Every recording becomes an interactive article, three short social videos, and an email. No shoot days, no content calendar to feed, no on-camera&nbsp;nerves.
+        </p>
+      </div>
+      <aside class="md:col-span-4 md:pl-8 md:border-l border-stone-300">
+        <p class="eyebrow text-slate-500 mb-4">Why it's simpler</p>
+        <ul class="space-y-3 text-base leading-relaxed text-slate-700">
+          <li>One 30&ndash;45 minute recording a month. That's the whole&nbsp;ask.</li>
+          <li>Guests talk; they don't perform. Audio is forgiving where video&nbsp;isn't.</li>
+          <li>Guests send a handful of photos or phone videos they already&nbsp;have.</li>
+          <li>Everything else is production, done to a repeatable&nbsp;recipe.</li>
+        </ul>
+        <p class="mt-6 text-sm text-slate-500">Compare: <a href="/social-plan" class="underline underline-offset-4 hover:text-wss-blue-accessible">The Story Engine</a>, the capture-day video&nbsp;plan.</p>
+      </aside>
+    </div>
+  </header>
+
+  <!-- ===================== DELIVERABLES ===================== -->
+  <section class="bg-slate-950 text-white py-28 md:py-36 grain">
+    <div class="relative max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-16">
+        <p class="md:col-span-3 eyebrow text-wss-gold pt-3">Every conversation ships</p>
+        <h2 class="md:col-span-9 text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">The same four pieces, every time. Nothing is&nbsp;optional.</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-white/15">
+        <div class="py-10 lg:pr-8 border-b lg:border-b-0 lg:border-r border-white/15">
+          <p class="step-num text-wss-gold text-sm mb-6">01</p>
+          <h3 class="text-2xl font-black tracking-tight mb-3">Interactive article</h3>
+          <p class="text-white/70 leading-relaxed">A page for the conversation: chapter-by-chapter audio player, written story, pull quotes, and the guest's images placed beside the moments they belong&nbsp;to.</p>
+        </div>
+        <div class="py-10 lg:px-8 border-b lg:border-b-0 lg:border-r border-white/15">
+          <p class="step-num text-wss-gold text-sm mb-6">02</p>
+          <h3 class="text-2xl font-black tracking-tight mb-3">Three social clips</h3>
+          <p class="text-white/70 leading-relaxed">30&ndash;60 second vertical videos for Reels and Facebook: waveform, captions, a guest image or two. Each one points to the article to hear the&nbsp;rest.</p>
+        </div>
+        <div class="py-10 lg:px-8 border-b sm:border-b-0 lg:border-r border-white/15">
+          <p class="step-num text-wss-gold text-sm mb-6">03</p>
+          <h3 class="text-2xl font-black tracking-tight mb-3">Email newsletter</h3>
+          <p class="text-white/70 leading-relaxed">A designed email about the conversation, built, tested and sent from our own email system to the WSS&nbsp;list.</p>
+        </div>
+        <div class="py-10 lg:pl-8">
+          <p class="step-num text-wss-gold text-sm mb-6">04</p>
+          <h3 class="text-2xl font-black tracking-tight mb-3">Download kit</h3>
+          <p class="text-white/70 leading-relaxed">Clips, captions and a share image in one place, so the guest, committee members and partners can post them&nbsp;too.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PIPELINE ===================== -->
+  <section class="py-28 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-20">
+        <p class="md:col-span-3 eyebrow text-wss-blue-accessible pt-3">The recipe</p>
+        <h2 class="md:col-span-7 text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">From a recording to a finished&nbsp;episode.</h2>
+      </div>
+
+      <ol class="divide-y divide-stone-300 border-y border-stone-300">
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">01</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Record</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>A relaxed 30&ndash;45 minute conversation, in person or remote (Riverside or Zoom, each voice on its own track). Any subject: how a mural got made, why a sponsor gives, what a volunteer learned on paint day. A committee member hosts from a one-page question&nbsp;sheet.</p>
+          </div>
+        </li>
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">02</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Collect the guest's images</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>The guest sends 5&ndash;15 photos or short phone videos: sketches, work in progress, install day, the finished piece. Plus a headshot and permission to&nbsp;use&nbsp;them.</p>
+          </div>
+        </li>
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">03</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Clean the audio in&nbsp;Descript</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>Filler words and false starts removed, long pauses tightened, Studio Sound applied, and levels matched so every episode plays at the same volume (about &minus;16&nbsp;LUFS). Anything sensitive a guest says is flagged for their approval rather than published by&nbsp;default.</p>
+          </div>
+        </li>
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">04</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Chapter it</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>The finished audio is split into 5&ndash;8 titled chapters timed to the edited recording, so listeners can jump straight to the part they care&nbsp;about.</p>
+          </div>
+        </li>
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">05</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Name and place the&nbsp;images</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>Every image is renamed to say which conversation and moment it belongs to, hosted on Cloudinary, and placed beside that chapter in the&nbsp;article.</p>
+            <p class="mt-4 font-mono text-sm bg-white border border-stone-300 px-4 py-3 overflow-x-auto whitespace-nowrap">wss-conv-01-marty-gniech-<span class="text-wss-blue-accessible">03-install-day</span>.jpg</p>
+            <p class="mt-2 text-sm text-slate-500">Conversation number &middot; guest &middot; chapter number &middot;&nbsp;moment</p>
+          </div>
+        </li>
+        <li class="grid md:grid-cols-12 gap-6 py-10">
+          <p class="md:col-span-1 step-num text-sm text-wss-blue-accessible">06</p>
+          <h3 class="md:col-span-3 text-2xl font-black tracking-tight">Build the article,&nbsp;clips and&nbsp;email</h3>
+          <div class="md:col-span-8 text-lg leading-relaxed text-slate-700">
+            <p>The article page, three clips and the email are produced from the same transcript, so names, quotes and links match everywhere. The guest and the committee get one review link before anything goes&nbsp;out.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== EXAMPLES ===================== -->
+  <section class="bg-white py-28 md:py-40 border-y border-stone-200">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-20">
+        <p class="md:col-span-3 eyebrow text-wss-blue-accessible pt-3">Proof it works</p>
+        <div class="md:col-span-9">
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">Three conversations we've already&nbsp;produced.</h2>
+          <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl">Same recipe, three very different subjects. Two are still in review, so their passwords are listed. Please don't share them outside the&nbsp;committee.</p>
+        </div>
+      </div>
+
+      <!-- Example 1: FTNN -->
+      <article class="grid lg:grid-cols-12 gap-10 lg:gap-16 pb-24 mb-24 border-b border-stone-200">
+        <div class="lg:col-span-7">
+          <a href="https://www.fetaltherapynursenetwork.org/fetal-frontline-podcast/ep-6-women-in-medicine-breaking-barriers-changing-medicine" target="_blank" rel="noopener" class="block">
+            <img class="shot w-full h-auto" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787869820/orbis/ftnn-ep6-review-hero.png" alt="The Fetal Frontline Episode 6 article page: hero with guest portraits and audio player">
+          </a>
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <img class="shot w-full h-auto" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_700/v1788895370/orbis/ftnn-ep6-r2-chapters.png" alt="Episode 6 chapter list with timestamps">
+            <img class="shot w-full h-auto" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_700/v1788895371/orbis/ftnn-ep6-r2-clip.png" alt="Episode 6 social clip preview">
+          </div>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="eyebrow text-slate-500 mb-4">Fetal Therapy Nurse Network &middot;&nbsp;Live</p>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">The Fetal Frontline, Ep&nbsp;6: Women in&nbsp;Medicine</h3>
+          <p class="mt-5 text-lg leading-relaxed text-slate-700">A three-voice remote conversation turned into a full interactive episode page: chaptered player, guest cards, written story, and a set of 9:16 clips with waveform, captions and the show's sonic&nbsp;logo.</p>
+          <ul class="mt-6 space-y-2 text-base text-slate-700">
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Shows</span>Article + chapters + social&nbsp;clips</li>
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Access</span>Public, no&nbsp;password</li>
+          </ul>
+          <a href="https://www.fetaltherapynursenetwork.org/fetal-frontline-podcast/ep-6-women-in-medicine-breaking-barriers-changing-medicine" target="_blank" rel="noopener" class="inline-block mt-8 bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors">Open the episode &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Example 2: Athlete's Table -->
+      <article class="grid lg:grid-cols-12 gap-10 lg:gap-16 pb-24 mb-24 border-b border-stone-200">
+        <div class="lg:col-span-7 lg:order-2">
+          <a href="https://athletes-table-review-4cd148.netlify.app/story" target="_blank" rel="noopener" class="block">
+            <img class="shot w-full h-auto" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_jpg,q_auto:good,w_1100/v1794254829/athletestable/proposal/email-story.jpg" alt="The Athlete's Table sample story page, Not smaller. Stronger.">
+          </a>
+        </div>
+        <div class="lg:col-span-5 lg:order-1">
+          <p class="eyebrow text-slate-500 mb-4">The Athlete's Table &middot; In&nbsp;development</p>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">&ldquo;Not smaller. Stronger.&rdquo;</h3>
+          <p class="mt-5 text-lg leading-relaxed text-slate-700">The closest match to this plan. A dietitian's voice memo about a young boxer, cleaned up and chaptered, then written up as an article with questions for parents and imagery of the meals she&nbsp;described.</p>
+          <ul class="mt-6 space-y-2 text-base text-slate-700">
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Shows</span>Short recording &rarr; story&nbsp;page</li>
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Password</span><span class="pw">nutrient</span></li>
+          </ul>
+          <a href="https://athletes-table-review-4cd148.netlify.app/story" target="_blank" rel="noopener" class="inline-block mt-8 bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors">Open the story &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Example 3: Midwest Waste -->
+      <article class="grid lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="lg:col-span-7">
+          <a href="https://www.midwestwasteconsultants.com/podcast/1" target="_blank" rel="noopener" class="block">
+            <img class="shot w-full h-auto" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_jpg,q_auto:good,w_1100/v1793828616/mwc/email/what-a-load-ep1-first-look.png" alt="Midwest Waste podcast Episode 1 page with waveform player">
+          </a>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="eyebrow text-slate-500 mb-4">Midwest Waste &middot; In&nbsp;review</p>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">What a Load, Episode&nbsp;1</h3>
+          <p class="mt-5 text-lg leading-relaxed text-slate-700">Two business owners talking shop, recorded on one phone. Filler words out, pauses capped, Studio Sound, then a page with a waveform player and chapters. Proof a casual recording can sound&nbsp;professional.</p>
+          <ul class="mt-6 space-y-2 text-base text-slate-700">
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Shows</span>Single-mic recording &rarr; episode&nbsp;page</li>
+            <li><span class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mr-2">Password</span><span class="pw">ilovegarbage</span></li>
+          </ul>
+          <a href="https://www.midwestwasteconsultants.com/podcast/1" target="_blank" rel="noopener" class="inline-block mt-8 bg-slate-950 text-white px-8 py-4 text-xs font-mono uppercase tracking-widest hover:bg-wss-blue-dark transition-colors">Open the episode &rarr;</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== SOCIAL CLIPS ===================== -->
+  <section class="py-28 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-16">
+        <p class="md:col-span-3 eyebrow text-wss-blue-accessible pt-3">Social clips</p>
+        <div class="md:col-span-9">
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">Three moments. One job: send people to the&nbsp;article.</h2>
+          <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl">We pick the three strongest 30&ndash;60 second moments. Each becomes a simple vertical video that works with the sound off. These are real clips from The Fetal Frontline, Episode&nbsp;6:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
+        <figure>
+          <video class="w-full aspect-[9/16] bg-slate-900 object-cover" controls preload="none" playsinline poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_4,f_auto,q_auto,w_540/ftnn/episodes/ep6/clip1-women-would-die.jpg" src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_720/ftnn/episodes/ep6/clip1-women-would-die.mp4"></video>
+          <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">Clip 1 &middot;&nbsp;0:50</figcaption>
+        </figure>
+        <figure>
+          <video class="w-full aspect-[9/16] bg-slate-900 object-cover" controls preload="none" playsinline poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_4,f_auto,q_auto,w_540/ftnn/episodes/ep6/clip2-weight-we-carry.jpg" src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_720/ftnn/episodes/ep6/clip2-weight-we-carry.mp4"></video>
+          <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">Clip 2 &middot;&nbsp;0:34</figcaption>
+        </figure>
+        <figure>
+          <video class="w-full aspect-[9/16] bg-slate-900 object-cover" controls preload="none" playsinline poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_4,f_auto,q_auto,w_540/ftnn/episodes/ep6/clip3-some-guy.jpg" src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_720/ftnn/episodes/ep6/clip3-some-guy.mp4"></video>
+          <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">Clip 3 &middot;&nbsp;0:30</figcaption>
+        </figure>
+      </div>
+
+      <!-- WSS clip design -->
+      <div class="mt-28 grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-4 flex justify-center">
+          <div class="relative w-[270px] aspect-[9/16] bg-[#04121c] text-white overflow-hidden shot">
+            <img class="absolute top-0 left-0 w-full h-[46%] object-cover" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/v1792093969/wss-america250-reveal-dedication.jpg" alt="">
+            <div class="absolute top-[46%] left-0 w-full h-16 bg-gradient-to-b from-transparent to-[#04121c] -translate-y-full"></div>
+            <div class="absolute top-[48%] left-0 right-0 px-5 text-center">
+              <p class="font-mono text-[9px] uppercase tracking-[0.25em] text-wss-gold">Conversation No.&nbsp;01</p>
+              <p class="mt-4 text-[17px] font-bold leading-snug">&ldquo;[A line from the conversation, captioned word by word, with the <span class="text-wss-gold">key&nbsp;words</span> in&nbsp;gold]&rdquo;</p>
+            </div>
+            <div class="absolute bottom-[14.5%] left-5 right-5 wave" aria-hidden="true">
+              <span style="animation-delay:-.1s"></span><span style="animation-delay:-.5s"></span><span style="animation-delay:-.2s"></span><span style="animation-delay:-.8s"></span><span style="animation-delay:-.3s"></span><span style="animation-delay:-.6s"></span><span style="animation-delay:-.15s"></span><span style="animation-delay:-.9s"></span><span style="animation-delay:-.4s"></span><span style="animation-delay:-.7s"></span><span style="animation-delay:-.25s"></span><span style="animation-delay:-.55s"></span><span style="animation-delay:-.35s"></span><span style="animation-delay:-.85s"></span><span style="animation-delay:-.05s"></span><span style="animation-delay:-.65s"></span><span style="animation-delay:-.45s"></span><span style="animation-delay:-.75s"></span><span style="animation-delay:-.2s"></span><span style="animation-delay:-.95s"></span>
+            </div>
+            <div class="absolute bottom-[6%] left-0 right-0 text-center">
+              <p class="font-mono text-[9px] uppercase tracking-[0.2em] text-white/60">Hear the full conversation</p>
+              <p class="mt-1 text-[12px] font-black tracking-tight">waterstreetstudios-publicart.org</p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-8">
+          <p class="eyebrow text-slate-500 mb-4">The WSS version &middot; design&nbsp;mockup</p>
+          <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">Simple on purpose, so every clip ships the same&nbsp;week.</h3>
+          <dl class="mt-8 grid sm:grid-cols-2 gap-x-10 gap-y-6 text-base">
+            <div><dt class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Format</dt><dd class="mt-1 text-slate-700">1080&times;1920 vertical, 30&ndash;60 seconds, for Instagram Reels and Facebook&nbsp;Reels.</dd></div>
+            <div><dt class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Top</dt><dd class="mt-1 text-slate-700">One of the guest's images, or a slow pan across two or three of&nbsp;them.</dd></div>
+            <div><dt class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Middle</dt><dd class="mt-1 text-slate-700">Word-by-word captions in white, key words in WSS&nbsp;gold.</dd></div>
+            <div><dt class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Bottom</dt><dd class="mt-1 text-slate-700">An animated waveform and the article link as the call to&nbsp;action.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EMAIL ===================== -->
+  <section class="bg-stone-100 py-28 md:py-40 border-y border-stone-200">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-14 items-start">
+      <div class="lg:col-span-5 lg:sticky lg:top-12">
+        <p class="eyebrow text-wss-blue-accessible mb-6">Email newsletter</p>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Every conversation is also an&nbsp;email.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-slate-700">Written from the same transcript, and designed, tested and sent from our own email system rather than a third-party newsletter&nbsp;service.</p>
+        <ul class="mt-6 space-y-5">
+          <li class="border-l-2 border-wss-gold pl-5">
+            <p class="font-bold">Designed in the system</p>
+            <p class="text-slate-600 leading-relaxed">Paste notes, a transcript or a document and the issue is designed in the WSS look. Ask for changes in plain English, undo a revision, preview exactly what readers will&nbsp;get.</p>
+          </li>
+          <li class="border-l-2 border-wss-gold pl-5">
+            <p class="font-bold">Tested, then sent</p>
+            <p class="text-slate-600 leading-relaxed">A test goes to up to five people first, and the list send is refused until that exact email has been tested. Delivery runs through Resend, with an unsubscribe link in every&nbsp;email.</p>
+          </li>
+          <li class="border-l-2 border-wss-gold pl-5">
+            <p class="font-bold">The list stays ours</p>
+            <p class="text-slate-600 leading-relaxed">Website sign-ups flow straight into the contact list. No per-subscriber fees, and anyone who unsubscribes stays&nbsp;unsubscribed.</p>
+          </li>
+        </ul>
+        <p class="mt-8 text-sm text-slate-500">The sample on the right is a WSS layout. Its copy is placeholder until the first conversation is&nbsp;recorded.</p>
+      </div>
+
+      <!-- Email mockup -->
+      <div class="lg:col-span-7">
+        <div class="bg-white shot max-w-[600px] mx-auto">
+          <div class="px-6 py-3 border-b border-stone-200 font-mono text-[11px] text-slate-500 flex flex-wrap gap-x-6 gap-y-1">
+            <span><span class="text-slate-400">From</span> WSS Public Art&nbsp;Initiative</span>
+            <span><span class="text-slate-400">Subject</span> How Batavia's story got onto City&nbsp;Hall</span>
+          </div>
+          <div class="bg-slate-950 px-8 py-6">
+            <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="Water Street Studios Public Art Initiative" class="h-10 w-auto">
+          </div>
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/v1792093969/wss-america250-reveal-dedication.jpg" alt="The America at 250 dedication at Batavia City Hall" class="w-full h-auto block">
+          <div class="px-8 pt-8 pb-10">
+            <p class="font-mono text-[11px] uppercase tracking-[0.25em] text-wss-blue-accessible">New conversation &middot; No.&nbsp;01</p>
+            <h3 class="mt-3 text-3xl font-black tracking-tight leading-tight">Marty Gniech on painting America at&nbsp;250</h3>
+            <p class="mt-4 text-[17px] leading-relaxed text-slate-700">[Two or three sentences introducing the conversation: who the guest is, what they made, and the one thing listeners will come away&nbsp;knowing.]</p>
+            <blockquote class="mt-6 border-l-4 border-wss-gold pl-5 text-xl font-bold leading-snug">&ldquo;[The strongest pull quote from the&nbsp;recording]&rdquo;</blockquote>
+            <p class="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">In this conversation</p>
+            <ol class="mt-3 divide-y divide-stone-200 border-y border-stone-200 text-[15px]">
+              <li class="flex justify-between py-2.5"><span>[Chapter 1 title]</span><span class="font-mono text-slate-400">0:00</span></li>
+              <li class="flex justify-between py-2.5"><span>[Chapter 2 title]</span><span class="font-mono text-slate-400">4:12</span></li>
+              <li class="flex justify-between py-2.5"><span>[Chapter 3 title]</span><span class="font-mono text-slate-400">11:30</span></li>
+              <li class="flex justify-between py-2.5"><span>[Chapter 4 title]</span><span class="font-mono text-slate-400">19:05</span></li>
+            </ol>
+            <p class="mt-8"><span class="inline-block bg-slate-950 text-white px-7 py-4 text-xs font-mono uppercase tracking-widest">Listen to the conversation &rarr;</span></p>
+            <div class="mt-10 grid grid-cols-3 gap-2">
+              <img class="w-full aspect-[9/16] object-cover" src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_1,f_auto,q_auto,w_300/v1792097364/wss-america250-reveal-reel-walkthrough.jpg" alt="">
+              <img class="w-full aspect-[9/16] object-cover" src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_300/v1792104157/wss-america250-install-day.jpg" alt="">
+              <img class="w-full aspect-[9/16] object-cover" src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_20,f_auto,q_auto,w_300/v1792096866/wss-america250-reveal-reel-ai-process.jpg" alt="">
+            </div>
+            <p class="mt-3 text-sm text-slate-500">Three short clips from the conversation, on Instagram and&nbsp;Facebook.</p>
+          </div>
+          <div class="bg-stone-100 px-8 py-6 text-[13px] text-slate-500 leading-relaxed">
+            Water Street Studios Public Art Initiative &middot; 160 S Water St, Batavia,&nbsp;IL<br>
+            publicart@waterstreetstudios.org
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EMAIL SYSTEM EXAMPLE: LIVE HEALTHY CHICAGO ===================== -->
+  <section class="bg-white py-28 md:py-36 border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-16">
+        <p class="md:col-span-3 eyebrow text-wss-blue-accessible pt-3">The email system, already built</p>
+        <div class="md:col-span-9">
+          <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">Live Healthy Chicago designs and sends its newsletter this&nbsp;way.</h2>
+          <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl">The same sender, set up for WSS, would carry every conversation email. Four steps on one page: who gets it, the issue, a test, then the list. Live Healthy Chicago's first all-partners issue is on the&nbsp;right.</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <figure class="lg:col-span-6">
+          <img class="shot w-full h-auto border border-stone-200" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795185153/wss-social2-lhc-newsletter-sender.png" alt="The Live Healthy Chicago Newsletter Sender admin page: add recipients, design or pick an issue, send a test, send to the list">
+          <figcaption class="mt-4 font-mono text-xs uppercase tracking-widest text-slate-500">The sender &middot; livehealthychi.com/send</figcaption>
+        </figure>
+        <figure class="lg:col-span-6">
+          <img class="shot w-full h-auto border border-stone-200" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795185153/wss-social2-lhc-newsletter-sept-2026.jpg" alt="Live Healthy Chicago All-Partners Newsletter, September 2026, Issue 1">
+          <figcaption class="mt-4 font-mono text-xs uppercase tracking-widest text-slate-500">An issue it produced &middot; September&nbsp;2026</figcaption>
+        </figure>
+      </div>
+      <div class="mt-14 grid sm:grid-cols-2 gap-6 max-w-4xl">
+        <div class="border border-stone-300 p-6">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-2">The sender</p>
+          <a href="https://livehealthychi.com/send" target="_blank" rel="noopener" class="text-xl font-black tracking-tight hover:text-wss-blue-accessible">livehealthychi.com/send&nbsp;&rarr;</a>
+          <p class="mt-3 text-slate-600 text-sm leading-relaxed">Admin password <span class="pw">editresources</span>. Look, don&rsquo;t send: this is Live Healthy Chicago&rsquo;s live&nbsp;list.</p>
+        </div>
+        <div class="border border-stone-300 p-6">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-2">A sent issue</p>
+          <a href="https://livehealthychi.com/newsletter/september-2026" target="_blank" rel="noopener" class="text-xl font-black tracking-tight hover:text-wss-blue-accessible">September 2026 issue&nbsp;&rarr;</a>
+          <p class="mt-3 text-slate-600 text-sm leading-relaxed">Public, no password&nbsp;needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FIRST CONVERSATIONS ===================== -->
+  <section class="py-28 md:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-10 mb-16">
+        <p class="md:col-span-3 eyebrow text-wss-blue-accessible pt-3">Who to record first</p>
+        <h2 class="md:col-span-9 text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">The people behind the walls already have the&nbsp;stories.</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-stone-300 border border-stone-300">
+        <div class="bg-stone-50 p-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-4">Artists</p>
+          <p class="text-lg font-bold leading-snug">Marty Gniech on America at 250; the unWIND bench&nbsp;artists</p>
+        </div>
+        <div class="bg-stone-50 p-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-4">Partners</p>
+          <p class="text-lg font-bold leading-snug">City of Batavia on why public art belongs in the&nbsp;budget</p>
+        </div>
+        <div class="bg-stone-50 p-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-4">Sponsors</p>
+          <p class="text-lg font-bold leading-snug">A sponsor on why they gave, and what it meant to see it&nbsp;finished</p>
+        </div>
+        <div class="bg-stone-50 p-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible mb-4">Volunteers</p>
+          <p class="text-lg font-bold leading-snug">Paint-day volunteers on what it's like to put a brush on a city&nbsp;wall</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ROLES & CADENCE ===================== -->
+  <section class="bg-slate-950 text-white py-28 md:py-36 grain">
+    <div class="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-14">
+      <div class="lg:col-span-5">
+        <p class="eyebrow text-wss-gold mb-6">Who does what</p>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">One conversation a month. About an hour of committee&nbsp;time.</h2>
+      </div>
+      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-10">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-4">Committee</p>
+          <ul class="space-y-3 text-white/80 leading-relaxed">
+            <li>Choose and invite the&nbsp;guest</li>
+            <li>Host the conversation from the question&nbsp;sheet</li>
+            <li>Collect the guest's images and&nbsp;permission</li>
+            <li>Approve the review link and send the&nbsp;email</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-4">Production</p>
+          <ul class="space-y-3 text-white/80 leading-relaxed">
+            <li>Audio cleanup, chapters and&nbsp;transcript</li>
+            <li>Image naming and&nbsp;hosting</li>
+            <li>Article page, three clips and the&nbsp;email</li>
+            <li>Download kit for guests and&nbsp;partners</li>
+          </ul>
+        </div>
+        <div class="sm:col-span-2 border-t border-white/15 pt-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-3">Turnaround</p>
+          <p class="text-white/80 leading-relaxed">About one week from recording to review link. Clips post over the following two weeks, each pointing back to the&nbsp;article.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-4 font-mono text-xs uppercase tracking-widest text-slate-500">
+      <p>Social Strategy No.&nbsp;2 &middot; Internal &middot; Nov&nbsp;2026</p>
+      <p><a href="/social-plan" class="hover:text-wss-blue-accessible">The Story Engine&nbsp;&rarr;</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
