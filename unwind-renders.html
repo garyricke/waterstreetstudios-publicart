@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>unWIND Plaza Renders: OpenAI vs Gemini · WSS Public Art</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://waterstreetstudios-publicart.org/unwind-renders">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771883440/favicon-water-street-studios-public-art-initiative_ln3dhm.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','sans-serif'],mono:['"JetBrains Mono"','monospace']},colors:{'wss-blue':'#009BC7','wss-blue-accessible':'#006B8F','wss-gold':'#FDC400'}}}}</script>
+  <style>
+    h1,h2,h3{text-wrap:balance} p,li,td{text-wrap:pretty}
+    .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.25em}
+    .shot{box-shadow:0 30px 60px -28px rgba(2,6,23,.5)}
+    details>summary{list-style:none} details>summary::-webkit-details-marker{display:none}
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-950 font-sans antialiased">
+<!-- ============================================================
+     PER-PAGE PASSWORD GATE — paste immediately after <body>.
+     Use on internal pages that must NOT be openable by direct URL.
+     Shares the same {{SESSION_KEY}} as the admin panel, so once a
+     user unlocks via the badge they won't be re-prompted here.
+     ============================================================ -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#020617;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(253,196,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(253,196,0,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb, #FDC400 25%, transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:48px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-family:'Inter',system-ui,sans-serif;font-size:2rem;font-weight:900;color:#FDC400;letter-spacing:-.02em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,244,249,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.3);border:1px solid color-mix(in srgb, #FDC400 30%, transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#FDC400;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#FDC400;color:#020617;border:0;border-radius:8px;font-family:'Inter',system-ui,sans-serif;font-size:1.1rem;letter-spacing:.1em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#FDCF33;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771882738/water-street-studios-public-art-initiative-logo-feb2026-v2-on-black_iokl2g.svg" alt="WSS Public Art Initiative" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='_wss\u200Bpv_k1',HASH='d3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70',gate=document.getElementById('pw-gate');
+  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  document.body.style.overflow='hidden';
+  function sha(s){ return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}); }
+  function attempt(){
+    sha(document.getElementById('pw-input').value.toLowerCase().trim()).then(function(h){
+      if(h===HASH){
+        try{sessionStorage.setItem(KEY,'1');}catch(e){}
+        document.body.style.overflow='';
+        gate.style.display='none';
+      } else {
+        document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+        var box=document.getElementById('pw-box');
+        box.classList.remove('pw-shake'); void box.offsetWidth; box.classList.add('pw-shake');
+      }
+    });
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+  <header class="max-w-7xl mx-auto px-6 pt-10 pb-20 md:pb-28">
+    <a href="/index-15oct2026" class="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible">&larr; Public Art Initiative</a>
+    <div class="grid md:grid-cols-12 gap-10 items-end mt-20 md:mt-28">
+      <div class="md:col-span-8">
+        <p class="eyebrow text-wss-blue-accessible mb-6">Internal review &middot; River Street Plaza &middot; Nov&nbsp;20,&nbsp;2026</p>
+        <h1 class="text-5xl sm:text-7xl font-black tracking-tighter leading-[0.9]">Same photos, two&nbsp;AI&nbsp;engines.</h1>
+        <p class="mt-8 text-xl font-light leading-relaxed text-slate-700 max-w-2xl">Five of today's drone and 360 shots of the unWIND site, each re-lit as a cinematic photograph by OpenAI and by Gemini with the identical brief. Gary's pick for each shot is marked, with a planted version below it: trees in the steel boxes and plants in the round planters. Click any image to open it full&nbsp;size.</p>
+      </div>
+      <aside class="md:col-span-4 md:pl-8 md:border-l border-stone-300 text-base leading-relaxed text-slate-700">
+        <p class="eyebrow text-slate-500 mb-3">The guardrail on every render</p>
+        <p>Keep the real place exactly: same buildings, paving, planters, seats, lights and trees. Add nothing, remove nothing. The painted turbine-blade benches aren't in these photos, so neither engine was allowed to invent&nbsp;them.</p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="bg-slate-950 text-white py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-gold mb-4">The real thing &middot; drone edit</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">River Street Plaza from the&nbsp;air.</h2>
+          <p class="mt-4 text-lg text-white/70 max-w-2xl">A 55-second cut of today's drone flight, with no AI involved: the street-level approach, the rise over the red roof, straight down over the plaza, out to the Fox River and downtown, and back down to the restroom building. A light color grade only.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-white/50">Shot</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">Nov&nbsp;20,&nbsp;2026</p>
+        </div>
+      </div>
+      <video class="w-full h-auto shot" controls playsinline preload="metadata" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1795200500/wss-river-street-plaza-drone-poster.jpg"><source src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1600/v1795200497/wss-river-street-plaza-drone-edit-2026-11-20.mp4" type="video/mp4"></video>
+      <p class="mt-4 font-mono text-xs uppercase tracking-widest text-white/50">Silent &middot; 55&nbsp;sec &middot; 1080p</p>
+    </div>
+  </section>
+  <section class="py-20 md:py-28 border-t border-stone-300">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-blue-accessible mb-4">Shot 1 &middot; from 360 snap A</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Golden hour, plaza wide</h2>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">Low warm sun raking across the pavers, long shadows, string lights on, lens distortion corrected.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gary's pick</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">OpenAI</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197219/wss-unwind-render-openai-1-golden-hour-plaza" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197219/wss-unwind-render-openai-1-golden-hour-plaza" alt="OpenAI render: Golden hour, plaza wide"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">OpenAI &middot; gpt-image-2 <span class="ml-2 bg-wss-gold text-slate-950 px-2 py-0.5">Chosen</span></p><p class="mt-2 text-slate-700 leading-relaxed">Strongest of the set. Dramatic sun flare and long shadows, warmer and far more cinematic than the original. Geometry stays true; the fisheye is partly straightened.</p></figcaption>
+        </figure>
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197220/wss-unwind-render-gemini-1-golden-hour-plaza" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197220/wss-unwind-render-gemini-1-golden-hour-plaza" alt="Gemini render: Golden hour, plaza wide"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Gemini &middot; Nano Banana Pro</p><p class="mt-2 text-slate-700 leading-relaxed">Barely changed. Still fisheye, only a light warm grade, and the restroom sign text is garbled. The string-light globes also came out oversized.</p></figcaption>
+        </figure>
+      </div>
+      <figure class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting</p>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198077/wss-unwind-planted-1-openai" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795198077/wss-unwind-planted-1-openai" alt="Shot 1 with trees in the steel planter boxes and plantings in the round planters"></a>
+        <figcaption class="mt-4 max-w-3xl"><p class="font-mono text-xs uppercase tracking-widest text-slate-500">OpenAI &middot; trees in the steel boxes, plants in the round planters</p><p class="mt-2 text-slate-700 leading-relaxed">A serviceberry in each steel box and grasses in the front planter bowl. The four round seats stay untouched. (The first attempt mistook two seats for planters, so it was redone.)</p></figcaption>
+      </figure>
+      <details class="mt-8 group">
+        <summary class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible cursor-pointer">Show the original photo</summary>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197219/wss-unwind-source-1" target="_blank" rel="noopener" class="block mt-4 max-w-3xl"><img loading="lazy" class="w-full h-auto border border-stone-300" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795197219/wss-unwind-source-1" alt="Original photo for shot 1"></a>
+      </details>
+    </div>
+  </section>
+  <section class="py-20 md:py-28 border-t border-stone-300">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-blue-accessible mb-4">Shot 2 &middot; from Drone snap 3</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Blue hour, straight down</h2>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">Twilight sky light, every string-light bulb glowing, warm pools of light on the paths.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gary's pick</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">OpenAI</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197221/wss-unwind-render-openai-2-blue-hour-overhead" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197221/wss-unwind-render-openai-2-blue-hour-overhead" alt="OpenAI render: Blue hour, straight down"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">OpenAI &middot; gpt-image-2 <span class="ml-2 bg-wss-gold text-slate-950 px-2 py-0.5">Chosen</span></p><p class="mt-2 text-slate-700 leading-relaxed">Moody and rich. One invention to flag: it added a lit strand of lights along the left fence line that isn't there in real life.</p></figcaption>
+        </figure>
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197222/wss-unwind-render-gemini-2-blue-hour-overhead" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197222/wss-unwind-render-gemini-2-blue-hour-overhead" alt="Gemini render: Blue hour, straight down"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Gemini &middot; Nano Banana Pro</p><p class="mt-2 text-slate-700 leading-relaxed">Brighter and crisper, and the light strands follow the real ones more closely. A slightly cooler, teal-leaning grade.</p></figcaption>
+        </figure>
+      </div>
+      <figure class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting</p>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198077/wss-unwind-planted-2-openai" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795198077/wss-unwind-planted-2-openai" alt="Shot 2 with trees in the steel planter boxes and plantings in the round planters"></a>
+        <figcaption class="mt-4 max-w-3xl"><p class="font-mono text-xs uppercase tracking-widest text-slate-500">OpenAI &middot; trees in the steel boxes, plants in the round planters</p><p class="mt-2 text-slate-700 leading-relaxed">Rounded autumn canopies in both boxes, seen from above, and both planter bowls filled. Lights, paving and seating are unchanged.</p></figcaption>
+      </figure>
+      <details class="mt-8 group">
+        <summary class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible cursor-pointer">Show the original photo</summary>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197220/wss-unwind-source-2" target="_blank" rel="noopener" class="block mt-4 max-w-3xl"><img loading="lazy" class="w-full h-auto border border-stone-300" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795197220/wss-unwind-source-2" alt="Original photo for shot 2"></a>
+      </details>
+    </div>
+  </section>
+  <section class="py-20 md:py-28 border-t border-stone-300">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-blue-accessible mb-4">Shot 3 &middot; from Photo 1</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Dusk, eye level</h2>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">Deep blue evening sky, string lights and lamp posts lit, magazine-style grade.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gary's pick</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">Gemini</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197223/wss-unwind-render-openai-3-dusk-eye-level" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197223/wss-unwind-render-openai-3-dusk-eye-level" alt="OpenAI render: Dusk, eye level"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">OpenAI &middot; gpt-image-2</p><p class="mt-2 text-slate-700 leading-relaxed">Natural blue-hour look with straight verticals. Calm and believable; the restroom signs are soft but not garbled.</p></figcaption>
+        </figure>
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197224/wss-unwind-render-gemini-3-dusk-eye-level" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197224/wss-unwind-render-gemini-3-dusk-eye-level" alt="Gemini render: Dusk, eye level"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Gemini &middot; Nano Banana Pro <span class="ml-2 bg-wss-gold text-slate-950 px-2 py-0.5">Chosen</span></p><p class="mt-2 text-slate-700 leading-relaxed">Most dramatic sky (orange horizon) and the warmest light on the building, but the restroom signs read as nonsense text up close.</p></figcaption>
+        </figure>
+      </div>
+      <figure class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting</p>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198078/wss-unwind-planted-3-gemini" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795198078/wss-unwind-planted-3-gemini" alt="Shot 3 with trees in the steel planter boxes and plantings in the round planters"></a>
+        <figcaption class="mt-4 max-w-3xl"><p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gemini &middot; trees in the steel boxes, plants in the round planters</p><p class="mt-2 text-slate-700 leading-relaxed">Trees in both boxes, softly uplit. Watch for two things: Gemini added a large planted bowl in the front-right corner that isn't really there, and the restroom sign is still garbled.</p></figcaption>
+      </figure>
+      <div class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; architectural drawing + home page loop</p>
+        <p class="text-lg text-slate-600 max-w-3xl mb-8">The planted shot redrawn as an architect's pen-and-wash drawing, traced to line up with the photo. The loop: the still drawing holds for three seconds, dissolves into the photo, then a real seven-second dolly move (generated with Kling 3.0) carries the camera through the plaza toward the restroom building, before dipping to dark and returning to the drawing. It replaces the AI concept rendering at the top of the home page, letterboxed on dark so the whole image&nbsp;shows.</p>
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <figure class="lg:col-span-12">
+            <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198798/wss-unwind-drawing-3" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795198798/wss-unwind-drawing-3" alt="Architectural pen-and-wash drawing of River Street Plaza with planted trees"></a>
+            <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">The drawing &middot; Gemini</figcaption>
+            <video class="shot w-full h-auto mt-6 bg-slate-950" controls muted loop playsinline preload="none" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1795199279/wss-unwind-hero-crane-poster.jpg"><source src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1600/v1795200334/wss-unwind-hero-dolly.mp4" type="video/mp4"></video>
+            <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">Home page loop &middot; 13&nbsp;sec, letterboxed on the hero</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting + unWIND benches</p>
+        <p class="text-lg text-slate-600 max-w-3xl mb-8">Two Arch benches and one Arcadia bench added to the planted shot, using photos of the Noblewins bench forms as references. The paint is placeholder color, not the three artists' commissioned designs. Two tries, each with a different&nbsp;trade-off:</p>
+        <div class="grid lg:grid-cols-2 gap-6">
+          <figure>
+            <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198351/wss-unwind-benches-3-gemini-a" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795198351/wss-unwind-benches-3-gemini-a" alt="Shot 3 with planting and three painted turbine-blade benches, version A"></a>
+            <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Version A &middot; truer bench shapes</p><p class="mt-2 text-slate-700 leading-relaxed">The Arcadia sail and both Arch rings match the real benches closely. But Gemini reframed the scene, cropping out the garage and bins at left, and the Arcadia's base overlaps the first bike&nbsp;rack.</p></figcaption>
+          </figure>
+          <figure>
+            <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198351/wss-unwind-benches-3-gemini-b" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795198351/wss-unwind-benches-3-gemini-b" alt="Shot 3 with planting and three painted turbine-blade benches, version B"></a>
+            <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Version B &middot; truer to the site</p><p class="mt-2 text-slate-700 leading-relaxed">Framing, garage, bins and bike racks are all intact, and the benches sit in clear space. But the Arcadia's blades cross in an X rather than meeting at a point, and the front Arch ring&nbsp;tilts.</p></figcaption>
+          </figure>
+        </div>
+      </div>
+      <details class="mt-8 group">
+        <summary class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible cursor-pointer">Show the original photo</summary>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197223/wss-unwind-source-3" target="_blank" rel="noopener" class="block mt-4 max-w-3xl"><img loading="lazy" class="w-full h-auto border border-stone-300" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795197223/wss-unwind-source-3" alt="Original photo for shot 3"></a>
+      </details>
+    </div>
+  </section>
+  <section class="py-20 md:py-28 border-t border-stone-300">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-blue-accessible mb-4">Shot 4 &middot; from 360 snap D</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Restroom building, early evening</h2>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">Clean architectural shot: gradient sky, soffit lights on, sun exposure balanced, verticals straight.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gary's pick</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">OpenAI</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197225/wss-unwind-render-openai-4-architectural-evening" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197225/wss-unwind-render-openai-4-architectural-evening" alt="OpenAI render: Restroom building, early evening"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">OpenAI &middot; gpt-image-2 <span class="ml-2 bg-wss-gold text-slate-950 px-2 py-0.5">Chosen</span></p><p class="mt-2 text-slate-700 leading-relaxed">Best architectural result. Verticals corrected, the sun blowout fixed, and the "Restroom" sign stays clean and legible.</p></figcaption>
+        </figure>
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197226/wss-unwind-render-gemini-4-architectural-evening" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197226/wss-unwind-render-gemini-4-architectural-evening" alt="Gemini render: Restroom building, early evening"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Gemini &middot; Nano Banana Pro</p><p class="mt-2 text-slate-700 leading-relaxed">Lovely sunset sky and soffit glow, but it kept the heavy wide-angle warp and mangled the sign ("Restroom ⅱs 4").</p></figcaption>
+        </figure>
+      </div>
+      <figure class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting</p>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198078/wss-unwind-planted-4-openai" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795198078/wss-unwind-planted-4-openai" alt="Shot 4 with trees in the steel planter boxes and plantings in the round planters"></a>
+        <figcaption class="mt-4 max-w-3xl"><p class="font-mono text-xs uppercase tracking-widest text-slate-500">OpenAI &middot; trees in the steel boxes, plants in the round planters</p><p class="mt-2 text-slate-700 leading-relaxed">A tree in the main box and the one beyond, with the planters by the shed filled. The "Restroom" sign stays clean.</p></figcaption>
+      </figure>
+      <details class="mt-8 group">
+        <summary class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible cursor-pointer">Show the original photo</summary>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197225/wss-unwind-source-4" target="_blank" rel="noopener" class="block mt-4 max-w-3xl"><img loading="lazy" class="w-full h-auto border border-stone-300" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795197225/wss-unwind-source-4" alt="Original photo for shot 4"></a>
+      </details>
+    </div>
+  </section>
+  <section class="py-20 md:py-28 border-t border-stone-300">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 mb-10 items-end">
+        <div class="md:col-span-8">
+          <p class="eyebrow text-wss-blue-accessible mb-4">Shot 5 &middot; from Drone snap 5</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">Golden hour, oblique aerial</h2>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">Warm low sun, long shadows over roofs and pavers, subtle haze, rich autumn color.</p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Gary's pick</p>
+          <p class="mt-1 text-2xl font-black tracking-tight">OpenAI</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197227/wss-unwind-render-openai-5-golden-hour-aerial" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197227/wss-unwind-render-openai-5-golden-hour-aerial" alt="OpenAI render: Golden hour, oblique aerial"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">OpenAI &middot; gpt-image-2 <span class="ml-2 bg-wss-gold text-slate-950 px-2 py-0.5">Chosen</span></p><p class="mt-2 text-slate-700 leading-relaxed">Subtle and polished: reads like a real late-afternoon drone shot. The safest choice for print or the website.</p></figcaption>
+        </figure>
+        <figure>
+          <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197227/wss-unwind-render-gemini-5-golden-hour-aerial" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1400/v1795197227/wss-unwind-render-gemini-5-golden-hour-aerial" alt="Gemini render: Golden hour, oblique aerial"></a>
+          <figcaption class="mt-4"><p class="font-mono text-xs uppercase tracking-widest text-wss-blue-accessible">Gemini &middot; Nano Banana Pro</p><p class="mt-2 text-slate-700 leading-relaxed">Much more cinematic: heavy sun haze, glowing trees, strong shadows. Great mood for social; a bit stylized for documentation.</p></figcaption>
+        </figure>
+      </div>
+      <figure class="mt-14 pt-12 border-t border-dashed border-stone-300">
+        <p class="eyebrow text-wss-blue-accessible mb-4">Chosen shot &middot; with planting</p>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795198079/wss-unwind-planted-5-openai" target="_blank" rel="noopener" class="block"><img loading="lazy" class="shot w-full h-auto" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795198079/wss-unwind-planted-5-openai" alt="Shot 5 with trees in the steel planter boxes and plantings in the round planters"></a>
+        <figcaption class="mt-4 max-w-3xl"><p class="font-mono text-xs uppercase tracking-widest text-slate-500">OpenAI &middot; trees in the steel boxes, plants in the round planters</p><p class="mt-2 text-slate-700 leading-relaxed">Trees in both boxes casting long golden-hour shadows, with the planter bowls filled. Everything else matches the chosen render.</p></figcaption>
+      </figure>
+      <details class="mt-8 group">
+        <summary class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-wss-blue-accessible cursor-pointer">Show the original photo</summary>
+        <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:best/v1795197226/wss-unwind-source-5" target="_blank" rel="noopener" class="block mt-4 max-w-3xl"><img loading="lazy" class="w-full h-auto border border-stone-300" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1100/v1795197226/wss-unwind-source-5" alt="Original photo for shot 5"></a>
+      </details>
+    </div>
+  </section>
+  <section class="bg-slate-950 text-white py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow text-wss-gold mb-6">The read</p>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tighter leading-[0.95]">OpenAI for accuracy. Gemini for&nbsp;mood.</h2>
+      </div>
+      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-10 text-white/80 leading-relaxed">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-3">OpenAI &middot; picked for 4 of 5</p>
+          <p>More faithful: straightens the lens distortion, keeps signage legible, and makes changes you'd believe a photographer made. Best for the website, press and anything documenting the real&nbsp;site.</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-3">Gemini &middot; picked for 1 of 5</p>
+          <p>Bolder skies and light, especially from the air, but it garbles any text in the frame and often keeps the fisheye warp. Best for social posts where mood beats&nbsp;precision.</p>
+        </div>
+        <div class="sm:col-span-2 border-t border-white/15 pt-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-wss-gold mb-3">Before anything is published</p>
+          <p>These are AI-enhanced, not straight photographs, and the planted versions show trees and plants that aren't there yet. Label them that way if used publicly, and plan a shoot with the unWIND benches in frame so the hero images show the actual&nbsp;artwork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="py-12"><div class="max-w-7xl mx-auto px-6 font-mono text-xs uppercase tracking-widest text-slate-500">unWIND renders &middot; Internal &middot; Nov&nbsp;2026</div></footer>
+</body>
+</html>

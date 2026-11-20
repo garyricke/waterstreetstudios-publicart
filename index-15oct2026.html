@@ -1027,7 +1027,10 @@
     <!-- Hero Carousel -->
     <div class="absolute top-0 right-0 w-1/2 h-full hidden lg:block overflow-hidden">
       <div class="hero-carousel absolute inset-0">
-        <div class="hero-slide active" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1777947363/wss-river-street-plaza-aerial-hero-2026.png');background-size:cover;background-position:center">
+        <div class="hero-slide active" style="background-color:#020617">
+          <video class="hero-video absolute inset-0 w-full h-full object-contain" autoplay muted loop playsinline preload="auto" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1795199279/wss-unwind-hero-crane-poster.jpg" aria-label="River Street Plaza: an architectural drawing of the planted plaza dissolves into the photo, then the camera dollies through the plaza toward the restroom building">
+            <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1600/v1795200334/wss-unwind-hero-dolly.mp4" type="video/mp4">
+          </video>
           <a href="news/unwind-river-street-plaza-benches" class="hero-open-call-badge" aria-label="News: Batavia's newest seats are made from retired wind turbine blades. Read the unWIND Benches story">
             <span class="hocb-dot" aria-hidden="true"></span>
             <span>
@@ -1066,7 +1069,7 @@
         </div>
       </div>
       <!-- Stats row -->
-      <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 backdrop-blur-sm">
+      <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 pb-6 bg-stone-50 relative">
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="4">0</p>
           <p class="font-mono text-xs uppercase tracking-widest text-slate-600 mt-1">Mural Sites</p>
@@ -4958,6 +4961,11 @@
     });
 
     // ─── HERO CAROUSEL ───
+    // Hero video: hold on the still frame for visitors who prefer reduced motion
+    document.querySelectorAll('.hero-video').forEach(v => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+    });
+
     const slides = document.querySelectorAll('.hero-slide');
     const pipsContainer = document.getElementById('carouselPips');
     let currentSlide = 0;
@@ -5277,6 +5285,10 @@
     <a href="social-strategy-2">
       <span class="adm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg></span>
       <span class="adm-txt"><b>Social Strategy No.&nbsp;2</b><small>Conversations &rarr; article, clips &amp;&nbsp;email</small></span>
+    </a>
+    <a href="unwind-renders">
+      <span class="adm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg></span>
+      <span class="adm-txt"><b>unWIND Renders</b><small>OpenAI vs Gemini, cinematic site&nbsp;shots</small></span>
     </a>
     <a href="brand-guide">
       <span class="adm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="18" cy="12" r="2.5"/><circle cx="7" cy="6" r="2.5"/><path d="M5 21c0-5 3-8 7-8 2 0 3 1 3 2.5S15 18 13 18"/></svg></span>
