@@ -189,6 +189,26 @@
       transform: scale(1);
       pointer-events: auto;
     }
+    .hero-ai-note {
+      position: absolute; left: 2rem; bottom: 1.6rem; z-index: 10; margin: 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.4;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.85); background: rgba(2,6,23,0.55);
+      padding: 3px 8px; max-width: calc(100% - 12rem);
+      transition: opacity 0.6s ease; pointer-events: none;
+    }
+    .hero-ai-note:empty { opacity: 0; padding: 0; }
+    /* Frosted-glass stats panel over the hero (Apple-style) */
+    .hero-glass {
+      background: rgba(250, 250, 249, 0.22);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+      backdrop-filter: blur(8px) saturate(140%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    .hero-glass .text-slate-600 { color: #1e293b; } /* labels stay legible over busy photos */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .hero-glass { background: rgba(250, 250, 249, 0.92); }
+    }
     .carousel-pip {
       width: 24px; height: 3px;
       background: rgba(255,255,255,0.3);
@@ -201,6 +221,7 @@
     }
     /* Link badge overlay on a hero slide */
     .hero-open-call-badge {
+      font: inherit; text-align: left; cursor: pointer; border-top: 0; border-right: 0; border-bottom: 0;
       position: absolute;
       top: 14rem;
       left: 2.5rem;
@@ -1027,7 +1048,7 @@
     <!-- Hero Carousel -->
     <div class="absolute top-0 right-0 w-1/2 h-full hidden lg:block overflow-hidden">
       <div class="hero-carousel absolute inset-0">
-        <div class="hero-slide active" style="background-color:#020617">
+        <div class="hero-slide active" style="background-color:#020617" data-ai="AI: color correction · generated trees &amp; plants · camera motion">
           <video class="hero-video absolute inset-0 w-full h-full object-contain" autoplay muted loop playsinline preload="auto" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1795199279/wss-unwind-hero-crane-poster.jpg" aria-label="River Street Plaza: an architectural drawing of the planted plaza dissolves into the photo, then the camera dollies through the plaza toward the restroom building">
             <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/q_auto,w_1600/v1795200334/wss-unwind-hero-dolly.mp4" type="video/mp4">
           </video>
@@ -1040,13 +1061,42 @@
             </span>
           </a>
         </div>
-        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770452089/bpai-wave-petunia-mural-5_kktqv1.jpg')"></div>
-        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg')"></div>
-        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg')"></div>
+        <div class="hero-slide" data-ai="AI: color correction · sky · enhanced detail &amp; faces" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1795459086/wss-wave-petunia-hero-gemini3.jpg')">
+          <button type="button" data-modal="wavepetunia" class="hero-open-call-badge" aria-label="Project: Wave Petunia Mural. View the project details">
+            <span class="hocb-dot" aria-hidden="true"></span>
+            <span>
+              <span class="hocb-new">Project &middot; Completed&nbsp;2023</span>
+              <span class="hocb-title">Wave Petunia Mural</span>
+              <span class="hocb-sub">View the project &rarr;</span>
+            </span>
+          </button>
+        </div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451700/bpai-good-energy-mural-32_cbxpz4.jpg')">
+          <button type="button" data-modal="goodenergy" class="hero-open-call-badge" aria-label="Project: Good Energy Gateway. View the project details">
+            <span class="hocb-dot" aria-hidden="true"></span>
+            <span>
+              <span class="hocb-new">Project &middot; Completed Oct&nbsp;2025</span>
+              <span class="hocb-title">Good Energy Gateway</span>
+              <span class="hocb-sub">View the project &rarr;</span>
+            </span>
+          </button>
+        </div>
+        <div class="hero-slide" style="background-image:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770451696/bpai-art-of-the-fox-mural-1_x9e3xk.jpg')">
+          <button type="button" data-modal="artofthefox" class="hero-open-call-badge" aria-label="Project: Art of the Fox. View the project details">
+            <span class="hocb-dot" aria-hidden="true"></span>
+            <span>
+              <span class="hocb-new">Project &middot; Completed Oct&nbsp;2024</span>
+              <span class="hocb-title">Art of the Fox</span>
+              <span class="hocb-sub">View the project &rarr;</span>
+            </span>
+          </button>
+        </div>
         <!-- HC Storm mural removed — not a WSS Public Art Initiative project -->
       </div>
       <!-- Progress pips -->
       <div class="absolute bottom-8 right-8 z-10 flex gap-2" id="carouselPips"></div>
+      <!-- Per-slide AI disclosure, driven by each slide's data-ai -->
+      <p class="hero-ai-note" id="heroAiNote" aria-live="polite"></p>
     </div>
     <div class="max-w-7xl mx-auto px-6 w-full relative z-10 pointer-events-none">
       <div class="pt-52 md:pt-60">
@@ -1069,7 +1119,7 @@
         </div>
       </div>
       <!-- Stats row -->
-      <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 pb-6 bg-stone-50 relative">
+      <div class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-300 pt-8 pb-6 hero-glass relative">
         <h2 class="col-span-2 md:col-span-4 font-mono text-xs uppercase tracking-[0.25em] text-wss-blue-accessible">Our Impact</h2>
         <div>
           <p class="text-3xl md:text-4xl font-black tracking-tight counter" data-target="4">0</p>
@@ -4359,6 +4409,9 @@
     const pipsContainer = document.getElementById('carouselPips');
     let currentSlide = 0;
     let carouselInterval;
+    const SLIDE_MS = 5000;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const slideVideo = (i) => (reduceMotion ? null : slides[i] && slides[i].querySelector('video'));
 
     if (slides.length && pipsContainer) {
       let carouselStarted = false;
@@ -4371,12 +4424,24 @@
         pipsContainer.appendChild(pip);
       });
 
+      const aiNote = document.getElementById('heroAiNote');
+      function updateAiNote() {
+        if (aiNote) aiNote.textContent = slides[currentSlide].dataset.ai || '';
+      }
+      updateAiNote();
+
       function goToSlide(index) {
         slides[currentSlide].classList.remove('active');
         pipsContainer.children[currentSlide].classList.remove('active');
+        const prevVideo = slideVideo(currentSlide);
         currentSlide = index;
         slides[currentSlide].classList.add('active');
         pipsContainer.children[currentSlide].classList.add('active');
+        updateAiNote();
+        // Video slides start from the top every time they come back around
+        const v = slideVideo(currentSlide);
+        if (v) { v.currentTime = 0; const pr = v.play(); if (pr) pr.catch(() => {}); }
+        if (prevVideo && prevVideo !== v) setTimeout(() => prevVideo.pause(), 1300); // after the crossfade
         resetInterval();
       }
 
@@ -4384,10 +4449,20 @@
         goToSlide((currentSlide + 1) % slides.length);
       }
 
+      // How long the current slide stays up: a video slide holds until its clip
+      // finishes (the rest of it, if the carousel starts mid-play); photos get 5 s.
+      function slideDelay() {
+        const v = slideVideo(currentSlide);
+        if (v && isFinite(v.duration) && v.duration > 0) {
+          return Math.max(1000, (v.duration - v.currentTime) * 1000);
+        }
+        return v ? 13100 : SLIDE_MS; // clip length if metadata isn't loaded yet
+      }
+
       function resetInterval() {
         if (!carouselStarted) return;
-        clearInterval(carouselInterval);
-        carouselInterval = setInterval(nextSlide, 5000);
+        clearTimeout(carouselInterval);
+        carouselInterval = setTimeout(nextSlide, slideDelay());
       }
 
       function startCarousel() {
