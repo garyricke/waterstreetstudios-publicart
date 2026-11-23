@@ -52,13 +52,15 @@
 <script>
 (function(){
   var KEY='_wss\u200Bpv_k1',HASH='d3cec99112255db9bf4963f7798562b6a36f1bd0b2016918629e007d474deb70',gate=document.getElementById('pw-gate');
-  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  // Demo password ("demo"): unlocks THIS page only, for Gary's students. It never sets the shared KEY, so other internal pages and the admin panel stay locked.
+  var DEMO_KEY='_wss_demo_unwind',DEMO_HASH='2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea';
+  try{ if(sessionStorage.getItem(KEY)==='1'||sessionStorage.getItem(DEMO_KEY)==='1'){gate.style.display='none';return;} }catch(e){}
   document.body.style.overflow='hidden';
   function sha(s){ return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}); }
   function attempt(){
     sha(document.getElementById('pw-input').value.toLowerCase().trim()).then(function(h){
-      if(h===HASH){
-        try{sessionStorage.setItem(KEY,'1');}catch(e){}
+      if(h===HASH||h===DEMO_HASH){
+        try{sessionStorage.setItem(h===HASH?KEY:DEMO_KEY,'1');}catch(e){}
         document.body.style.overflow='';
         gate.style.display='none';
       } else {
