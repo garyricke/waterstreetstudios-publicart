@@ -118,22 +118,23 @@
     <tr><td>Links</td><td><span class="tag ok">Pass</span></td><td>Internal and Water Street Studios links all&nbsp;resolve.</td></tr>
     <tr><td>Internal pages</td><td><span class="tag ok">Gated</span></td><td>Artist rankings, review status, social plan and brand guide are password-gated and&nbsp;noindexed.</td></tr>
     <tr><td>Form error handling</td><td><span class="tag ok">Fixed today</span></td><td>Volunteer and sponsor forms showed "thank you" even if the server rejected the message. They now confirm only after Netlify accepts it, and show an error with contact info&nbsp;otherwise.</td></tr>
-    <tr><td>Form delivery</td><td><span class="tag fix">Before launch</span></td><td>Notifications reach Gary, Bonnie, Sabrina (budamart@) and Lori. <span class="mono">publicart@waterstreetstudios.org</span> is not on the list. Move delivery to the standard Resend setup and live-test all three&nbsp;forms.</td></tr>
+    <tr><td>Form delivery</td><td><span class="tag fix">Before launch</span></td><td>Recipient confirmed at the Nov&nbsp;20 meeting: <span class="mono">publicart@waterstreetstudios.org</span>. The Resend delivery function is written and routes all five forms there. Needs the Resend key set in Netlify, then one live test per&nbsp;form.</td></tr>
     <tr><td>Admin area</td><td><span class="tag ok">Done today</span></td><td>All internal pages (review status, social plan, brand guide, artist application, version archive) now sit behind one admin badge and one password. The internal footer links are&nbsp;gone.</td></tr>
     <tr><td>Search &amp; sharing</td><td><span class="tag fix">Before launch</span></td><td>Page is set to <code>noindex</code>, robots.txt blocks all crawlers, and there's no description or social-share image&nbsp;yet.</td></tr>
     <tr><td>Old versions</td><td><span class="tag ok">Gated</span></td><td>All seven dated copies (Feb–Oct) are password-protected, hidden from search, and listed in the admin version&nbsp;archive.</td></tr>
     <tr><td>Hero carousel</td><td><span class="tag fix">Deploy</span></td><td>The unWIND Benches slide now leads the hero, and its "Read the story" link works. Ready to&nbsp;deploy.</td></tr>
-    <tr><td>Phone number</td><td><span class="tag ask">Confirm</span></td><td>630-761-9777 appears in Contact, the footer and form error messages. Earlier guidance was to route everything to publicart@. Keep it or&nbsp;remove&nbsp;it?</td></tr>
-    <tr><td>Impact stats</td><td><span class="tag ask">Confirm</span></td><td>Hero reads 4+ mural sites, 12+ local artists, 76+ volunteers, 46+ potential sites. Still accurate after America at 250 and&nbsp;unWIND?</td></tr>
+    <tr><td>Phone number</td><td><span class="tag ok">Decided</span></td><td>Keep 630-761-9777. Jana routes public art questions to the&nbsp;committee.</td></tr>
+    <tr><td>Impact stats</td><td><span class="tag ok">Updated</span></td><td>Now 4 mural sites, 13 local artists, 81+ volunteers, 46 potential sites, under an "Our Impact"&nbsp;title.</td></tr>
   </table>
 
   <h2>Decisions for the committee<span>.</span></h2>
   <h3>1. Where does the site live?</h3>
+  <p><strong>Decided for now (Nov&nbsp;20):</strong> the new domain with a redirect is fine until Water Street Studios redoes its main site; then everything moves onto <span class="mono">waterstreetstudios.org</span>.</p>
   <p><strong>Recommended:</strong> <span class="mono">waterstreetstudios-publicart.org</span> becomes the public address. It's already set up with SSL. The existing Squarespace page at <span class="mono">waterstreetstudios.org/public-art</span> then forwards to it, and the Water Street Studios nav links to it. Squarespace can't host this site under its own <span class="mono">/public-art</span> path, so this is the clean&nbsp;route.</p>
   <h3>2. Who receives form messages?</h3>
-  <p>Confirm the organization inbox (e.g. <span class="mono">publicart@waterstreetstudios.org</span>) plus anyone else who should get volunteer, sponsor and general inquiries.</p>
+  <p><strong>Decided:</strong> <span class="mono">publicart@waterstreetstudios.org</span>, confirmed at the Nov&nbsp;20&nbsp;meeting.</p>
   <h3>3. Sign-off and launch date</h3>
-  <p>Who gives final approval, and by&nbsp;when.</p>
+  <p><strong>Final approval:</strong> Jessica and Gianna. Launch date still to&nbsp;set.</p>
 
   <h2>Steps to go live<span>.</span></h2>
   <ol class="steps">
@@ -150,10 +151,8 @@
   <div class="needed">
     <p class="eyebrow">Still needed</p>
     <ul>
-      <li>Organization email for the general inquiry, volunteer and sponsor forms on waterstreetstudios-publicart.org. Is publicart@ the right&nbsp;inbox?</li>
-      <li>Domain decision (recommended: waterstreetstudios-publicart.org)</li>
-      <li>Keep or remove the phone&nbsp;number</li>
-      <li>Confirm the hero impact&nbsp;stats</li>
+      <li>Resend API key set in Netlify, then a live test of each&nbsp;form</li>
+      <li>Launch approval and date from Jessica and&nbsp;Gianna</li>
       <li>Someone with Squarespace access for the <span class="mono">/public-art</span>&nbsp;redirect</li>
     </ul>
   </div>
