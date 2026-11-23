@@ -25,8 +25,6 @@ const RECIPIENTS = {
   'general-inquiry': [PUBLICART, GARY],
   'volunteer-inquiry': [PUBLICART, GARY],
   'sponsor-inquiry': [PUBLICART, GARY],
-  'america250-application': [PUBLICART, GARY],
-  'river-street-benches-application': [PUBLICART, GARY],
 };
 
 // A form missing from the list above still gets delivered, never dropped
@@ -39,8 +37,6 @@ const SUBJECT_LABEL = {
   'general-inquiry': 'New message',
   'volunteer-inquiry': 'New volunteer interest',
   'sponsor-inquiry': 'New sponsorship inquiry',
-  'america250-application': 'New America 250 artist application',
-  'river-street-benches-application': 'New unWIND bench artist application',
 };
 
 // These forms collect first and last name separately
